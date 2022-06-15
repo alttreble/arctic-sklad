@@ -1,0 +1,151 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 debug pnpm:package-manifest": {
+    "initial": {},
+    "prefix": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864"
+  },
+  "2 debug pnpm:context": {
+    "currentLockfileExists": false,
+    "storeDir": "/home/tedraykov/.local/share/pnpm/store/v3",
+    "virtualStoreDir": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864/node_modules/.pnpm"
+  },
+  "3 debug pnpm:stage": {
+    "prefix": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864",
+    "stage": "resolution_started"
+  },
+  "4 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/init/0.1.2",
+    "wanted": {
+      "dependentId": ".",
+      "name": "init",
+      "rawSpec": "latest"
+    }
+  },
+  "5 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/init/0.1.2",
+    "requester": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864",
+    "status": "resolved"
+  },
+  "6 debug pnpm:fetching-progress": {
+    "attempt": 1,
+    "packageId": "registry.npmjs.org/init/0.1.2",
+    "size": 4020,
+    "status": "started"
+  },
+  "7 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/init/0.1.2",
+    "requester": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864",
+    "status": "fetched"
+  },
+  "8 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/daemon/1.1.0",
+    "wanted": {
+      "dependentId": "/init/0.1.2",
+      "name": "daemon",
+      "rawSpec": ">=0.3.0"
+    }
+  },
+  "9 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/daemon/1.1.0",
+    "requester": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864",
+    "status": "resolved"
+  },
+  "10 debug pnpm:package-manifest": {
+    "prefix": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864",
+    "updated": {
+      "dependencies": {
+        "init": "^0.1.2"
+      }
+    }
+  },
+  "11 debug pnpm:package-manifest": {
+    "prefix": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864",
+    "updated": {
+      "dependencies": {
+        "init": "^0.1.2"
+      }
+    }
+  },
+  "12 debug pnpm:stage": {
+    "prefix": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864",
+    "stage": "resolution_done"
+  },
+  "13 debug pnpm:stats": {
+    "prefix": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864",
+    "removed": 0
+  },
+  "14 debug pnpm:stage": {
+    "prefix": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864",
+    "stage": "importing_started"
+  },
+  "15 debug pnpm:stats": {
+    "added": 2,
+    "prefix": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864"
+  },
+  "16 debug pnpm:link": {
+    "target": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864/node_modules/.pnpm/daemon@1.1.0/node_modules/daemon",
+    "link": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864/node_modules/.pnpm/init@0.1.2/node_modules/daemon"
+  },
+  "17 debug pnpm:package-import-method": {
+    "method": "hardlink"
+  },
+  "18 debug pnpm:progress": {
+    "method": "hardlink",
+    "requester": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864",
+    "status": "imported",
+    "to": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864/node_modules/.pnpm/init@0.1.2/node_modules/init"
+  },
+  "19 debug pnpm:fetching-progress": {
+    "attempt": 1,
+    "packageId": "registry.npmjs.org/daemon/1.1.0",
+    "size": 3686,
+    "status": "started"
+  },
+  "20 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/daemon/1.1.0",
+    "requester": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864",
+    "status": "fetched"
+  },
+  "21 debug pnpm:progress": {
+    "method": "hardlink",
+    "requester": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864",
+    "status": "imported",
+    "to": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864/node_modules/.pnpm/daemon@1.1.0/node_modules/daemon"
+  },
+  "22 debug pnpm:stage": {
+    "prefix": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864",
+    "stage": "importing_done"
+  },
+  "23 debug pnpm:link": {
+    "target": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864/node_modules/.pnpm/init@0.1.2/node_modules/init",
+    "link": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864/node_modules/init"
+  },
+  "24 debug pnpm:root": {
+    "added": {
+      "dependencyType": "prod",
+      "id": "registry.npmjs.org/init/0.1.2",
+      "name": "init",
+      "realName": "init",
+      "version": "0.1.2"
+    },
+    "prefix": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864"
+  },
+  "25 debug pnpm:link": {
+    "target": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864/node_modules/.pnpm/daemon@1.1.0/node_modules/daemon",
+    "link": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864/node_modules/.pnpm/node_modules/daemon"
+  },
+  "26 debug pnpm:summary": {
+    "prefix": "/home/tedraykov/.local/share/pnpm/store/v3/tmp/dlx-864"
+  },
+  "27 error pnpm": {
+    "code": "ERR_PNPM_DLX_NO_BIN",
+    "err": {
+      "name": "pnpm",
+      "message": "No binaries found in init",
+      "code": "ERR_PNPM_DLX_NO_BIN",
+      "stack": "pnpm: No binaries found in init\n    at getBinName (/home/tedraykov/.nvm/versions/node/v18.2.0/lib/node_modules/pnpm/dist/pnpx.cjs:177666:15)\n    at async Object.handler [as dlx] (/home/tedraykov/.nvm/versions/node/v18.2.0/lib/node_modules/pnpm/dist/pnpx.cjs:177650:48)\n    at async /home/tedraykov/.nvm/versions/node/v18.2.0/lib/node_modules/pnpm/dist/pnpx.cjs:186810:21\n    at async run (/home/tedraykov/.nvm/versions/node/v18.2.0/lib/node_modules/pnpm/dist/pnpx.cjs:186784:34)\n    at async /home/tedraykov/.nvm/versions/node/v18.2.0/lib/node_modules/pnpm/dist/pnpx.cjs:186856:5"
+    }
+  }
+}
