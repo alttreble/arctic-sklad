@@ -1,12 +1,17 @@
-import { ApolloServer } from 'apollo-server';
+import 'graphql-import-node';
+import {ApolloServer} from "apollo-server";
 
-// The ApolloServer constructor requires two parameters: your schema
-// definition and your set of resolvers.
+import resolvers from './graphql/resolvers';
+import * as typeDefs from './graphql/schema.graphql';
+import buildContext from './context';
+
 const server = new ApolloServer({
+  
   typeDefs,
   resolvers,
   csrfPrevention: true,
   cache: 'bounded',
+  context: buildContext()
 });
 
 // The `listen` method launches a web server.

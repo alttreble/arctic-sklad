@@ -1,3 +1,7 @@
+import items from "../../../services/items/items"
+
 export default {
-    items: () => [{id: 1}, {id: 2}]
+    items: (parent, args, context, info) => {
+        return items(context)
+    }
 }
