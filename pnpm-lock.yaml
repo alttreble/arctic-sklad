@@ -26,6 +26,7 @@ importers:
       module-alias: ^2.2.2
       nodemon: ^2.0.16
       prisma: ^3.15.2
+      prisma-cursor-pagination: ^0.2.0
       ts-node: ^10.8.1
       ts-node-dev: ^2.0.0
       tsconfig: workspace:*
@@ -36,6 +37,7 @@ importers:
       graphql: 16.5.0
       graphql-import-node: 0.0.5_graphql@16.5.0
       module-alias: 2.2.2
+      prisma-cursor-pagination: 0.2.0
     devDependencies:
       '@graphql-codegen/cli': 2.6.2_5p2rniuwxfkrhmwykve4d3h7ca
       '@graphql-codegen/typescript': 2.5.1_graphql@16.5.0
@@ -4854,6 +4856,10 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
+
+  /prisma-cursor-pagination/0.2.0:
+    resolution: {integrity: sha512-SNiG5bmNYAiDH43z2DTj/5tXOipT3OO1oYkIwIcAxAvtn7E0t4Hmf394onJYki3xy61pJGz9DsGUtbxlYjFJEQ==}
+    dev: false
 
   /prisma/3.15.2:
     resolution: {integrity: sha512-nMNSMZvtwrvoEQ/mui8L/aiCLZRCj5t6L3yujKpcDhIPk7garp8tL4nMx2+oYsN0FWBacevJhazfXAbV1kfBzA==}

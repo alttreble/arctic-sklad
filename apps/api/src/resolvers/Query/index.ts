@@ -1,9 +1,7 @@
-import items from "@app/services/items/items"
 import {QueryResolvers} from "@app/types";
 import {Context} from "@app/context";
+import items from "./items";
 
 export default {
-    items: (_, args, context, __) => {
-        return items(context)
-    }
+  items,
 } as QueryResolvers<Context>

@@ -1,16 +1,12 @@
 import {Context} from "@app/context";
+import {AddItemInput} from "@app/types";
 
-export default async function addItem(context: Context, _: any) {
-    const {prisma} = context;
+export default async function addItem(context: Context, args: AddItemInput) {
+  const {prisma} = context;
 
-    const res = await prisma.item.create({
-        data: {
-            name: "Aspirin"
-        }
-    })
-
-    console.log(res);
-
-
-    return res
+  return await prisma.item.create({
+    data: {
+      ...args
+    }
+  })
 }

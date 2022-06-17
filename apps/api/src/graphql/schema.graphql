@@ -1,3 +1,12 @@
+scalar Cursor
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: Cursor
+  endCursor: Cursor
+}
+
 type Item {
   id: Int!
   createdAt: String!
@@ -7,10 +16,57 @@ type Item {
   expirationDate: String
 }
 
+type ItemEdge {
+  node: Item
+  cursor: Cursor!
+}
+
+type ItemConnection {
+  totalCount: Int!
+  pageInfo: PageInfo!
+  edges: [ItemEdge]
+}
+
+enum TodoOrderField {
+  id
+  createdAt
+  updatedAt
+  name
+  expirationDate
+}
+
+enum OrderDirection {
+  asc
+  desc
+}
+
+input ItemOrderByInput {
+  direction: OrderDirection = asc
+  field: TodoOrderField! = id
+}
+
+input AddItemInput {
+  name: String!
+  description: String
+  expirationDate: String
+}
+
+input ItemFiltersInput {
+  name: String
+  expirationDate: String
+}
+
 type Query {
-    items: [Item]!
+    items(
+      after: Cursor
+      first: Int
+      before: Cursor
+      last: Int
+      orderBy: ItemOrderByInput
+      filter: ItemFiltersInput
+    ): ItemConnection!
 }
 
 type Mutation {
-  addItem: Item
+  addItem(input: AddItemInput): Item
 }
