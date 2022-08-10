@@ -1,11 +1,10 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { Item, User } from '@prisma/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -18,8 +17,23 @@ export type Scalars = {
 
 export type AddItemInput = {
   description?: InputMaybe<Scalars['String']>;
-  expirationDate?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
+  uomId: Scalars['Int'];
+};
+
+export type DefineUomInput = {
+  name: Scalars['String'];
+};
+
+export type Item = {
+  __typename?: 'Item';
+  createdAt: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  entries: Array<Maybe<ItemEntry>>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  uom: Uom;
+  updatedAt: Scalars['String'];
 };
 
 export type ItemConnection = {
@@ -35,6 +49,16 @@ export type ItemEdge = {
   node?: Maybe<Item>;
 };
 
+export type ItemEntry = {
+  __typename?: 'ItemEntry';
+  createdAt: Scalars['String'];
+  expirationDate: Scalars['String'];
+  id: Scalars['Int'];
+  item: Item;
+  quantity: Scalars['Int'];
+  updatedAt: Scalars['String'];
+};
+
 export type ItemFiltersInput = {
   expirationDate?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
@@ -42,17 +66,30 @@ export type ItemFiltersInput = {
 
 export type ItemOrderByInput = {
   direction?: InputMaybe<OrderDirection>;
-  field?: TodoOrderField;
+  field?: ItemOrderField;
 };
+
+export enum ItemOrderField {
+  CreatedAt = 'createdAt',
+  Id = 'id',
+  Name = 'name',
+  UpdatedAt = 'updatedAt'
+}
 
 export type Mutation = {
   __typename?: 'Mutation';
   addItem?: Maybe<Item>;
+  defineUOM?: Maybe<Uom>;
 };
 
 
 export type MutationAddItemArgs = {
-  input?: InputMaybe<AddItemInput>;
+  input: AddItemInput;
+};
+
+
+export type MutationDefineUomArgs = {
+  input: DefineUomInput;
 };
 
 export enum OrderDirection {
@@ -71,6 +108,7 @@ export type PageInfo = {
 export type Query = {
   __typename?: 'Query';
   items: ItemConnection;
+  uoms: UomConnection;
 };
 
 
@@ -83,13 +121,38 @@ export type QueryItemsArgs = {
   orderBy?: InputMaybe<ItemOrderByInput>;
 };
 
-export enum TodoOrderField {
-  CreatedAt = 'createdAt',
-  ExpirationDate = 'expirationDate',
-  Id = 'id',
-  Name = 'name',
-  UpdatedAt = 'updatedAt'
-}
+
+export type QueryUomsArgs = {
+  after?: InputMaybe<Scalars['Cursor']>;
+  before?: InputMaybe<Scalars['Cursor']>;
+  filter?: InputMaybe<UomFiltersInput>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+export type Uom = {
+  __typename?: 'UOM';
+  id: Scalars['Int'];
+  items?: Maybe<Array<Maybe<Item>>>;
+  name: Scalars['String'];
+};
+
+export type UomConnection = {
+  __typename?: 'UOMConnection';
+  edges?: Maybe<Array<Maybe<UomEdge>>>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type UomEdge = {
+  __typename?: 'UOMEdge';
+  cursor: Scalars['Cursor'];
+  node?: Maybe<Uom>;
+};
+
+export type UomFiltersInput = {
+  name?: InputMaybe<Scalars['String']>;
+};
 
 
 
@@ -163,18 +226,24 @@ export type ResolversTypes = {
   AddItemInput: AddItemInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Cursor: ResolverTypeWrapper<Scalars['Cursor']>;
+  DefineUOMInput: DefineUomInput;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Item: ResolverTypeWrapper<Item>;
-  ItemConnection: ResolverTypeWrapper<Omit<ItemConnection, 'edges'> & { edges?: Maybe<Array<Maybe<ResolversTypes['ItemEdge']>>> }>;
-  ItemEdge: ResolverTypeWrapper<Omit<ItemEdge, 'node'> & { node?: Maybe<ResolversTypes['Item']> }>;
+  ItemConnection: ResolverTypeWrapper<ItemConnection>;
+  ItemEdge: ResolverTypeWrapper<ItemEdge>;
+  ItemEntry: ResolverTypeWrapper<ItemEntry>;
   ItemFiltersInput: ItemFiltersInput;
   ItemOrderByInput: ItemOrderByInput;
+  ItemOrderField: ItemOrderField;
   Mutation: ResolverTypeWrapper<{}>;
   OrderDirection: OrderDirection;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  TodoOrderField: TodoOrderField;
+  UOM: ResolverTypeWrapper<Uom>;
+  UOMConnection: ResolverTypeWrapper<UomConnection>;
+  UOMEdge: ResolverTypeWrapper<UomEdge>;
+  UomFiltersInput: UomFiltersInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -182,16 +251,22 @@ export type ResolversParentTypes = {
   AddItemInput: AddItemInput;
   Boolean: Scalars['Boolean'];
   Cursor: Scalars['Cursor'];
+  DefineUOMInput: DefineUomInput;
   Int: Scalars['Int'];
   Item: Item;
-  ItemConnection: Omit<ItemConnection, 'edges'> & { edges?: Maybe<Array<Maybe<ResolversParentTypes['ItemEdge']>>> };
-  ItemEdge: Omit<ItemEdge, 'node'> & { node?: Maybe<ResolversParentTypes['Item']> };
+  ItemConnection: ItemConnection;
+  ItemEdge: ItemEdge;
+  ItemEntry: ItemEntry;
   ItemFiltersInput: ItemFiltersInput;
   ItemOrderByInput: ItemOrderByInput;
   Mutation: {};
   PageInfo: PageInfo;
   Query: {};
   String: Scalars['String'];
+  UOM: Uom;
+  UOMConnection: UomConnection;
+  UOMEdge: UomEdge;
+  UomFiltersInput: UomFiltersInput;
 };
 
 export interface CursorScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Cursor'], any> {
@@ -201,9 +276,10 @@ export interface CursorScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
 export type ItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['Item'] = ResolversParentTypes['Item']> = {
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  expirationDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  entries?: Resolver<Array<Maybe<ResolversTypes['ItemEntry']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  uom?: Resolver<ResolversTypes['UOM'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -221,8 +297,19 @@ export type ItemEdgeResolvers<ContextType = any, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ItemEntryResolvers<ContextType = any, ParentType extends ResolversParentTypes['ItemEntry'] = ResolversParentTypes['ItemEntry']> = {
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  expirationDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  item?: Resolver<ResolversTypes['Item'], ParentType, ContextType>;
+  quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  addItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, Partial<MutationAddItemArgs>>;
+  addItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationAddItemArgs, 'input'>>;
+  defineUOM?: Resolver<Maybe<ResolversTypes['UOM']>, ParentType, ContextType, RequireFields<MutationDefineUomArgs, 'input'>>;
 };
 
 export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
@@ -235,6 +322,27 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   items?: Resolver<ResolversTypes['ItemConnection'], ParentType, ContextType, Partial<QueryItemsArgs>>;
+  uoms?: Resolver<ResolversTypes['UOMConnection'], ParentType, ContextType, Partial<QueryUomsArgs>>;
+};
+
+export type UomResolvers<ContextType = any, ParentType extends ResolversParentTypes['UOM'] = ResolversParentTypes['UOM']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UomConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['UOMConnection'] = ResolversParentTypes['UOMConnection']> = {
+  edges?: Resolver<Maybe<Array<Maybe<ResolversTypes['UOMEdge']>>>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UomEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['UOMEdge'] = ResolversParentTypes['UOMEdge']> = {
+  cursor?: Resolver<ResolversTypes['Cursor'], ParentType, ContextType>;
+  node?: Resolver<Maybe<ResolversTypes['UOM']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
@@ -242,8 +350,12 @@ export type Resolvers<ContextType = any> = {
   Item?: ItemResolvers<ContextType>;
   ItemConnection?: ItemConnectionResolvers<ContextType>;
   ItemEdge?: ItemEdgeResolvers<ContextType>;
+  ItemEntry?: ItemEntryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  UOM?: UomResolvers<ContextType>;
+  UOMConnection?: UomConnectionResolvers<ContextType>;
+  UOMEdge?: UomEdgeResolvers<ContextType>;
 };
 

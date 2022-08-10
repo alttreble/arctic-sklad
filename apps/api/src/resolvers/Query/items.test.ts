@@ -11,11 +11,16 @@ const mockItemConnection: ItemConnection = {
       cursor: null,
       node: {
         id: 1234,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: new Date().toDateString(),
+        updatedAt: new Date().toDateString(),
         name: "Aspirin",
         description: null,
-        expirationDate: null
+        uom: {
+          id: 1234,
+          name: "Tablet",
+          items: []
+        },
+        entries: []
       }
     }
   ]

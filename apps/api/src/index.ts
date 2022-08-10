@@ -7,7 +7,6 @@ import * as typeDefs from '@app/graphql/schema.graphql';
 import context from '@app/context';
 
 const server = new ApolloServer({
-
   typeDefs,
   resolvers,
   csrfPrevention: true,

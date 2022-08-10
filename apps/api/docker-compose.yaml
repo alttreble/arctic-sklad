@@ -27,4 +27,7 @@ services:
     env_file:
       - .env
     volumes:
-      - /pg-data/arctic:/var/lib/postgresql/data/
+      - pg-data-arctic:/var/lib/postgresql/data/
+
+volumes:
+  pg-data-arctic:

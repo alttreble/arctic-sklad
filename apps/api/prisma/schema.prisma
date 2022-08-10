@@ -11,16 +11,36 @@ datasource db {
 }
 
 model Item {
+  id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  name        String
+  description String?
+  entries     ItemEntry[]
+  uom         UOM         @relation(fields: [uomId], references: [id])
+  uomId       Int
+}
+
+model ItemEntry {
   id             Int       @id @default(autoincrement())
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
-  name           String
-  description    String?
   expirationDate DateTime?
+  quantity       Int
+  item           Item      @relation(fields: [itemId], references: [id])
+  itemId         Int
+}
+
+model UOM {
+  id   Int    @id @default(autoincrement())
+  name String
+  items Item[]
+
+  @@unique(name)
 }
 
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
 }

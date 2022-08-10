@@ -4,7 +4,3 @@ generates:
     plugins:
       - "@graphql-codegen/typescript"
       - "@graphql-codegen/typescript-resolvers"
-    config:
-      mappers:
-        Item: "@prisma/client#Item"
-        User: "@prisma/client#User"

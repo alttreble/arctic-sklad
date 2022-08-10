@@ -1,72 +1,115 @@
 scalar Cursor
 
 type PageInfo {
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: Cursor
-  endCursor: Cursor
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: Cursor
+    endCursor: Cursor
 }
 
 type Item {
-  id: Int!
-  createdAt: String!
-  updatedAt: String!
-  name: String!
-  description: String
-  expirationDate: String
+    id: Int!
+    createdAt: String!
+    updatedAt: String!
+    name: String!
+    description: String
+    entries: [ItemEntry]!
+    uom: UOM!
+}
+
+type ItemEntry {
+    id: Int!
+    createdAt: String!
+    updatedAt: String!
+    expirationDate: String!
+    quantity: Int!
+    item: Item!
+}
+
+type UOM {
+    id:   Int!
+    name: String!
+    items: [Item]
 }
 
 type ItemEdge {
-  node: Item
-  cursor: Cursor!
+    node: Item
+    cursor: Cursor!
+}
+
+type UOMEdge {
+    node: UOM
+    cursor: Cursor!
 }
 
 type ItemConnection {
-  totalCount: Int!
-  pageInfo: PageInfo!
-  edges: [ItemEdge]
+    totalCount: Int!
+    pageInfo: PageInfo!
+    edges: [ItemEdge]
 }
 
-enum TodoOrderField {
-  id
-  createdAt
-  updatedAt
-  name
-  expirationDate
+type UOMConnection {
+    totalCount: Int!
+    pageInfo: PageInfo!
+    edges: [UOMEdge]
+}
+
+enum ItemOrderField {
+    id
+    createdAt
+    updatedAt
+    name
 }
 
 enum OrderDirection {
-  asc
-  desc
+    asc
+    desc
 }
 
 input ItemOrderByInput {
-  direction: OrderDirection = asc
-  field: TodoOrderField! = id
+    direction: OrderDirection = asc
+    field: ItemOrderField! = id
 }
 
 input AddItemInput {
-  name: String!
-  description: String
-  expirationDate: String
+    name: String!
+    description: String
+    uomId: Int!
 }
 
 input ItemFiltersInput {
-  name: String
-  expirationDate: String
+    name: String
+    expirationDate: String
+}
+
+input UomFiltersInput {
+    name: String
+}
+
+input DefineUOMInput {
+    name: String!
 }
 
 type Query {
     items(
-      after: Cursor
-      first: Int
-      before: Cursor
-      last: Int
-      orderBy: ItemOrderByInput
-      filter: ItemFiltersInput
+        after: Cursor
+        first: Int
+        before: Cursor
+        last: Int
+        orderBy: ItemOrderByInput
+        filter: ItemFiltersInput
     ): ItemConnection!
+
+    uoms(
+        after: Cursor
+        first: Int
+        before: Cursor
+        last: Int
+        filter: UomFiltersInput
+    ): UOMConnection!
 }
 
 type Mutation {
-  addItem(input: AddItemInput): Item
+    addItem(input: AddItemInput!): Item
+    defineUOM(input: DefineUOMInput!): UOM
 }
