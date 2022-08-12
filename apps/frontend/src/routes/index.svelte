@@ -1,34 +1,17 @@
-<script>
-	let autor = 'Axl';
-	async function getUoms() {
-		let results = await fetch('http://localhost:4000/', {
-			method: 'POST',
-
-			headers: {
-				'Content-Type': 'application/json'
-			},
-
-			body: JSON.stringify({
-				query: `uoms {
-                            edges {
-                                node {
-                                    id
-                                    name
-                                    items {
-                                        name
-                                    }
-                                }
-                            }
-                        }`
-			})
-		});
-		let uoms = await results.json();
-        return uoms
-	}
-
-	let uoms = getUoms();
+<script lang="ts">
+    import { GraphQLClient } from 'graphql-request'
+    import { getSdk, UomsDocument } from '../generated/graphql'
+    const client = new GraphQLClient('http://localhost:4000/')
+    const sdk = getSdk(client)
+    let autor = 'Axl'
+   
+    const umosPromise = sdk.Uoms()
 </script>
 
 <h1>The autor is {autor}</h1>
 
-<p>{uoms.uoms.edges[0].node.name}</p>
+{#await umosPromise}
+<p>Waithing</p>
+{:then uoms}
+<p>{uoms.data.uoms.edges[0]?.node?.name}</p>
+{/await}
