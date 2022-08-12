@@ -1,0 +1,90 @@
+// this file is generated — do not edit it
+/// <reference types="@sveltejs/kit" />
+
+declare module '$env/static/public' {
+
+}
+
+declare module '$env/static/private' {
+	export const NVM_INC: string;
+	export const npm_package_devDependencies_prettier: string;
+	export const NODE: string;
+	export const _P9K_TTY: string;
+	export const NVM_CD_FLAGS: string;
+	export const INIT_CWD: string;
+	export const npm_package_devDependencies_prettier_plugin_svelte: string;
+	export const npm_package_devDependencies_typescript: string;
+	export const SHELL: string;
+	export const TERM: string;
+	export const npm_package_devDependencies_vite: string;
+	export const TMPDIR: string;
+	export const GRADLE_HOME: string;
+	export const npm_package_scripts_lint: string;
+	export const npm_package_devDependencies_eslint_plugin_svelte3: string;
+	export const npm_package_scripts_dev: string;
+	export const TERM_SESSION_ID: string;
+	export const SDKMAN_PLATFORM: string;
+	export const npm_package_devDependencies__sveltejs_kit: string;
+	export const npm_package_devDependencies_svelte_preprocess: string;
+	export const npm_config_registry: string;
+	export const ZSH: string;
+	export const __INTELLIJ_COMMAND_HISTFILE__: string;
+	export const USER: string;
+	export const NVM_DIR: string;
+	export const npm_package_scripts_check_watch: string;
+	export const COMMAND_MODE: string;
+	export const SDKMAN_CANDIDATES_API: string;
+	export const PNPM_SCRIPT_SRC_DIR: string;
+	export const SSH_AUTH_SOCK: string;
+	export const npm_package_dependencies_graphql_request: string;
+	export const __CF_USER_TEXT_ENCODING: string;
+	export const npm_package_devDependencies_eslint: string;
+	export const LOGIN_SHELL: string;
+	export const npm_package_devDependencies__typescript_eslint_eslint_plugin: string;
+	export const npm_package_devDependencies_tslib: string;
+	export const npm_package_dependencies_graphql: string;
+	export const npm_execpath: string;
+	export const PAGER: string;
+	export const npm_package_devDependencies_svelte: string;
+	export const LSCOLORS: string;
+	export const npm_package_devDependencies__typescript_eslint_parser: string;
+	export const PATH: string;
+	export const TERMINAL_EMULATOR: string;
+	export const npm_config_engine_strict: string;
+	export const __CFBundleIdentifier: string;
+	export const PWD: string;
+	export const JENV_LOADED: string;
+	export const npm_package_scripts_preview: string;
+	export const P9K_SSH: string;
+	export const npm_lifecycle_event: string;
+	export const P9K_TTY: string;
+	export const npm_package_name: string;
+	export const SDKMAN_VERSION: string;
+	export const NODE_PATH: string;
+	export const npm_package_scripts_build: string;
+	export const XPC_FLAGS: string;
+	export const TURBO_HASH: string;
+	export const npm_package_devDependencies_eslint_config_prettier: string;
+	export const npm_config_node_gyp: string;
+	export const XPC_SERVICE_NAME: string;
+	export const npm_package_version: string;
+	export const npm_package_devDependencies__sveltejs_adapter_auto: string;
+	export const npm_package_devDependencies_svelte_check: string;
+	export const HOME: string;
+	export const SHLVL: string;
+	export const npm_package_type: string;
+	export const LOGNAME: string;
+	export const LESS: string;
+	export const npm_package_scripts_format: string;
+	export const JENV_SHELL: string;
+	export const SDKMAN_DIR: string;
+	export const npm_lifecycle_script: string;
+	export const LC_CTYPE: string;
+	export const npm_package_scripts_package: string;
+	export const NVM_BIN: string;
+	export const npm_config_user_agent: string;
+	export const SDKMAN_CANDIDATES_DIR: string;
+	export const npm_package_dependencies__tedraykov_kitui: string;
+	export const npm_package_scripts_check: string;
+	export const npm_node_execpath: string;
+}
