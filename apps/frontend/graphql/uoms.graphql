@@ -1,0 +1,13 @@
+query  {
+  uoms {
+    edges {
+      node {
+        id
+        name
+        items {
+          name
+        }
+      }
+    }
+  }
+}

@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "nodemon",
+    "dev": "etsc && node ./dist/index.js",
     "generate": "graphql-codegen"
   },
   "keywords": [],
