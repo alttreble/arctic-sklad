@@ -11,7 +11,7 @@
 <h1>The autor is {autor}</h1>
 
 {#await umosPromise}
-<p>Waithing</p>
+<p>...</p>
 {:then uoms}
 <p>{uoms.data.uoms.edges[0]?.node?.name}</p>
 {/await}
