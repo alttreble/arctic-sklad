@@ -1,8 +1,7 @@
 <script lang="ts">
    import Title from "../components/title.svelte";
-   const autor = 'Axl'
    export let data;
-   const items = data.items
+   const items = data?.items
 </script>
 
 <main>

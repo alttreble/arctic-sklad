@@ -1,5 +1,5 @@
-import { GraphQLClient } from 'graphql-request';
-import * as Dom from 'graphql-request/dist/types.dom';
+import type { GraphQLClient } from 'graphql-request';
+import type * as Dom from 'graphql-request/dist/types.dom';
 import { print } from 'graphql'
 import gql from 'graphql-tag';
 export type Maybe<T> = T | null;

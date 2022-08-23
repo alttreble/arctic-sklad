@@ -9,3 +9,5 @@ generates:
       - "typescript-graphql-request"
     config:
       rawRequest: true
+      useTypeImports: true
+
