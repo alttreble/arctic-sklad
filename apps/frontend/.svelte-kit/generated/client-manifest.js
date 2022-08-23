@@ -1,11 +1,11 @@
 export { matchers } from './client-matchers.js';
 
-export const components = [
-	() => import("..\\runtime\\components\\layout.svelte"),
-	() => import("..\\runtime\\components\\error.svelte"),
-	() => import("..\\..\\src\\routes\\index.svelte")
+export const nodes = [
+	() => import('./nodes/0'),
+	() => import('./nodes/1'),
+	() => import('./nodes/2')
 ];
 
 export const dictionary = {
-	"": [[0, 2], [1]]
+	"": [[1], [0], 2]
 };

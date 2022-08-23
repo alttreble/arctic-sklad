@@ -156,12 +156,31 @@ export type UomFiltersInput = {
   name?: InputMaybe<Scalars['String']>;
 };
 
+export type ItemsQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']>;
+  after?: InputMaybe<Scalars['Cursor']>;
+}>;
+
+
+export type ItemsQuery = { __typename?: 'Query', items: { __typename?: 'ItemConnection', edges?: Array<{ __typename?: 'ItemEdge', node?: { __typename?: 'Item', name: string } | null } | null> | null } };
+
 export type UomsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type UomsQuery = { __typename?: 'Query', uoms: { __typename?: 'UOMConnection', edges?: Array<{ __typename?: 'UOMEdge', node?: { __typename?: 'UOM', id: number, name: string, items?: Array<{ __typename?: 'Item', name: string } | null> | null } | null } | null> | null } };
 
 
+export const ItemsDocument = gql`
+    query Items($first: Int, $after: Cursor) {
+  items(first: $first, after: $after) {
+    edges {
+      node {
+        name
+      }
+    }
+  }
+}
+    `;
 export const UomsDocument = gql`
     query Uoms {
   uoms {
@@ -182,9 +201,13 @@ export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, str
 
 
 const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
+const ItemsDocumentString = print(ItemsDocument);
 const UomsDocumentString = print(UomsDocument);
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    Items(variables?: ItemsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: ItemsQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
+        return withWrapper((wrappedRequestHeaders) => client.rawRequest<ItemsQuery>(ItemsDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Items', 'query');
+    },
     Uoms(variables?: UomsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: UomsQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<UomsQuery>(UomsDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Uoms', 'query');
     }
