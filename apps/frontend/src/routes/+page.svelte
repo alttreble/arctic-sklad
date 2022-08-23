@@ -1,18 +1,19 @@
 <script lang="ts">
-  import Title from "../components/title.svelte";
-  import { List, ListItem } from "../lib/index.js";
+  import { Card, CardContent, Container, Stack } from "../lib/index.js";
   import type { ItemEdge } from "../generated/graphql";
 
   export let data: {items: ItemEdge[]}
   const items = data?.items
 </script>
 
-<main>
-  <List>
+<Container element="main">
+   <Stack gap={4}>
     {#each items as item}
-      <ListItem>
-        <Title {item}/>
-      </ListItem>
+        <Card>
+          <CardContent>
+            {item.node.name}
+          </CardContent>
+        </Card>
     {/each}
-  </List>
-</main>
+  </Stack>
+</Container>
