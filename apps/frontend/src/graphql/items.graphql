@@ -2,6 +2,9 @@ query Items($first: Int, $after: Cursor) {
   items(first: $first, after: $after) {
     edges {
       node {
+         uom {
+          name
+        }
         name
       }
     }

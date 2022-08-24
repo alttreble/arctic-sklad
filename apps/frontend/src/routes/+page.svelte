@@ -13,7 +13,7 @@
     {#each items as item}
         <Card>
           <CardContent>
-            {item.node.name}
+            {item.node.uom.name}
           </CardContent>
         </Card>
     {/each}
