@@ -1,16 +1,22 @@
 import {Context} from "@app/context";
 import {PaginationArgs} from "@app/utils/paginateResponse";
 import {Prisma} from "@prisma/client";
+import { includes } from "lodash-es";
 
 export type ItemFilters = {
   name?: string | null
   expirationDate?: string | null
 }
 
+export type IncludeOptions = {
+  [key in "uom" | "entries"]: boolean;
+};
+
 export default async function items(
   context: Context,
   filters: ItemFilters | undefined | null,
-  {orderBy, ...paginationArgs}: PaginationArgs
+  {orderBy, ...paginationArgs}: PaginationArgs,
+  includeOptions: IncludeOptions
 ) {
   const {prisma} = context
 
@@ -31,6 +37,11 @@ export default async function items(
       }),
       ...(filters.expirationDate && {name: filters.expirationDate}),
     }
+  }
+
+  query.include = {
+    uom: includeOptions.uom,
+    entries: includeOptions.entries
   }
 
   const items = await prisma.item.findMany(query)

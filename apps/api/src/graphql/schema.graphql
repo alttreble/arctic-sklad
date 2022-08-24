@@ -12,7 +12,10 @@ type Item {
     createdAt: String!
     updatedAt: String!
     name: String!
+    genericName: String
     description: String
+    totalQuantity: Int!
+    hasExpiredEntry: Boolean!
     entries: [ItemEntry]!
     uom: UOM!
 }
@@ -21,7 +24,8 @@ type ItemEntry {
     id: Int!
     createdAt: String!
     updatedAt: String!
-    expirationDate: String!
+    expirationDate: String
+    hasExpired: Boolean
     quantity: Int!
     item: Item!
 }
@@ -73,6 +77,7 @@ input ItemOrderByInput {
 
 input AddItemInput {
     name: String!
+    genericName: String
     description: String
     uomId: Int!
 }
@@ -88,6 +93,12 @@ input UomFiltersInput {
 
 input DefineUOMInput {
     name: String!
+}
+
+input CreateEntryOnItemInput {
+    itemId: Int!
+    quantity: Int!
+    expirationDate: String
 }
 
 type Query {
@@ -112,4 +123,5 @@ type Query {
 type Mutation {
     addItem(input: AddItemInput!): Item
     defineUOM(input: DefineUOMInput!): UOM
+    createEntryOnItem(input: CreateEntryOnItemInput!): ItemEntry
 }
