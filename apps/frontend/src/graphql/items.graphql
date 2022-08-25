@@ -1,24 +1,26 @@
-query Items($after: Cursor, $first: Int) {
-  items(after: $after, first: $first) {
+query Items($first: Int, $after: Cursor) {
+  items(first: $first, after: $after) {
     edges {
       node {
         id
         name
         genericName
+        totalQuantity
         uom {
           name
-          id
         }
         hasExpiredEntry
-        totalQuantity
         entries {
           id
-          expirationDate
           createdAt
+          updatedAt
+          expirationDate
           hasExpired
           quantity
-        }
+        } 
       }
     }
   }
 }
+
+

@@ -64,8 +64,7 @@ export type ItemEdge = {
 export type ItemEntry = {
   __typename?: 'ItemEntry';
   createdAt: Scalars['String'];
-  expirationDate?: Maybe<Scalars['String']>;
-  hasExpired?: Maybe<Scalars['Boolean']>;
+  expirationDate: Scalars['String'];
   id: Scalars['Int'];
   item: Item;
   quantity: Scalars['Int'];
@@ -174,12 +173,12 @@ export type UomFiltersInput = {
 };
 
 export type ItemsQueryVariables = Exact<{
-  after?: InputMaybe<Scalars['Cursor']>;
   first?: InputMaybe<Scalars['Int']>;
+  after?: InputMaybe<Scalars['Cursor']>;
 }>;
 
 
-export type ItemsQuery = { __typename?: 'Query', items: { __typename?: 'ItemConnection', edges?: Array<{ __typename?: 'ItemEdge', node?: { __typename?: 'Item', id: number, name: string, genericName?: string | null, hasExpiredEntry: boolean, totalQuantity: number, uom: { __typename?: 'UOM', name: string, id: number }, entries: Array<{ __typename?: 'ItemEntry', id: number, expirationDate?: string | null, createdAt: string, hasExpired?: boolean | null, quantity: number } | null> } | null } | null> | null } };
+export type ItemsQuery = { __typename?: 'Query', items: { __typename?: 'ItemConnection', edges?: Array<{ __typename?: 'ItemEdge', node?: { __typename?: 'Item', id: number, name: string, genericName?: string | null, totalQuantity: number, hasExpiredEntry: boolean, uom: { __typename?: 'UOM', name: string }, entries: Array<{ __typename?: 'ItemEntry', id: number, createdAt: string, updatedAt: string, expirationDate?: string | null, hasExpired?: boolean | null, quantity: number } | null> } | null } | null> | null } };
 
 export type UomsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -188,26 +187,18 @@ export type UomsQuery = { __typename?: 'Query', uoms: { __typename?: 'UOMConnect
 
 
 export const ItemsDocument = gql`
-    query Items($after: Cursor, $first: Int) {
-  items(after: $after, first: $first) {
+    query Items($first: Int, $after: Cursor) {
+  items(first: $first, after: $after) {
     edges {
       node {
         id
         name
         genericName
+        totalQuantity
         uom {
           name
-          id
         }
-        hasExpiredEntry
-        totalQuantity
-        entries {
-          id
-          expirationDate
-          createdAt
-          hasExpired
-          quantity
-        }
+        name
       }
     }
   }
