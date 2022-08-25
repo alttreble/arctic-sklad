@@ -19,19 +19,19 @@
                     }
 					let date = `${day}.${month}.${year}`;
 					return date;
-				}
+				}         
 </script>
 
 <Divider />
-<table class="table-auto">
-	<thead>
-        <tr>
-            <th><Typography variant="subtitle2">ДОБАВЕНО</Typography></th>
-            <th><Typography variant="subtitle2">БРОЙ</Typography></th>
-            <th><Typography variant="subtitle2">СРОК</Typography></th>
-        </tr>
+<table class="table-fixed my-5 text-left">
+    <thead>
+      <tr>
+        <th><Typography variant="subtitle2">ДОБАВЕНО</Typography></th>
+        <th><Typography variant="subtitle2">БРОЙ</Typography></th>
+        <th><Typography variant="subtitle2">СРОК</Typography></th>
+      </tr>
     </thead>
-	<tbody>
+    <tbody>
         {#each itemEntries as entry}
 		<tr>
 			<td>{calcolateDate(entry.createdAt)}</td>
@@ -40,4 +40,5 @@
         </tr>
 	{/each}
     </tbody>
-</table>
+  </table>
+
