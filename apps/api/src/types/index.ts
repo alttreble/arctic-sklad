@@ -17,8 +17,15 @@ export type Scalars = {
 
 export type AddItemInput = {
   description?: InputMaybe<Scalars['String']>;
+  genericName?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   uomId: Scalars['Int'];
+};
+
+export type CreateEntryOnItemInput = {
+  expirationDate?: InputMaybe<Scalars['String']>;
+  itemId: Scalars['Int'];
+  quantity: Scalars['Int'];
 };
 
 export type DefineUomInput = {
@@ -30,8 +37,11 @@ export type Item = {
   createdAt: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   entries: Array<Maybe<ItemEntry>>;
+  genericName?: Maybe<Scalars['String']>;
+  hasExpiredEntry: Scalars['Boolean'];
   id: Scalars['Int'];
   name: Scalars['String'];
+  totalQuantity: Scalars['Int'];
   uom: Uom;
   updatedAt: Scalars['String'];
 };
@@ -52,7 +62,8 @@ export type ItemEdge = {
 export type ItemEntry = {
   __typename?: 'ItemEntry';
   createdAt: Scalars['String'];
-  expirationDate: Scalars['String'];
+  expirationDate?: Maybe<Scalars['String']>;
+  hasExpired?: Maybe<Scalars['Boolean']>;
   id: Scalars['Int'];
   item: Item;
   quantity: Scalars['Int'];
@@ -79,12 +90,18 @@ export enum ItemOrderField {
 export type Mutation = {
   __typename?: 'Mutation';
   addItem?: Maybe<Item>;
+  createEntryOnItem?: Maybe<ItemEntry>;
   defineUOM?: Maybe<Uom>;
 };
 
 
 export type MutationAddItemArgs = {
   input: AddItemInput;
+};
+
+
+export type MutationCreateEntryOnItemArgs = {
+  input: CreateEntryOnItemInput;
 };
 
 
@@ -225,6 +242,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   AddItemInput: AddItemInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  CreateEntryOnItemInput: CreateEntryOnItemInput;
   Cursor: ResolverTypeWrapper<Scalars['Cursor']>;
   DefineUOMInput: DefineUomInput;
   Int: ResolverTypeWrapper<Scalars['Int']>;
@@ -250,6 +268,7 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   AddItemInput: AddItemInput;
   Boolean: Scalars['Boolean'];
+  CreateEntryOnItemInput: CreateEntryOnItemInput;
   Cursor: Scalars['Cursor'];
   DefineUOMInput: DefineUomInput;
   Int: Scalars['Int'];
@@ -277,8 +296,11 @@ export type ItemResolvers<ContextType = any, ParentType extends ResolversParentT
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   entries?: Resolver<Array<Maybe<ResolversTypes['ItemEntry']>>, ParentType, ContextType>;
+  genericName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  hasExpiredEntry?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  totalQuantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   uom?: Resolver<ResolversTypes['UOM'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -299,7 +321,8 @@ export type ItemEdgeResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type ItemEntryResolvers<ContextType = any, ParentType extends ResolversParentTypes['ItemEntry'] = ResolversParentTypes['ItemEntry']> = {
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  expirationDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  expirationDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  hasExpired?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   item?: Resolver<ResolversTypes['Item'], ParentType, ContextType>;
   quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -309,6 +332,7 @@ export type ItemEntryResolvers<ContextType = any, ParentType extends ResolversPa
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   addItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationAddItemArgs, 'input'>>;
+  createEntryOnItem?: Resolver<Maybe<ResolversTypes['ItemEntry']>, ParentType, ContextType, RequireFields<MutationCreateEntryOnItemArgs, 'input'>>;
   defineUOM?: Resolver<Maybe<ResolversTypes['UOM']>, ParentType, ContextType, RequireFields<MutationDefineUomArgs, 'input'>>;
 };
 
