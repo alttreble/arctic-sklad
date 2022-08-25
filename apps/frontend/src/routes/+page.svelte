@@ -9,10 +9,8 @@
 </script>
 
 
-<Container element='main' class='max-w-xl py-6'>
-	<Stack gap={3}>
-		{#each items as item}
-			<Item item={item} />
-		{/each}
-	</Stack>
-</Container>
+<Stack gap={3}>
+{#each items as item}
+    <ItemComonent item={item}/>
+{/each}
+</Stack>
