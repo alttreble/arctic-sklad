@@ -3,5 +3,14 @@
 @tailwind utilities;
 
 body {
-    @apply bg-primary-50
+    @apply bg-slate-100
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td, th {
+    @apply py-1 px-0
 }
