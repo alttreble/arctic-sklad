@@ -19,8 +19,15 @@ export type Scalars = {
 
 export type AddItemInput = {
   description?: InputMaybe<Scalars['String']>;
+  genericName?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   uomId: Scalars['Int'];
+};
+
+export type CreateEntryOnItemInput = {
+  expirationDate?: InputMaybe<Scalars['String']>;
+  itemId: Scalars['Int'];
+  quantity: Scalars['Int'];
 };
 
 export type DefineUomInput = {
@@ -32,8 +39,11 @@ export type Item = {
   createdAt: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   entries: Array<Maybe<ItemEntry>>;
+  genericName?: Maybe<Scalars['String']>;
+  hasExpiredEntry: Scalars['Boolean'];
   id: Scalars['Int'];
   name: Scalars['String'];
+  totalQuantity: Scalars['Int'];
   uom: Uom;
   updatedAt: Scalars['String'];
 };
@@ -54,7 +64,8 @@ export type ItemEdge = {
 export type ItemEntry = {
   __typename?: 'ItemEntry';
   createdAt: Scalars['String'];
-  expirationDate: Scalars['String'];
+  expirationDate?: Maybe<Scalars['String']>;
+  hasExpired?: Maybe<Scalars['Boolean']>;
   id: Scalars['Int'];
   item: Item;
   quantity: Scalars['Int'];
@@ -81,12 +92,18 @@ export enum ItemOrderField {
 export type Mutation = {
   __typename?: 'Mutation';
   addItem?: Maybe<Item>;
+  createEntryOnItem?: Maybe<ItemEntry>;
   defineUOM?: Maybe<Uom>;
 };
 
 
 export type MutationAddItemArgs = {
   input: AddItemInput;
+};
+
+
+export type MutationCreateEntryOnItemArgs = {
+  input: CreateEntryOnItemInput;
 };
 
 
@@ -157,12 +174,12 @@ export type UomFiltersInput = {
 };
 
 export type ItemsQueryVariables = Exact<{
-  first?: InputMaybe<Scalars['Int']>;
   after?: InputMaybe<Scalars['Cursor']>;
+  first?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type ItemsQuery = { __typename?: 'Query', items: { __typename?: 'ItemConnection', edges?: Array<{ __typename?: 'ItemEdge', node?: { __typename?: 'Item', name: string, uom: { __typename?: 'UOM', name: string } } | null } | null> | null } };
+export type ItemsQuery = { __typename?: 'Query', items: { __typename?: 'ItemConnection', edges?: Array<{ __typename?: 'ItemEdge', node?: { __typename?: 'Item', id: number, name: string, genericName?: string | null, hasExpiredEntry: boolean, totalQuantity: number, uom: { __typename?: 'UOM', name: string, id: number }, entries: Array<{ __typename?: 'ItemEntry', id: number, expirationDate?: string | null, createdAt: string, hasExpired?: boolean | null, quantity: number } | null> } | null } | null> | null } };
 
 export type UomsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -171,14 +188,26 @@ export type UomsQuery = { __typename?: 'Query', uoms: { __typename?: 'UOMConnect
 
 
 export const ItemsDocument = gql`
-    query Items($first: Int, $after: Cursor) {
-  items(first: $first, after: $after) {
+    query Items($after: Cursor, $first: Int) {
+  items(after: $after, first: $first) {
     edges {
       node {
+        id
+        name
+        genericName
         uom {
           name
+          id
         }
-        name
+        hasExpiredEntry
+        totalQuantity
+        entries {
+          id
+          expirationDate
+          createdAt
+          hasExpired
+          quantity
+        }
       }
     }
   }
