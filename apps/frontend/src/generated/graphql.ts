@@ -162,7 +162,7 @@ export type ItemsQueryVariables = Exact<{
 }>;
 
 
-export type ItemsQuery = { __typename?: 'Query', items: { __typename?: 'ItemConnection', edges?: Array<{ __typename?: 'ItemEdge', node?: { __typename?: 'Item', name: string } | null } | null> | null } };
+export type ItemsQuery = { __typename?: 'Query', items: { __typename?: 'ItemConnection', edges?: Array<{ __typename?: 'ItemEdge', node?: { __typename?: 'Item', name: string, uom: { __typename?: 'UOM', name: string } } | null } | null> | null } };
 
 export type UomsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -175,6 +175,9 @@ export const ItemsDocument = gql`
   items(first: $first, after: $after) {
     edges {
       node {
+        uom {
+          name
+        }
         name
       }
     }

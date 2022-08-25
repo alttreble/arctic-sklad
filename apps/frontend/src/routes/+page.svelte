@@ -1,19 +1,20 @@
 <script lang="ts">
-  import { Card, CardContent, Container, Stack } from "../lib/index.js";
-  import type { ItemEdge } from "../generated/graphql";
 
-  export let data: {items: ItemEdge[]}
-  const items = data?.items
+	import { Card, CardContent, Container, Stack, Typography } from '../lib/index.js';
+	import type { ItemEdge } from '../generated/graphql';
+  import ItemComonent from '../components/itemComonent.svelte';
+	
+
+
+	export let data: { items: ItemEdge[] };
+	const items = data?.items;
 </script>
 
-<Container element="main">
-   <Stack gap={4}>
-    {#each items as item}
-        <Card>
-          <CardContent>
-            {item.node.name}
-          </CardContent>
-        </Card>
-    {/each}
-  </Stack>
-</Container>
+
+<Stack gap={3}>
+{#each items as item}
+  
+    <ItemComonent item={item}/>
+  
+{/each}
+</Stack>
