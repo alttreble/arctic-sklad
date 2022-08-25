@@ -5,7 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon",
-    "generate": "graphql-codegen"
+    "start": "node .",
+    "generate": "graphql-codegen",
+    "build": "tsc && node scripts/build.mjs"
   },
   "keywords": [],
   "author": "Teodor Raykov",
