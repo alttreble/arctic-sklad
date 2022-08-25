@@ -23,7 +23,7 @@
 </script>
 
 <Divider />
-<table class="table-fixed my-5 text-left">
+<table class="table-fixed my-3 text-left">
     <thead>
       <tr>
         <th><Typography variant="subtitle2">ДОБАВЕНО</Typography></th>
@@ -36,7 +36,15 @@
 		<tr>
 			<td>{calcolateDate(entry.createdAt)}</td>
 			<td>{entry.quantity}</td>
-			<td>{calcolateDate(entry.expirationDate)}</td>
+            {#if calcolateDate(entry.expirationDate) === '-'}
+                <td>{calcolateDate(entry.expirationDate)}</td>
+            {:else}
+                {#if !entry.hasExpired} 
+                    <td><span class="bg-green-500 text-white rounded-md p-0.5">{calcolateDate(entry.expirationDate)}</span></td>
+                {:else}
+                    <td><span class="bg-red-500 text-white rounded-md p-0.5">{calcolateDate(entry.expirationDate)}</span></td>
+                {/if}   
+            {/if}    
         </tr>
 	{/each}
     </tbody>
