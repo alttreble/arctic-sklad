@@ -1,8 +1,8 @@
 <script lang='ts'>
-	import type { ItemEdge } from '../generated/graphql';
+	import type { ItemEntry } from '../generated/graphql';
 	import { Divider, Typography } from '../lib/index.js';
 
-	export let itemEntries: ItemEdge;
+	export let itemEntries: ItemEntry[];
 
 	function calculateDate(dateInMilliseconds) {
 		const d = new Date(+dateInMilliseconds);

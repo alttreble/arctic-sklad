@@ -4,7 +4,7 @@
 	import Divider from '$lib/components/Divider.svelte';
 	import type { ItemEdge } from '../generated/graphql';
 	import { Card, CardContent, Stack, Typography, Button } from '../lib/index.js';
-	import ItemEntriesComponent from './ItemEntries.svelte';
+	import ItemEntries from './ItemEntries.svelte';
 
 	export let item: ItemEdge;
 	let itemEntriesBtn = false;
@@ -14,8 +14,7 @@
 	}
 </script>
 
-<Stack>
-	<Card class='bg-white'>
+	<Card class='bg-white' element="a" href="https://www.youtube.com/watch?v=FX0s2tK-KU8&ab_channel=LazyOwl">
 		<CardContent class='flex flex-col'>
 			<div class='flex justify-between'>
 				<div class='flex flex-col'>
@@ -37,7 +36,7 @@
 				</div>
 			</div>
 			{#if itemEntriesBtn}
-				<ItemEntriesComponent itemEntries={item?.node?.entries} />
+				<ItemEntries itemEntries={item?.node?.entries} />
 			{/if}
 			{#if item.node?.hasExpiredEntry}
 				<Divider class='my-4' />
@@ -48,4 +47,4 @@
 			{/if}
 		</CardContent>
 	</Card>
-</Stack>
+

@@ -64,7 +64,8 @@ export type ItemEdge = {
 export type ItemEntry = {
   __typename?: 'ItemEntry';
   createdAt: Scalars['String'];
-  expirationDate: Scalars['String'];
+  expirationDate?: Maybe<Scalars['String']>;
+  hasExpired?: Maybe<Scalars['Boolean']>;
   id: Scalars['Int'];
   item: Item;
   quantity: Scalars['Int'];
@@ -198,7 +199,15 @@ export const ItemsDocument = gql`
         uom {
           name
         }
-        name
+        hasExpiredEntry
+        entries {
+          id
+          createdAt
+          updatedAt
+          expirationDate
+          hasExpired
+          quantity
+        }
       }
     }
   }

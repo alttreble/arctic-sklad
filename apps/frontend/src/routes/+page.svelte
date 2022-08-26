@@ -9,8 +9,10 @@
 </script>
 
 
-<Stack gap={3}>
-{#each items as item}
-    <ItemComonent item={item}/>
-{/each}
-</Stack>
+<Container>
+	<Stack gap={3}>
+		{#each items as item}
+			<Item item={item}/>
+		{/each}
+		</Stack>
+</Container>

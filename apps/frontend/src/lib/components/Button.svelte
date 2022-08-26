@@ -18,7 +18,7 @@
 
 <svelte:element
 	this={element}
-	on:click
+	on:click|preventDefault
 	class={twMerge(
 		cn(
 			// Root
