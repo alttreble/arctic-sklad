@@ -1,7 +1,8 @@
-import { GraphQLClient } from 'graphql-request'
-    import { getSdk } from '../generated/graphql'
+import { GraphQLClient } from 'graphql-request';
+import { getSdk } from '../generated/graphql';
+import env from "../config/dynamic.public"
 
-const fetch = new GraphQLClient('http://localhost:4000/')
-const client = getSdk(fetch)
+const fetch = new GraphQLClient(env.PUBLIC_API_URL);
+const client = getSdk(fetch);
 
-export default client
+export default client;
