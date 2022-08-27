@@ -124,8 +124,14 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: 'Query';
+  item?: Maybe<Item>;
   items: ItemConnection;
   uoms: UomConnection;
+};
+
+
+export type QueryItemArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -345,6 +351,7 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  item?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<QueryItemArgs, 'id'>>;
   items?: Resolver<ResolversTypes['ItemConnection'], ParentType, ContextType, Partial<QueryItemsArgs>>;
   uoms?: Resolver<ResolversTypes['UOMConnection'], ParentType, ContextType, Partial<QueryUomsArgs>>;
 };

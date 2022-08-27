@@ -102,6 +102,8 @@ input CreateEntryOnItemInput {
 }
 
 type Query {
+    item(id: Int!): Item
+
     items(
         after: Cursor
         first: Int
