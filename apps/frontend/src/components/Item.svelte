@@ -7,6 +7,7 @@
 	import ItemEntries from './ItemEntries.svelte';
 
 	export let item: ItemEdge;
+	
 	let itemEntriesBtn = false;
 
 	function toggleItemEntries() {
@@ -14,12 +15,15 @@
 	}
 </script>
 
-	<Card class='bg-white' element="a" href="https://www.youtube.com/watch?v=FX0s2tK-KU8&ab_channel=LazyOwl">
+	<Card class='bg-white' element="a" href={`item/5`}>
 		<CardContent class='flex flex-col'>
 			<div class='flex justify-between'>
 				<div class='flex flex-col'>
-					<Typography variant='h6' class='pb-5'>
+					<Typography variant='h6'>
 						{item.node?.name}
+					</Typography>
+					<Typography variant="subtitle2"  class='pb-5'>
+						{item.node?.genericName}
 					</Typography>
 					<Typography class='text-accent-600'>Количесто:</Typography>
 					<Typography>

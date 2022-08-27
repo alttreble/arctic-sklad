@@ -126,8 +126,14 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: 'Query';
+  item?: Maybe<Item>;
   items: ItemConnection;
   uoms: UomConnection;
+};
+
+
+export type QueryItemArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -173,6 +179,13 @@ export type UomFiltersInput = {
   name?: InputMaybe<Scalars['String']>;
 };
 
+export type ItemQueryVariables = Exact<{
+  itemId: Scalars['Int'];
+}>;
+
+
+export type ItemQuery = { __typename?: 'Query', item?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, name: string, genericName?: string | null, totalQuantity: number, hasExpiredEntry: boolean, entries: Array<{ __typename?: 'ItemEntry', createdAt: string, updatedAt: string, expirationDate?: string | null, hasExpired?: boolean | null, quantity: number } | null>, uom: { __typename?: 'UOM', name: string } } | null };
+
 export type ItemsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
   after?: InputMaybe<Scalars['Cursor']>;
@@ -187,6 +200,29 @@ export type UomsQueryVariables = Exact<{ [key: string]: never; }>;
 export type UomsQuery = { __typename?: 'Query', uoms: { __typename?: 'UOMConnection', edges?: Array<{ __typename?: 'UOMEdge', node?: { __typename?: 'UOM', id: number, name: string, items?: Array<{ __typename?: 'Item', name: string } | null> | null } | null } | null> | null } };
 
 
+export const ItemDocument = gql`
+    query Item($itemId: Int!) {
+  item(id: $itemId) {
+    id
+    createdAt
+    updatedAt
+    name
+    genericName
+    totalQuantity
+    hasExpiredEntry
+    entries {
+      createdAt
+      updatedAt
+      expirationDate
+      hasExpired
+      quantity
+    }
+    uom {
+      name
+    }
+  }
+}
+    `;
 export const ItemsDocument = gql`
     query Items($first: Int, $after: Cursor) {
   items(first: $first, after: $after) {
@@ -233,10 +269,14 @@ export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, str
 
 
 const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
+const ItemDocumentString = print(ItemDocument);
 const ItemsDocumentString = print(ItemsDocument);
 const UomsDocumentString = print(UomsDocument);
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    Item(variables: ItemQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: ItemQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
+        return withWrapper((wrappedRequestHeaders) => client.rawRequest<ItemQuery>(ItemDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Item', 'query');
+    },
     Items(variables?: ItemsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: ItemsQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<ItemsQuery>(ItemsDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Items', 'query');
     },

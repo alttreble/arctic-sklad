@@ -1,0 +1,21 @@
+query Item($itemId: Int!) {
+  item(id: $itemId) {
+    id
+    createdAt
+    updatedAt
+    name
+    genericName
+    totalQuantity
+    hasExpiredEntry
+    entries {
+      createdAt
+      updatedAt
+      expirationDate
+      hasExpired
+      quantity
+    }
+    uom {
+      name
+    }
+  }
+}
