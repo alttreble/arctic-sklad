@@ -1,4 +1,4 @@
-query Uoms {
+query uoms {
   uoms {
     edges {
       node {

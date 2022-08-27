@@ -11,7 +11,7 @@ export const load: PageLoad = async ({ url }) => {
     ...(afterParam && { after: +afterParam })
   };
 
-  let itemsData = await client.Items(params);
+  let itemsData = await client.items(params);
   let items = itemsData.data.items.edges;
 
   if (items) {

@@ -15,16 +15,20 @@
 	}
 </script>
 
-	<Card class='bg-white' element="a" href={`item/5`}>
+	<Card class='bg-white' element="a" href={`item/${item.node?.id}`}>
 		<CardContent class='flex flex-col'>
 			<div class='flex justify-between'>
 				<div class='flex flex-col'>
-					<Typography variant='h6'>
-						{item.node?.name}
-					</Typography>
-					<Typography variant="subtitle2"  class='pb-5'>
-						{item.node?.genericName}
-					</Typography>
+					<div class="pb-6">
+						<Typography variant='h6'>
+							{item.node?.name}
+						</Typography>
+						{#if item.node?.genericName}
+							<Typography class="text-sm" variant="subtitle1">
+								{item.node?.genericName}
+							</Typography>
+						{/if}
+					</div>
 					<Typography class='text-accent-600'>Количесто:</Typography>
 					<Typography>
 						<strong> {item.node?.totalQuantity} {item.node?.uom.name} </strong>

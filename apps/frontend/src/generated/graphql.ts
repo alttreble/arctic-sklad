@@ -179,6 +179,13 @@ export type UomFiltersInput = {
   name?: InputMaybe<Scalars['String']>;
 };
 
+export type AddItemMutationVariables = Exact<{
+  input: AddItemInput;
+}>;
+
+
+export type AddItemMutation = { __typename?: 'Mutation', addItem?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, name: string, genericName?: string | null, uom: { __typename?: 'UOM', name: string } } | null };
+
 export type ItemQueryVariables = Exact<{
   itemId: Scalars['Int'];
 }>;
@@ -200,8 +207,22 @@ export type UomsQueryVariables = Exact<{ [key: string]: never; }>;
 export type UomsQuery = { __typename?: 'Query', uoms: { __typename?: 'UOMConnection', edges?: Array<{ __typename?: 'UOMEdge', node?: { __typename?: 'UOM', id: number, name: string, items?: Array<{ __typename?: 'Item', name: string } | null> | null } | null } | null> | null } };
 
 
+export const AddItemDocument = gql`
+    mutation addItem($input: AddItemInput!) {
+  addItem(input: $input) {
+    id
+    createdAt
+    updatedAt
+    name
+    genericName
+    uom {
+      name
+    }
+  }
+}
+    `;
 export const ItemDocument = gql`
-    query Item($itemId: Int!) {
+    query item($itemId: Int!) {
   item(id: $itemId) {
     id
     createdAt
@@ -224,7 +245,7 @@ export const ItemDocument = gql`
 }
     `;
 export const ItemsDocument = gql`
-    query Items($first: Int, $after: Cursor) {
+    query items($first: Int, $after: Cursor) {
   items(first: $first, after: $after) {
     edges {
       node {
@@ -250,7 +271,7 @@ export const ItemsDocument = gql`
 }
     `;
 export const UomsDocument = gql`
-    query Uoms {
+    query uoms {
   uoms {
     edges {
       node {
@@ -269,19 +290,23 @@ export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, str
 
 
 const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
+const AddItemDocumentString = print(AddItemDocument);
 const ItemDocumentString = print(ItemDocument);
 const ItemsDocumentString = print(ItemsDocument);
 const UomsDocumentString = print(UomsDocument);
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    Item(variables: ItemQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: ItemQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
-        return withWrapper((wrappedRequestHeaders) => client.rawRequest<ItemQuery>(ItemDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Item', 'query');
+    addItem(variables: AddItemMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: AddItemMutation; extensions?: any; headers: Dom.Headers; status: number; }> {
+        return withWrapper((wrappedRequestHeaders) => client.rawRequest<AddItemMutation>(AddItemDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'addItem', 'mutation');
     },
-    Items(variables?: ItemsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: ItemsQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
-        return withWrapper((wrappedRequestHeaders) => client.rawRequest<ItemsQuery>(ItemsDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Items', 'query');
+    item(variables: ItemQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: ItemQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
+        return withWrapper((wrappedRequestHeaders) => client.rawRequest<ItemQuery>(ItemDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'item', 'query');
     },
-    Uoms(variables?: UomsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: UomsQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
-        return withWrapper((wrappedRequestHeaders) => client.rawRequest<UomsQuery>(UomsDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Uoms', 'query');
+    items(variables?: ItemsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: ItemsQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
+        return withWrapper((wrappedRequestHeaders) => client.rawRequest<ItemsQuery>(ItemsDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'items', 'query');
+    },
+    uoms(variables?: UomsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: UomsQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
+        return withWrapper((wrappedRequestHeaders) => client.rawRequest<UomsQuery>(UomsDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'uoms', 'query');
     }
   };
 }

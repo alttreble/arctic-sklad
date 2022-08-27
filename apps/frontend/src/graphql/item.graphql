@@ -1,4 +1,4 @@
-query Item($itemId: Int!) {
+query item($itemId: Int!) {
   item(id: $itemId) {
     id
     createdAt
