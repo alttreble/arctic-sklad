@@ -4,6 +4,7 @@
 	import { Stack, Container, Button } from '../../../lib/index.js';
 	import { ChevronLeft, ExclamationCircle, Pencil } from '@steeze-ui/heroicons';
 	import { Icon } from '@steeze-ui/svelte-icon';
+    import Entries from '../../../components/Entries.svelte';
 
 	export let data: { item: Item };
 	const item = data?.item;
@@ -18,5 +19,6 @@
             </a>
 		</div>
 		<ItemComponent {item} />
+        <Entries {item}/>
 	</Stack>
 </Container>

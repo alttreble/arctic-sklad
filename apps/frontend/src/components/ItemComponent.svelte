@@ -11,7 +11,7 @@ export let item: Item;
     <CardContent class='flex flex-col'>
         <div class='flex justify-between'>
             <div class='flex flex-col'>
-                <div class="pb-6">
+                <div class="pb-2">
                     <Typography variant='h6'>
                         {item.name}
                     </Typography>
@@ -28,7 +28,7 @@ export let item: Item;
             <div>
                 <Button variant="text">
                     <Icon 
-                        class="w-4 h-4 solid"
+                        class="w-4 h-4"
                         src={Pencil}
                     />
                 </Button>
