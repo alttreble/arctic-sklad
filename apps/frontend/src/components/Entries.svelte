@@ -24,8 +24,8 @@
 </script>
 
 <Card class="bg-white">
-	<CardContent>
-        <div class="flex justify-between">
+	<CardContent class='flex flex-col'>
+        <div class="flex justify-between mb-4">
             <Typography variant="h6">
                 Наличност
             </Typography>
@@ -57,7 +57,7 @@
 							<Typography variant="body2">{entry.quantity}</Typography>
 						</td>
 						{#if calculateDate(entry.expirationDate) === '-'}
-							<td>{calculateDate(entry.expirationDate)}</td>
+							<td class="pl-8">{calculateDate(entry.expirationDate)}</td>
 						{:else if !entry.hasExpired}
 							<td>
 								<Typography

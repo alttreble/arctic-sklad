@@ -46,7 +46,7 @@
 				<Typography variant='body2'>{entry.quantity}</Typography>
 			</td>
 			{#if calculateDate(entry.expirationDate) === '-'}
-				<td>{calculateDate(entry.expirationDate)}</td>
+				<td class="pl-8">{calculateDate(entry.expirationDate)}</td>
 			{:else}
 				{#if !entry.hasExpired}
 					<td>
