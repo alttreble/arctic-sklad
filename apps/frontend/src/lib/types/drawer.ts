@@ -5,6 +5,7 @@ export type DrawerOptions = ComponentOptions<DrawerPropsOptions, DrawerStylesOve
 export type DrawerPropsOptions = ElementOptions & {
 	variant?: 'permanent' | 'persistent' | 'temporary';
 	open?: boolean;
+	direction?: "left" | "right" | "top" | "bottom"
 };
 export type DrawerProps = ElementOptions & {
 	variant?: 'permanent' | 'persistent' | 'temporary';

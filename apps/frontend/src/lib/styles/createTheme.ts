@@ -58,7 +58,9 @@ const defaultTheme: ThemeOptions = {
 		},
 		Drawer: {
 			defaultProps: {
-				element: 'aside'
+				element: 'aside',
+				variant: 'permanent',
+				direction: 'left'
 			},
 			styleOverrides: {}
 		},
