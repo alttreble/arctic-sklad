@@ -1,6 +1,6 @@
 <script lang='ts'>
 
-	import { Container, Stack } from '../lib/index.js';
+	import { Container, Drawer, Stack } from '../lib/index.js';
 	import type { ItemEdge } from '../generated/graphql';
 	import Item from '../components/Item.svelte';
 
@@ -16,3 +16,4 @@
 		{/each}
 		</Stack>
 </Container>
+
