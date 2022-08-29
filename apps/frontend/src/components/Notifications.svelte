@@ -37,7 +37,7 @@
                         <option value="3 Месец">3 Месеца</option>
                         <option value="4 Месец">4 Месеца</option>
                     </select>
-                {/if}    
+                {/if} 
             </div>
 		</div>
 	</CardContent>
