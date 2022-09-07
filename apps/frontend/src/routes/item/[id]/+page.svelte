@@ -7,6 +7,7 @@
     import Entries from '../../../components/Entries.svelte';
     import Notifications from '../../../components/Notifications.svelte';
 import GeneralInfo from '../../../components/GeneralInfo.svelte';
+import NewEntrie from '../../../components/NewEntrie.svelte';
 
 
 	let generalInfo = false
@@ -33,4 +34,5 @@ import GeneralInfo from '../../../components/GeneralInfo.svelte';
 {#if generalInfo}
 	<GeneralInfo item={item} on:click={toggleGeneralInfo}/>
 {/if}
+<NewEntrie {item}/>
 
