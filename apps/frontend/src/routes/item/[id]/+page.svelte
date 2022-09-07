@@ -8,6 +8,11 @@
     import Notifications from '../../../components/Notifications.svelte';
 import GeneralInfo from '../../../components/GeneralInfo.svelte';
 
+
+	let generalInfo = false
+	function toggleGeneralInfo() {
+		generalInfo = !generalInfo
+	};
 	export let data: { item: Item };
 	const item = data?.item;
 </script>
@@ -20,9 +25,12 @@ import GeneralInfo from '../../../components/GeneralInfo.svelte';
 			<p>Назад</p>
             </a>
 		</div>
-		<ItemComponent {item} />
+		<ItemComponent {item} on:click={toggleGeneralInfo}/>
         <Entries {item}/>
         <Notifications/>
 	</Stack>
 </Container>
-<GeneralInfo item={item}/>
+{#if generalInfo}
+	<GeneralInfo item={item} on:click={toggleGeneralInfo}/>
+{/if}
+

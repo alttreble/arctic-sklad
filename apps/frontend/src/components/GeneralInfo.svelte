@@ -10,21 +10,30 @@ import { X } from '@steeze-ui/heroicons';
 	export let item: Item;
 </script>
 
-<Drawer variant="temporary" open={true} direction="bottom" class="rounded-t-[15px] h-40 md:h-60 bg-white">
+<Drawer variant="temporary" open={true} direction="bottom" class="rounded-t-[15px] h-[300px] md:h-[300px] bg-white">
 	<Container>
 		<div class="flex justify-between mt-3">
             <Typography variant="h6">
                 Обща информация
             </Typography>
-            <Button variant="text">
+            <Button variant="text" on:click>
                 <Icon 
                 class="w-5 h-5"
                 src={X}/>
             </Button>
         </div>
-        <Typography variant="subtitle2" class="text-[11px]">
+        <Typography variant="subtitle2" class="text-[11px] text-gray-500">
             Търговско име
         </Typography>
-        <input type="text" class="rounded-md h-9 bg-gray-200" value={item.name}>
+        <input type="text" class="rounded-md h-9 bg-gray-200 pl-4 text-[15px] mt-1 mb-2" value={item.name}>
+        <Typography variant="subtitle2" class="text-[11px] text-gray-500">
+            Генерично име
+        </Typography>
+        <input type="text" class="rounded-md h-9 bg-gray-200 pl-4 text-[15px] mt-1 mb-2" value={item.genericName}>
+        <Typography variant="subtitle2" class="text-[11px] text-gray-500">
+            Мерна единица
+        </Typography>
+        <input type="text" class="rounded-md h-9 bg-gray-200 pl-4 text-[15px] mt-1 mb-2 w-[40%]" value={item.uom.name}>
+        <Button variant="text" class="bg-black text-white h-10 w-[90px]">Запази</Button>
 	</Container>
 </Drawer>

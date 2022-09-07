@@ -26,7 +26,7 @@ export let item: Item;
                 </Typography>
             </div>
             <div>
-                <Button variant="text">
+                <Button variant="text" on:click>
                     <Icon 
                         class="w-4 h-4"
                         src={Pencil}
