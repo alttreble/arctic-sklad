@@ -6,6 +6,7 @@
 	import { Icon } from '@steeze-ui/svelte-icon';
     import Entries from '../../../components/Entries.svelte';
     import Notifications from '../../../components/Notifications.svelte';
+import GeneralInfo from '../../../components/GeneralInfo.svelte';
 
 	export let data: { item: Item };
 	const item = data?.item;
@@ -24,4 +25,4 @@
         <Notifications/>
 	</Stack>
 </Container>
-<Drawer variant="temporary" open={true} direction="bottom" class="rounded-t-md h-10 md:h-60">hello ted<br>hello</Drawer>
+<GeneralInfo item={item}/>
