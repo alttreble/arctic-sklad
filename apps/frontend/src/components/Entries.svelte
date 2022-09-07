@@ -29,7 +29,7 @@
             <Typography variant="h6">
                 Наличност
             </Typography>
-            <Button variant="text">
+            <Button on:click variant="text">
                 <Icon src={PlusCircle} class="w-5 h-5"/>
             </Button>
         </div>
