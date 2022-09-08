@@ -60,6 +60,7 @@
 							singleEntry = entry;
 							toggleUpdateEntrie();					
 						}}
+						class="hover:bg-accent-100 cursor-pointer"
 					>
 						<td>
 							<Typography variant="body2">{calculateDate(entry.createdAt)}</Typography>
