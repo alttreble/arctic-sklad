@@ -68,7 +68,7 @@
 			</Button>
 		</div>
         <Typography variant="subtitle2" class="text-[11px] text-gray-500">ДОБАВЕНО</Typography>
-        <Typography>{createdAt}</Typography>
+        <Typography class="text-[12px] my-1"><span class=" bg-[#D6E0FF] p-[3px] rounded">{createdAt}</span></Typography>
 		<Typography variant="subtitle2" class="text-[11px] text-gray-500">{item.uom.name}</Typography>
 		<div class="flex gap-2 items-start">
 			<input
