@@ -10,13 +10,16 @@ export const load: PageLoad = async ({ url }) => {
     ...(firstParam && { first: +firstParam }),
     ...(afterParam && { after: +afterParam })
   };
+  let uomData = await client.uoms()
 
   let itemsData = await client.items(params);
   let items = itemsData.data.items.edges;
+  let uoms = uomData.data.uoms
 
-  if (items) {
+  if (items && uoms) {
     return {
-      items
+      items,
+      uoms
     };
   }
 };

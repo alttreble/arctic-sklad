@@ -13,6 +13,7 @@
 	let newEntry = false;
 
 	export let data: { item: Item };
+	
 	$: item = data?.item;
 </script>
 
@@ -51,7 +52,7 @@
 <NewEntry
 	open={newEntry}
 	{item}
-	on:click={() => {
+	on:close={() => {
 		newEntry = !newEntry;
 	}}
 />

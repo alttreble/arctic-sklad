@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AddItemInput, Item } from '../generated/graphql';
+	import type { AddItemInput, Item, UomConnection} from '../generated/graphql';
 	import Drawer from '$lib/components/Drawer.svelte';
 	import Container from '$lib/components/Container.svelte';
     import Typography from '$lib/components/Typography.svelte';
@@ -8,19 +8,27 @@
     import { X } from '@steeze-ui/heroicons'; 
     import { createEventDispatcher } from 'svelte';
     import client from "../graphql/client";
+import { invalidate } from '$app/navigation';
 
     const dispatch = createEventDispatcher();
+    export let uoms: UomConnection;
 
     export let open = false;
-    let newItem: Partial<AddItemInput> = {}
+    let newItem: Partial<AddItemInput> = {
+        name: "",
+        genericName: ""
+        
+    }
 
-    function handleSave() {
-        const {name, genericName, uomId} = newItem;
-        if (!name || !genericName || !uomId) throw new Error("invalid input")
+   async function handleSave() {
+        const {name, genericName} = newItem;
+        if (!name || !genericName) throw new Error("invalid input")
 
-        client.addItem({
+       await  client.addItem({
             input: newItem as AddItemInput
         })
+        await invalidate()
+        dispatch('close')
     }
 
 </script>
@@ -48,7 +56,11 @@
         <Typography variant="subtitle2" class="text-[11px] text-gray-500">
             Мерна единица
         </Typography>
-        <input type="text" class="rounded-md h-9 bg-gray-200 pl-4 text-[15px] mt-1 mb-2 w-[40%]" required value={""}>
+        <select class="rounded-md h-9 bg-gray-200 pl-4 text-[15px] mt-1 mb-2 w-[40%]" required bind:value={newItem.uomId}>
+            {#each uoms.edges as uom}
+                <option value="{uom.node.id}">{uom.node.name}</option>
+            {/each}
+        </select>
         <Button variant="text" class="bg-black text-white h-10 w-[90px]" on:click={handleSave}>Запази</Button>
 	</Container>
 </Drawer>

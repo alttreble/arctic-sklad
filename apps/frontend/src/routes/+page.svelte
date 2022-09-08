@@ -1,14 +1,15 @@
 <script lang="ts">
 	import { Container, Drawer, Stack } from '../lib/index.js';
-	import type { ItemEdge } from '../generated/graphql';
+	import type { ItemEdge, UomConnection } from '../generated/graphql';
 	import Item from '../components/Item.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { PlusCircle } from '@steeze-ui/heroicons';
 import NewItem from '../components/NewItem.svelte';
 
-	export let data: { items: ItemEdge[] };
-	const items = data?.items;
+	export let data: { items: ItemEdge[], uoms: UomConnection  };
+	$: items = data?.items;
+	$: uoms = data?.uoms;
 	let addingNewItem = false;
 </script>
 
@@ -19,8 +20,8 @@ import NewItem from '../components/NewItem.svelte';
 		{/each}
 	</Stack>
 </Container>
-<Button element="a" href="item/new" color="accent" class="absolute bottom-8 right-8 flex items-center gap-2" on:click={() => addingNewItem = true}>
+<Button element="a" href="item/new" color="accent" class="fixed bottom-8 right-8 flex items-center gap-2" on:click={() => addingNewItem = true}>
 	Добави <Icon src={PlusCircle} class="w-4 h-4"/>
 </Button>
 
-<NewItem open={addingNewItem} on:close={() => addingNewItem = false}/>
+<NewItem {uoms} open={addingNewItem} on:close={() => addingNewItem = false}/>

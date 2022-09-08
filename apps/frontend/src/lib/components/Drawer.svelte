@@ -31,7 +31,7 @@
 			this={element}
 			class={twMerge(
 		cn('bg-slate-100', {
-			[`absolute bg-slate-100 overflow-hidden z-drawer transition-all duration-200`]: variant === 'temporary',
+			[`fixed bg-slate-100 overflow-hidden z-drawer transition-all duration-200`]: variant === 'temporary',
        ['top-0 left-0 h-full']: variant === 'temporary' && direction === "left",
        ['top-0 right-0 h-full']: variant === 'temporary' && direction === "right",
        ['top-0 left-0 w-full']: variant === 'temporary' && direction === "top",

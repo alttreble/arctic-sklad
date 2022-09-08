@@ -8,9 +8,12 @@
 	import { X } from '@steeze-ui/heroicons';
 	import { invalidate } from '$app/navigation';
 import client from '../graphql/client';
+import { createEventDispatcher } from 'svelte';
 
 	export let item: Item;
 	let itemQantity = 5;
+
+	let dispatch = createEventDispatcher()
 
 	function incrementItem() {
 		itemQantity += 1;
@@ -47,6 +50,7 @@ import client from '../graphql/client';
 		 })	
 		console.log('hi')
 		await invalidate();
+		dispatch('close')
 	}
 
 </script>
@@ -60,7 +64,7 @@ import client from '../graphql/client';
 	<Container>
 		<div class="flex justify-between mt-3">
 			<Typography variant="h6">Нова наличност</Typography>
-			<Button variant="text" on:click>
+			<Button variant="text" on:click={() => {dispatch('close')}}>
 				<Icon class="w-5 h-5" src={X} />
 			</Button>
 		</div>
