@@ -20,6 +20,11 @@
 			addZero += month;
 			month = addZero;
 		}
+		if (day < 10) {
+			let addZero = '0';
+			addZero += day;
+			day = addZero;
+		}
 		if (!dateInMilliseconds) {
 			return '-';
 		}
