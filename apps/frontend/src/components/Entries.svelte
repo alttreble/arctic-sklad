@@ -59,7 +59,7 @@
 					<tr
 						on:click={() => {
 							toggleUpdateEntrie();
-							ass = entry;
+							singleEntry = entry;
 						}}
 					>
 						<td>
