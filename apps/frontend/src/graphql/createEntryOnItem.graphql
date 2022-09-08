@@ -1,0 +1,5 @@
+mutation createEntryOnItem($input: CreateEntryOnItemInput!) {
+  createEntryOnItem(input: $input) {
+    id
+  }
+}

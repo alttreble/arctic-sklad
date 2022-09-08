@@ -6,6 +6,8 @@
 	import Button from '$lib/components/Button.svelte';
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { X } from '@steeze-ui/heroicons';
+	import { invalidate } from '$app/navigation';
+import client from '../graphql/client';
 
 	export let item: Item;
 	let itemQantity = 5;
@@ -34,6 +36,19 @@
 
 	export let open = false;
     let date = formatDate()
+
+	async function handleSave() {
+		 await client.createEntryOnItem({
+		 	input: {
+		 		itemId: item.id,
+		 		quantity: itemQantity,
+		 		...(date && {expirationDate:new Date(date).toISOString()})
+		 	}
+		 })	
+		console.log('hi')
+		await invalidate();
+	}
+
 </script>
 
 <Drawer
@@ -69,6 +84,6 @@
 			class="rounded-md h-9 bg-gray-200 pl-4 text-[15px] mt-1 mb-2 w-[60%]"
 			bind:value={date}
 		/>
-		<Button variant="text" class="bg-black text-white h-10 w-[90px] mt-2">Запази</Button>
+		<Button variant="text" class="bg-black text-white h-10 w-[90px] mt-2" on:click={handleSave}>Запази</Button>
 	</Container>
 </Drawer>

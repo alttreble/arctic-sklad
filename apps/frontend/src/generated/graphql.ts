@@ -184,7 +184,14 @@ export type AddItemMutationVariables = Exact<{
 }>;
 
 
-export type AddItemMutation = { __typename?: 'Mutation', addItem?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, name: string, genericName?: string | null, uom: { __typename?: 'UOM', name: string } } | null };
+export type AddItemMutation = { __typename?: 'Mutation', addItem?: { __typename?: 'Item', id: number } | null };
+
+export type CreateEntryOnItemMutationVariables = Exact<{
+  input: CreateEntryOnItemInput;
+}>;
+
+
+export type CreateEntryOnItemMutation = { __typename?: 'Mutation', createEntryOnItem?: { __typename?: 'ItemEntry', id: number } | null };
 
 export type ItemQueryVariables = Exact<{
   itemId: Scalars['Int'];
@@ -211,13 +218,13 @@ export const AddItemDocument = gql`
     mutation addItem($input: AddItemInput!) {
   addItem(input: $input) {
     id
-    createdAt
-    updatedAt
-    name
-    genericName
-    uom {
-      name
-    }
+  }
+}
+    `;
+export const CreateEntryOnItemDocument = gql`
+    mutation createEntryOnItem($input: CreateEntryOnItemInput!) {
+  createEntryOnItem(input: $input) {
+    id
   }
 }
     `;
@@ -291,6 +298,7 @@ export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, str
 
 const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
 const AddItemDocumentString = print(AddItemDocument);
+const CreateEntryOnItemDocumentString = print(CreateEntryOnItemDocument);
 const ItemDocumentString = print(ItemDocument);
 const ItemsDocumentString = print(ItemsDocument);
 const UomsDocumentString = print(UomsDocument);
@@ -298,6 +306,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   return {
     addItem(variables: AddItemMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: AddItemMutation; extensions?: any; headers: Dom.Headers; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<AddItemMutation>(AddItemDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'addItem', 'mutation');
+    },
+    createEntryOnItem(variables: CreateEntryOnItemMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: CreateEntryOnItemMutation; extensions?: any; headers: Dom.Headers; status: number; }> {
+        return withWrapper((wrappedRequestHeaders) => client.rawRequest<CreateEntryOnItemMutation>(CreateEntryOnItemDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createEntryOnItem', 'mutation');
     },
     item(variables: ItemQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: ItemQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<ItemQuery>(ItemDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'item', 'query');

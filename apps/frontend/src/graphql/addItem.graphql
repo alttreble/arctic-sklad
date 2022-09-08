@@ -1,14 +1,5 @@
 mutation addItem($input: AddItemInput!) {
   addItem(input: $input) {
     id
-    createdAt
-    updatedAt
-    name
-    genericName
-    
-   
-  uom {
-      name
-    }
   }
 }

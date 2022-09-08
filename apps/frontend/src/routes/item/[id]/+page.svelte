@@ -13,7 +13,7 @@
 	let newEntry = false;
 
 	export let data: { item: Item };
-	let item = data?.item;
+	$: item = data?.item;
 </script>
 
 <Container>
