@@ -4,10 +4,12 @@
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { Login, PlusCircle } from '@steeze-ui/heroicons';
 	import Drawer from '$lib/components/Drawer.svelte';
-import UpdateEntry from './UpdateEntry.svelte';
+	import UpdateEntry from './UpdateEntry.svelte';
 
 	export let item: Item;
-	let updateEntrie = false
+	let singleEntry;
+	
+	let updateEntrie = false;
 
 	function calculateDate(dateInMilliseconds) {
 		const d = new Date(+dateInMilliseconds);
@@ -26,9 +28,8 @@ import UpdateEntry from './UpdateEntry.svelte';
 	}
 
 	function toggleUpdateEntrie() {
-		updateEntrie = !updateEntrie
+		updateEntrie = !updateEntrie;
 	}
-
 </script>
 
 <Card class="bg-white">
@@ -55,7 +56,12 @@ import UpdateEntry from './UpdateEntry.svelte';
 			</thead>
 			<tbody>
 				{#each item.entries as entry}
-					<tr on:click={toggleUpdateEntrie}>
+					<tr
+						on:click={() => {
+							toggleUpdateEntrie();
+							ass = entry;
+						}}
+					>
 						<td>
 							<Typography variant="body2">{calculateDate(entry.createdAt)}</Typography>
 						</td>
@@ -83,12 +89,12 @@ import UpdateEntry from './UpdateEntry.svelte';
 								</Typography>
 							</td>
 						{/if}
-						{#if updateEntrie}
-							<UpdateEntry entry={entry} item={item} on:click={toggleUpdateEntrie}/>
-						{/if}
 					</tr>
 				{/each}
 			</tbody>
 		</table>
 	</CardContent>
 </Card>
+{#if updateEntrie}
+	<UpdateEntry entry={singleEntry} {item} on:click={toggleUpdateEntrie} />
+{/if}
