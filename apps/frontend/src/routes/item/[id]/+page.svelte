@@ -7,7 +7,7 @@
 	import Entries from '../../../components/Entries.svelte';
 	import Notifications from '../../../components/Notifications.svelte';
 	import GeneralInfo from '../../../components/GeneralInfo.svelte';
-	import NewEntrie from '../../../components/NewEntrie.svelte';
+	import NewEntry from '../../../components/NewEntry.svelte';
 
 	let generalInfo = false;
 	let newEntrie = false;
@@ -33,5 +33,5 @@
 	<GeneralInfo {item} on:click={() => {generalInfo = !generalInfo}} />
 {/if}
 {#if newEntrie}
-	<NewEntrie {item} on:click={() => {newEntrie = !newEntrie}}/>
+	<NewEntry {item} on:click={() => {newEntrie = !newEntrie}}/>
 {/if}

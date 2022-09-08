@@ -1,10 +1,13 @@
 <script lang="ts">
 	import type { Item } from '../generated/graphql';
 	import { Card, CardContent, Typography, Button } from '../lib/index.js';
-    import { Icon } from '@steeze-ui/svelte-icon';
-    import { PlusCircle } from '@steeze-ui/heroicons';
+	import { Icon } from '@steeze-ui/svelte-icon';
+	import { Login, PlusCircle } from '@steeze-ui/heroicons';
+	import Drawer from '$lib/components/Drawer.svelte';
+import UpdateEntry from './UpdateEntry.svelte';
 
 	export let item: Item;
+	let updateEntrie = false
 
 	function calculateDate(dateInMilliseconds) {
 		const d = new Date(+dateInMilliseconds);
@@ -21,18 +24,21 @@
 		}
 		return `${day}.${month}.${year}`;
 	}
+
+	function toggleUpdateEntrie() {
+		updateEntrie = !updateEntrie
+	}
+
 </script>
 
 <Card class="bg-white">
-	<CardContent class='flex flex-col'>
-        <div class="flex justify-between mb-4">
-            <Typography variant="h6">
-                Наличност
-            </Typography>
-            <Button on:click variant="text">
-                <Icon src={PlusCircle} class="w-5 h-5"/>
-            </Button>
-        </div>
+	<CardContent class="flex flex-col">
+		<div class="flex justify-between mb-4">
+			<Typography variant="h6">Наличност</Typography>
+			<Button on:click variant="text">
+				<Icon src={PlusCircle} class="w-5 h-5" />
+			</Button>
+		</div>
 		<table class="table-fixed text-left w-full">
 			<thead>
 				<tr>
@@ -49,7 +55,7 @@
 			</thead>
 			<tbody>
 				{#each item.entries as entry}
-					<tr>
+					<tr on:click={toggleUpdateEntrie}>
 						<td>
 							<Typography variant="body2">{calculateDate(entry.createdAt)}</Typography>
 						</td>
@@ -76,6 +82,9 @@
 									{calculateDate(entry.expirationDate)}
 								</Typography>
 							</td>
+						{/if}
+						{#if updateEntrie}
+							<UpdateEntry entry={entry} item={item} on:click={toggleUpdateEntrie}/>
 						{/if}
 					</tr>
 				{/each}
