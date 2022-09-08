@@ -8,9 +8,10 @@ import { Icon } from '@steeze-ui/svelte-icon';
 import { X } from '@steeze-ui/heroicons'; 
 
 	export let item: Item;
+    export let open = false;
 </script>
 
-<Drawer variant="temporary" open={true} direction="bottom" class="rounded-t-[15px] h-[300px] md:h-[300px] bg-white">
+<Drawer variant="temporary" {open} direction="bottom" class="rounded-t-[15px] h-[300px] md:h-[300px] bg-white">
 	<Container>
 		<div class="flex justify-between mt-3">
             <Typography variant="h6">

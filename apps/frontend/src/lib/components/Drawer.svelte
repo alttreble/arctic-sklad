@@ -17,10 +17,7 @@
 	export let variant: DrawerProps['variant'] = defaultProps.variant;
 	export let direction: DrawerProps['direction'] = defaultProps.direction;
 	export let open: DrawerProps['open'] = defaultProps.open;
-
-	console.log(direction);
-	console.log(variant);
-
+	
 	const dispatch = createEventDispatcher();
 
 	function handleClose() {
@@ -44,7 +41,7 @@
 	)}
 			{...$$restProps}
 		>
-			<slot />
+			<slot />		
 		</svelte:element>
 		<span
 			in:fade={{ duration: 200 }}

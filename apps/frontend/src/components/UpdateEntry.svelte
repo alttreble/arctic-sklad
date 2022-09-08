@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Item } from '../generated/graphql';
+	import type { Item, ItemEntry } from '../generated/graphql';
 	import Drawer from '$lib/components/Drawer.svelte';
 	import Container from '$lib/components/Container.svelte';
 	import Typography from '$lib/components/Typography.svelte';
@@ -8,20 +8,25 @@
 	import { X } from '@steeze-ui/heroicons';
 
 	export let item: Item;
-    export let entry;
-    let createdAt = calculateDate(entry.createdAt)
-    let expirationDate = calculateDateForCalendar(entry.expirationDate)
-	let itemQantity = entry.quantity;
+	export let entry: ItemEntry;
+	export let open = false;
 
+	let createdAt = calculateDate(entry?.createdAt);
+	let expirationDate = calculateDateForCalendar(entry?.expirationDate);
+	let  itemQantity = entry?.quantity;
+	
 	function incrementItem() {
 		itemQantity += 1;
 	}
 
 	function decrementItem() {
+		if (itemQantity === 0) {
+			return 
+		}
 		itemQantity -= 1;
 	}
 
-    function calculateDate(dateInMilliseconds) {
+	function calculateDate(dateInMilliseconds: string) {
 		const d = new Date(+dateInMilliseconds);
 		let year = d.getFullYear();
 		let month = d.getMonth() + 1;
@@ -36,8 +41,8 @@
 		}
 		return `${day}.${month}.${year}`;
 	}
-	
-    function calculateDateForCalendar(dateInMilliseconds) {
+
+	function calculateDateForCalendar(dateInMilliseconds: string) {
 		const d = new Date(+dateInMilliseconds);
 		let year = d.getFullYear();
 		let month = d.getMonth() + 1;
@@ -67,8 +72,10 @@
 				<Icon class="w-5 h-5" src={X} />
 			</Button>
 		</div>
-        <Typography variant="subtitle2" class="text-[11px] text-gray-500">ДОБАВЕНО</Typography>
-        <Typography class="text-[12px] my-1"><span class=" bg-[#D6E0FF] p-[3px] rounded">{createdAt}</span></Typography>
+		<Typography variant="subtitle2" class="text-[11px] text-gray-500">ДОБАВЕНО</Typography>
+		<Typography class="text-[12px] my-1"
+			><span class=" bg-[#D6E0FF] p-[3px] rounded">{createdAt}</span></Typography
+		>
 		<Typography variant="subtitle2" class="text-[11px] text-gray-500">{item.uom.name}</Typography>
 		<div class="flex gap-2 items-start">
 			<input

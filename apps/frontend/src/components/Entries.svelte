@@ -1,15 +1,14 @@
 <script lang="ts">
-	import type { Item } from '../generated/graphql';
+	import type { Item, ItemEntry } from '../generated/graphql';
 	import { Card, CardContent, Typography, Button } from '../lib/index.js';
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { Login, PlusCircle } from '@steeze-ui/heroicons';
-	import Drawer from '$lib/components/Drawer.svelte';
 	import UpdateEntry from './UpdateEntry.svelte';
 
 	export let item: Item;
-	let singleEntry;
+	let singleEntry: ItemEntry;
 	
-	let updateEntrie = false;
+	let updateEntry = false;
 
 	function calculateDate(dateInMilliseconds) {
 		const d = new Date(+dateInMilliseconds);
@@ -28,7 +27,7 @@
 	}
 
 	function toggleUpdateEntrie() {
-		updateEntrie = !updateEntrie;
+		updateEntry = !updateEntry;
 	}
 </script>
 
@@ -58,8 +57,8 @@
 				{#each item.entries as entry}
 					<tr
 						on:click={() => {
-							toggleUpdateEntrie();
 							singleEntry = entry;
+							toggleUpdateEntrie();					
 						}}
 					>
 						<td>
@@ -95,6 +94,9 @@
 		</table>
 	</CardContent>
 </Card>
-{#if updateEntrie}
+
+
+{#if updateEntry}
 	<UpdateEntry entry={singleEntry} {item} on:click={toggleUpdateEntrie} />
 {/if}
+

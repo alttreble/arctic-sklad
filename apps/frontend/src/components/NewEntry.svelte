@@ -31,13 +31,14 @@
 
 		return [year, month, day].join('-');
 	}
-	
+
+	export let open = false;
     let date = formatDate()
 </script>
 
 <Drawer
 	variant="temporary"
-	open={true}
+	{open}
 	direction="bottom"
 	class="rounded-t-[15px] h-[240px] md:h-[240px] bg-white"
 >

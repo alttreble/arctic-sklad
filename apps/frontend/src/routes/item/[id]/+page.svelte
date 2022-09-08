@@ -10,10 +10,10 @@
 	import NewEntry from '../../../components/NewEntry.svelte';
 
 	let generalInfo = false;
-	let newEntrie = false;
-	
+	let newEntry = false;
+
 	export let data: { item: Item };
-	const item = data?.item;
+	let item = data?.item;
 </script>
 
 <Container>
@@ -24,14 +24,34 @@
 				<p>Назад</p>
 			</a>
 		</div>
-		<ItemComponent {item} on:click={() => {generalInfo = !generalInfo}} />
-		<Entries {item} on:click={() => {newEntrie = !newEntrie}}/>
+		<ItemComponent
+			{item}
+			on:click={() => {
+				generalInfo = !generalInfo;
+			}}
+		/>
+		<Entries
+			{item}
+			on:click={() => {
+				newEntry = !newEntry;
+			}}
+		/>
 		<Notifications />
 	</Stack>
 </Container>
-{#if generalInfo}
-	<GeneralInfo {item} on:click={() => {generalInfo = !generalInfo}} />
-{/if}
-{#if newEntrie}
-	<NewEntry {item} on:click={() => {newEntrie = !newEntrie}}/>
-{/if}
+
+<GeneralInfo
+	open={generalInfo}
+	{item}
+	on:click={() => {
+		generalInfo = !generalInfo;
+	}}
+/>
+
+<NewEntry
+	open={newEntry}
+	{item}
+	on:click={() => {
+		newEntry = !newEntry;
+	}}
+/>
