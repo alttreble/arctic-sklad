@@ -3,6 +3,8 @@
 
 	let quantity = true;
 	let expiration = true;
+	let minQantity = 10;
+	let expirationTimeWarning = "1 Месец";
 </script>
 
 <Card class="bg-white space-y-10">
@@ -18,7 +20,7 @@
 					</Typography>
 					<input
 						type="number"
-						value="10"
+						bind:value={minQantity}
 						class="bg-gray-100 rounded-md text-center w-12 text=gray-100"
 					/>
 				{/if}
@@ -31,7 +33,7 @@
 				<Typography>Извести при наближаващо изтичане на срок</Typography>
 				{#if expiration}
 					<Typography class="text-[11px] mt-2 font-bold text-gray-500">ИЗВЕСТИ ПРЕДИ:</Typography>
-					<select name="Месеци" class="bg-gray-100 text-sm p-1 rounded-md">
+					<select name="Месеци" class="bg-gray-100 text-sm p-1 rounded-md"  required bind:value={expirationTimeWarning}>
 						<option value="1 Месец">1 Месец</option>
 						<option value="2 Месец">2 Месеца</option>
 						<option value="3 Месец">3 Месеца</option>
