@@ -103,6 +103,6 @@
 
 
 {#if updateEntry}
-	<UpdateEntry entry={singleEntry} {item} on:click={toggleUpdateEntrie} />
+	<UpdateEntry entry={singleEntry} {item} on:close={toggleUpdateEntrie} />
 {/if}
 

@@ -6,9 +6,11 @@
 	import Button from '$lib/components/Button.svelte';
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { X } from '@steeze-ui/heroicons';
+import { createEventDispatcher } from 'svelte';
 
 	export let item: Item;
 	export let open = false;
+    let dispatch = createEventDispatcher()
 </script>
 
 <Drawer
@@ -20,7 +22,7 @@
 	<Container>
 		<div class="flex justify-between mt-3">
 			<Typography variant="h6">Обща информация</Typography>
-			<Button variant="text" on:click>
+			<Button variant="text" on:click={() => {dispatch('close')}}>
 				<Icon class="w-5 h-5" src={X} />
 			</Button>
 		</div>
@@ -43,7 +45,7 @@
 			value={item.uom.name}
 		/>
 		<div class="flex gap-1">
-			<Button variant="text" class="bg-black text-white h-10 w-[90px]">Запази</Button>
+			<Button variant="text" class="bg-black text-white h-10 w-[90px]" on:click={() => {dispatch('close')}}>Запази</Button>
 			<Button variant="text" class="border-red-500 text-red-500 border-[1px] h-[40px] w-[90px]">Изтрий</Button>
 		</div>
 	</Container>

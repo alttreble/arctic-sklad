@@ -44,7 +44,7 @@
 <GeneralInfo
 	open={generalInfo}
 	{item}
-	on:click={() => {
+	on:close={() => {
 		generalInfo = !generalInfo;
 	}}
 />
