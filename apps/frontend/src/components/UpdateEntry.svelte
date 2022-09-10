@@ -101,6 +101,9 @@
 			class="rounded-md h-9 bg-gray-200 pl-4 text-[15px] mt-1 mb-2 w-[60%]"
 			bind:value={expirationDate}
 		/>
-		<Button variant="text" class="bg-black text-white h-10 w-[90px] mt-2">Запази</Button>
+		<div class="flex gap-1">
+			<Button variant="text" class="bg-black text-white h-10 w-[90px]">Запази</Button>
+			<Button variant="text" class="border-red-500 text-red-500 border-[1px] h-[40px] w-[90px]">Изтрий</Button>
+		</div>
 	</Container>
 </Drawer>
