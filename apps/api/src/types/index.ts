@@ -92,6 +92,7 @@ export type Mutation = {
   addItem?: Maybe<Item>;
   createEntryOnItem?: Maybe<ItemEntry>;
   defineUOM?: Maybe<Uom>;
+  updateItemEntry?: Maybe<ItemEntry>;
 };
 
 
@@ -107,6 +108,11 @@ export type MutationCreateEntryOnItemArgs = {
 
 export type MutationDefineUomArgs = {
   input: DefineUomInput;
+};
+
+
+export type MutationUpdateItemEntryArgs = {
+  input: UpdateItemEntryInput;
 };
 
 export enum OrderDirection {
@@ -175,6 +181,12 @@ export type UomEdge = {
 
 export type UomFiltersInput = {
   name?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateItemEntryInput = {
+  expirationDate?: InputMaybe<Scalars['String']>;
+  id: Scalars['Int'];
+  quantity: Scalars['Int'];
 };
 
 
@@ -268,6 +280,7 @@ export type ResolversTypes = {
   UOMConnection: ResolverTypeWrapper<UomConnection>;
   UOMEdge: ResolverTypeWrapper<UomEdge>;
   UomFiltersInput: UomFiltersInput;
+  UpdateItemEntryInput: UpdateItemEntryInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -292,6 +305,7 @@ export type ResolversParentTypes = {
   UOMConnection: UomConnection;
   UOMEdge: UomEdge;
   UomFiltersInput: UomFiltersInput;
+  UpdateItemEntryInput: UpdateItemEntryInput;
 };
 
 export interface CursorScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Cursor'], any> {
@@ -340,6 +354,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationAddItemArgs, 'input'>>;
   createEntryOnItem?: Resolver<Maybe<ResolversTypes['ItemEntry']>, ParentType, ContextType, RequireFields<MutationCreateEntryOnItemArgs, 'input'>>;
   defineUOM?: Resolver<Maybe<ResolversTypes['UOM']>, ParentType, ContextType, RequireFields<MutationDefineUomArgs, 'input'>>;
+  updateItemEntry?: Resolver<Maybe<ResolversTypes['ItemEntry']>, ParentType, ContextType, RequireFields<MutationUpdateItemEntryArgs, 'input'>>;
 };
 
 export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {

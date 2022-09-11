@@ -3,6 +3,7 @@ import { Item, ItemEntry, MutationResolvers } from "@app/types";
 import {Context} from "@app/context";
 import defineUom from "@app/services/uom/defineUom";
 import createEntryOnItem from "@app/services/items/createEntryOnItem";
+import updateItemEntry from '@app/services/items/updateItemEntry';
 
 export default {
   addItem: (_, args, context, __) => {
@@ -16,5 +17,9 @@ export default {
   createEntryOnItem: (_, args, context, __) => {
     const { input } = args
     return createEntryOnItem(context, input) as unknown as ItemEntry
+  },
+  updateItemEntry: (_, args, context, __) => {
+    const {input} = args
+    return updateItemEntry(context, input) as unknown as ItemEntry
   }
 } as MutationResolvers<Context>

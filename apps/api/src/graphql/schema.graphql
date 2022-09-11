@@ -101,6 +101,12 @@ input CreateEntryOnItemInput {
     expirationDate: String
 }
 
+input UpdateItemEntryInput {
+    id: Int!
+    quantity: Int!
+    expirationDate: String
+}
+
 type Query {
     item(id: Int!): Item
 
@@ -126,4 +132,5 @@ type Mutation {
     addItem(input: AddItemInput!): Item
     defineUOM(input: DefineUOMInput!): UOM
     createEntryOnItem(input: CreateEntryOnItemInput!): ItemEntry
+    updateItemEntry(input: UpdateItemEntryInput!): ItemEntry
 }
