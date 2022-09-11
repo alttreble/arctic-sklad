@@ -92,6 +92,7 @@ export type Mutation = {
   addItem?: Maybe<Item>;
   createEntryOnItem?: Maybe<ItemEntry>;
   defineUOM?: Maybe<Uom>;
+  updateItem?: Maybe<Item>;
   updateItemEntry?: Maybe<ItemEntry>;
 };
 
@@ -108,6 +109,11 @@ export type MutationCreateEntryOnItemArgs = {
 
 export type MutationDefineUomArgs = {
   input: DefineUomInput;
+};
+
+
+export type MutationUpdateItemArgs = {
+  input: UpdateItemInput;
 };
 
 
@@ -187,6 +193,14 @@ export type UpdateItemEntryInput = {
   expirationDate?: InputMaybe<Scalars['String']>;
   id: Scalars['Int'];
   quantity: Scalars['Int'];
+};
+
+export type UpdateItemInput = {
+  description?: InputMaybe<Scalars['String']>;
+  genericName?: InputMaybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name?: InputMaybe<Scalars['String']>;
+  uomId?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -281,6 +295,7 @@ export type ResolversTypes = {
   UOMEdge: ResolverTypeWrapper<UomEdge>;
   UomFiltersInput: UomFiltersInput;
   UpdateItemEntryInput: UpdateItemEntryInput;
+  UpdateItemInput: UpdateItemInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -306,6 +321,7 @@ export type ResolversParentTypes = {
   UOMEdge: UomEdge;
   UomFiltersInput: UomFiltersInput;
   UpdateItemEntryInput: UpdateItemEntryInput;
+  UpdateItemInput: UpdateItemInput;
 };
 
 export interface CursorScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Cursor'], any> {
@@ -354,6 +370,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationAddItemArgs, 'input'>>;
   createEntryOnItem?: Resolver<Maybe<ResolversTypes['ItemEntry']>, ParentType, ContextType, RequireFields<MutationCreateEntryOnItemArgs, 'input'>>;
   defineUOM?: Resolver<Maybe<ResolversTypes['UOM']>, ParentType, ContextType, RequireFields<MutationDefineUomArgs, 'input'>>;
+  updateItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationUpdateItemArgs, 'input'>>;
   updateItemEntry?: Resolver<Maybe<ResolversTypes['ItemEntry']>, ParentType, ContextType, RequireFields<MutationUpdateItemEntryArgs, 'input'>>;
 };
 

@@ -82,6 +82,14 @@ input AddItemInput {
     uomId: Int!
 }
 
+input UpdateItemInput {
+    id: Int!
+    name: String
+    genericName: String
+    description: String
+    uomId: Int
+}
+
 input ItemFiltersInput {
     name: String
     expirationDate: String
@@ -130,6 +138,7 @@ type Query {
 
 type Mutation {
     addItem(input: AddItemInput!): Item
+    updateItem(input: UpdateItemInput!): Item
     defineUOM(input: DefineUOMInput!): UOM
     createEntryOnItem(input: CreateEntryOnItemInput!): ItemEntry
     updateItemEntry(input: UpdateItemEntryInput!): ItemEntry
