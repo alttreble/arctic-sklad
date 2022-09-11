@@ -33,6 +33,7 @@ type ItemEntry {
 type UOM {
     id:   Int!
     name: String!
+    namePlural: String!
     items: [Item]
 }
 
@@ -101,6 +102,7 @@ input UomFiltersInput {
 
 input DefineUOMInput {
     name: String!
+    namePlural: String!
 }
 
 input CreateEntryOnItemInput {

@@ -30,6 +30,7 @@ export type CreateEntryOnItemInput = {
 
 export type DefineUomInput = {
   name: Scalars['String'];
+  namePlural: Scalars['String'];
 };
 
 export type Item = {
@@ -170,6 +171,7 @@ export type Uom = {
   id: Scalars['Int'];
   items?: Maybe<Array<Maybe<Item>>>;
   name: Scalars['String'];
+  namePlural: Scalars['String'];
 };
 
 export type UomConnection = {
@@ -392,6 +394,7 @@ export type UomResolvers<ContextType = any, ParentType extends ResolversParentTy
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  namePlural?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

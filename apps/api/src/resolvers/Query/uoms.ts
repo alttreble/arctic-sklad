@@ -18,7 +18,7 @@ export default async function(_: any, args: Partial<QueryUomsArgs>, context: Con
   const resultUoms = await uoms(context, filter, paginationArgs)
 
   return {
-    ...toConnection<Uom>(resultUoms),
+    ...toConnection<Uom>(resultUoms as Uom[]),
     ...(wasFieldRequested("totalCount", info) && {totalCount: await context.prisma.uOM.count()})
   }
 }

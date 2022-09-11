@@ -33,9 +33,10 @@ model ItemEntry {
 }
 
 model UOM {
-  id    Int    @id @default(autoincrement())
-  name  String
-  items Item[]
+  id         Int    @id @default(autoincrement())
+  name       String
+  namePlural String
+  items      Item[]
 
   @@unique(name)
 }
