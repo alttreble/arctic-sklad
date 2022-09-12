@@ -47,6 +47,6 @@
 			in:fade={{ duration: 200 }}
 			out:fade={{ duration: 200 }}
 			on:click|stopPropagation={handleClose}
-			class="absolute w-screen h-full top-0 left-0 bg-gray-900/20"></span>
+			class="fixed w-screen h-full top-0 left-0 bg-gray-900/20"></span>
 	</div>
 {/if}
