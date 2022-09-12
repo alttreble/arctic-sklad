@@ -226,7 +226,7 @@ export type ItemQueryVariables = Exact<{
 }>;
 
 
-export type ItemQuery = { __typename?: 'Query', item?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, name: string, genericName?: string | null, totalQuantity: number, hasExpiredEntry: boolean, entries: Array<{ __typename?: 'ItemEntry', createdAt: string, updatedAt: string, expirationDate?: string | null, hasExpired?: boolean | null, quantity: number } | null>, uom: { __typename?: 'UOM', name: string, id: number } } | null };
+export type ItemQuery = { __typename?: 'Query', item?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, name: string, genericName?: string | null, totalQuantity: number, hasExpiredEntry: boolean, entries: Array<{ __typename?: 'ItemEntry', createdAt: string, updatedAt: string, expirationDate?: string | null, hasExpired?: boolean | null, quantity: number, id: number } | null>, uom: { __typename?: 'UOM', name: string, id: number } } | null };
 
 export type ItemsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
@@ -240,6 +240,13 @@ export type UomsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type UomsQuery = { __typename?: 'Query', uoms: { __typename?: 'UOMConnection', edges?: Array<{ __typename?: 'UOMEdge', node?: { __typename?: 'UOM', id: number, name: string, items?: Array<{ __typename?: 'Item', name: string } | null> | null } | null } | null> | null } };
+
+export type UpdateItemEntryMutationVariables = Exact<{
+  input: UpdateItemEntryInput;
+}>;
+
+
+export type UpdateItemEntryMutation = { __typename?: 'Mutation', updateItemEntry?: { __typename?: 'ItemEntry', id: number } | null };
 
 export type UpdateItemMutationVariables = Exact<{
   input: UpdateItemInput;
@@ -279,6 +286,7 @@ export const ItemDocument = gql`
       expirationDate
       hasExpired
       quantity
+      id
     }
     uom {
       name
@@ -328,6 +336,13 @@ export const UomsDocument = gql`
   }
 }
     `;
+export const UpdateItemEntryDocument = gql`
+    mutation updateItemEntry($input: UpdateItemEntryInput!) {
+  updateItemEntry(input: $input) {
+    id
+  }
+}
+    `;
 export const UpdateItemDocument = gql`
     mutation updateItem($input: UpdateItemInput!) {
   updateItem(input: $input) {
@@ -345,6 +360,7 @@ const CreateEntryOnItemDocumentString = print(CreateEntryOnItemDocument);
 const ItemDocumentString = print(ItemDocument);
 const ItemsDocumentString = print(ItemsDocument);
 const UomsDocumentString = print(UomsDocument);
+const UpdateItemEntryDocumentString = print(UpdateItemEntryDocument);
 const UpdateItemDocumentString = print(UpdateItemDocument);
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
@@ -362,6 +378,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     uoms(variables?: UomsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: UomsQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<UomsQuery>(UomsDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'uoms', 'query');
+    },
+    updateItemEntry(variables: UpdateItemEntryMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: UpdateItemEntryMutation; extensions?: any; headers: Dom.Headers; status: number; }> {
+        return withWrapper((wrappedRequestHeaders) => client.rawRequest<UpdateItemEntryMutation>(UpdateItemEntryDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateItemEntry', 'mutation');
     },
     updateItem(variables: UpdateItemMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: UpdateItemMutation; extensions?: any; headers: Dom.Headers; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<UpdateItemMutation>(UpdateItemDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateItem', 'mutation');

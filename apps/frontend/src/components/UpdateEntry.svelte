@@ -7,6 +7,8 @@
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { X } from '@steeze-ui/heroicons';
 import { createEventDispatcher } from 'svelte';
+import client from '../graphql/client';
+import { invalidate } from '$app/navigation';
 
 	export let item: Item;
 	export let entry: ItemEntry;
@@ -64,6 +66,18 @@ import { createEventDispatcher } from 'svelte';
 		}
 		return `${year}-${month}-${day}`;
 	}
+
+	async function handleSave(){
+		await client.updateItemEntry({
+			input: {
+				id: entry.id,
+				quantity: itemQantity,
+				expirationDate: new Date(expirationDate).toISOString()
+			}
+		})
+		await invalidate()
+		dispatch('close')
+	}
 </script>
 
 <Drawer
@@ -104,7 +118,7 @@ import { createEventDispatcher } from 'svelte';
 			bind:value={expirationDate}
 		/>
 		<div class="flex gap-1">
-			<Button variant="text" class="bg-black text-white h-10 w-[90px]" on:click={()=> {dispatch('close')}}>Запази</Button>
+			<Button variant="text" class="bg-black text-white h-10 w-[90px]" on:click={handleSave}>Запази</Button>
 			<Button variant="text" class="border-red-500 text-red-500 border-[1px] h-[40px] w-[90px]">Изтрий</Button>
 		</div>
 	</Container>

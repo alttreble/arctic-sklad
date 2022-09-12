@@ -13,6 +13,7 @@ query item($itemId: Int!) {
       expirationDate
       hasExpired
       quantity
+      id
     }
     uom {
       name
