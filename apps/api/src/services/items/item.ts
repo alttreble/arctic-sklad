@@ -17,7 +17,11 @@ export default async function item(
 		},
 		include: {
 			uom: includeOptions.uom,
-			entries: includeOptions.entries
+			entries: includeOptions.entries && {
+				orderBy: {
+					createdAt: "asc"
+				}
+			}
 		}
 	})
 }

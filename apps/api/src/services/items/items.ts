@@ -1,7 +1,6 @@
 import {Context} from "@app/context";
 import {PaginationArgs} from "@app/utils/paginateResponse";
 import {Prisma} from "@prisma/client";
-import { includes } from "lodash-es";
 
 export type ItemFilters = {
   name?: string | null
@@ -41,7 +40,11 @@ export default async function items(
 
   query.include = {
     uom: includeOptions.uom,
-    entries: includeOptions.entries
+    entries: includeOptions.entries && {
+      orderBy: {
+        createdAt: "asc"
+      }
+    }
   }
 
   const items = await prisma.item.findMany(query)
