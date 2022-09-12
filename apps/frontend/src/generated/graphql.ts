@@ -231,6 +231,7 @@ export type ItemQuery = { __typename?: 'Query', item?: { __typename?: 'Item', id
 export type ItemsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
   after?: InputMaybe<Scalars['Cursor']>;
+  filter?: InputMaybe<ItemFiltersInput>;
 }>;
 
 
@@ -296,8 +297,8 @@ export const ItemDocument = gql`
 }
     `;
 export const ItemsDocument = gql`
-    query items($first: Int, $after: Cursor) {
-  items(first: $first, after: $after) {
+    query items($first: Int, $after: Cursor, $filter: ItemFiltersInput) {
+  items(first: $first, after: $after, filter: $filter) {
     edges {
       node {
         id

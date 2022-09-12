@@ -1,5 +1,5 @@
-query items($first: Int, $after: Cursor) {
-  items(first: $first, after: $after) {
+query items($first: Int, $after: Cursor, $filter: ItemFiltersInput) {
+  items(first: $first, after: $after, filter: $filter) {
     edges {
       node {
         id
@@ -17,10 +17,8 @@ query items($first: Int, $after: Cursor) {
           expirationDate
           hasExpired
           quantity
-        } 
+        }
       }
     }
   }
 }
-
-

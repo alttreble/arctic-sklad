@@ -5,10 +5,14 @@ import client from "../graphql/client";
 export const load: PageLoad = async ({ url }) => {
   const firstParam = url.searchParams.get("first");
   const afterParam = url.searchParams.get("after");
+  const queryParam = url.searchParams.get("query");
 
   const params: ItemsQueryVariables = {
     ...(firstParam && { first: +firstParam }),
-    ...(afterParam && { after: +afterParam })
+    ...(afterParam && { after: +afterParam }),
+    filter: {
+      ...(queryParam && { name: queryParam }),
+    }
   };
   let uomData = await client.uoms()
 
