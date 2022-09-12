@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Item } from '../../../generated/graphql';
+	import type { Item , UomConnection} from '../../../generated/graphql';
 	import ItemComponent from '../../../components/ItemComponent.svelte';
 	import { Stack, Container, Button, Drawer } from '../../../lib/index.js';
 	import { ChevronLeft, ExclamationCircle, Pencil } from '@steeze-ui/heroicons';
@@ -12,9 +12,10 @@
 	let generalInfo = false;
 	let newEntry = false;
 
-	export let data: { item: Item };
+	export let data: { item: Item , uoms: UomConnection  };
 	
 	$: item = data?.item;
+	$: uoms = data?.uoms;
 </script>
 
 <Container>
@@ -43,6 +44,7 @@
 
 <GeneralInfo
 	open={generalInfo}
+	{uoms}
 	{item}
 	on:close={() => {
 		generalInfo = !generalInfo;

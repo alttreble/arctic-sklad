@@ -4,13 +4,16 @@ import client from "../../../graphql/client";
 export const load: PageLoad = async ({ params }) => {
     let id = +params.id
     let itemData = await client.item({ itemId: id })
+    let uomData = await client.uoms()
 
 
     let item = itemData.data.item
+    let uoms = uomData.data.uoms
 
-    if (item) {
+    if (item && uoms) {
         return {
-            item
+            item,
+            uoms
         }
     }
 };

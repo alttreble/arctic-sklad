@@ -3,6 +3,6 @@ import { cleanEnv, str } from 'envalid';
 
 export default cleanEnv(env, {
 	PUBLIC_API_URL: str({
-		default: "https://arctic-dev-api.treble.bg"
+		default: "http://localhost:4000/"
 	})
 })
