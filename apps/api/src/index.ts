@@ -18,3 +18,4 @@ const server = new ApolloServer({
 server.listen().then(({ url }) => {
   console.log(`🚀 The Arctic Sklad Server is ready at ${url}`);
 });
+
