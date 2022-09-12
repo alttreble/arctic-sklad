@@ -2,8 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    @apply h-full;
+}
 body {
     @apply bg-slate-100 h-full;
+}
+
+body>div {
+    @apply h-full;
 }
 
 table {

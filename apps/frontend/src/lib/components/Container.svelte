@@ -13,7 +13,7 @@
 
 <svelte:element
 	this={element}
-	class={twMerge('flex flex-col w-full max-w-[105ch] mx-auto px-4 md:px-6 xl:px-8', _class)}
+	class={twMerge('flex flex-col w-full h-full max-w-[105ch] mx-auto px-4 md:px-6 xl:px-8', _class)}
 	{...$$restProps}
 >
 	<slot />

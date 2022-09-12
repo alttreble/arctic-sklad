@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Item, ItemEntry } from '../generated/graphql';
-	import Drawer from '$lib/components/Drawer.svelte';
+	import Drawer from './Drawer.svelte';
 	import Container from '$lib/components/Container.svelte';
 	import Typography from '$lib/components/Typography.svelte';
 	import Button from '$lib/components/Button.svelte';
@@ -9,23 +9,23 @@
 import { createEventDispatcher } from 'svelte';
 import client from '../graphql/client';
 import { invalidate } from '$app/navigation';
+	import { Stack } from '../lib/index.js';
 
 	export let item: Item;
 	export let entry: ItemEntry;
-	export let open = false;
 	let dispatch = createEventDispatcher()
 
 	let createdAt = calculateDate(entry?.createdAt);
 	let expirationDate = calculateDateForCalendar(entry?.expirationDate);
 	let  itemQantity = entry?.quantity;
-	
+
 	function incrementItem() {
 		itemQantity += 1;
 	}
 
 	function decrementItem() {
 		if (itemQantity === 0) {
-			return 
+			return
 		}
 		itemQantity -= 1;
 	}
@@ -55,7 +55,7 @@ import { invalidate } from '$app/navigation';
 			let addZero = '0';
 			addZero += month;
 			month = addZero;
-		}	
+		}
 		if (day < 10) {
 			let addZero = '0';
 			addZero += day;
@@ -81,10 +81,7 @@ import { invalidate } from '$app/navigation';
 </script>
 
 <Drawer
-	variant="temporary"
 	open={true}
-	direction="bottom"
-	class="rounded-t-[15px] h-[300px] md:h-[300px] bg-white"
 >
 	<Container>
 		<div class="flex justify-between mt-3">
@@ -117,9 +114,9 @@ import { invalidate } from '$app/navigation';
 			class="rounded-md h-9 bg-gray-200 pl-4 text-[15px] mt-1 mb-2 w-[60%]"
 			bind:value={expirationDate}
 		/>
-		<div class="flex gap-1">
-			<Button variant="text" class="bg-black text-white h-10 w-[90px]" on:click={handleSave}>Запази</Button>
-			<Button variant="text" class="border-red-500 text-red-500 border-[1px] h-[40px] w-[90px]">Изтрий</Button>
-		</div>
+		<Stack direction='row' gap={2}>
+			<Button variant="contained" color='accent' on:click={handleSave}>Запази</Button>
+			<Button variant='outlined' color='error'>Изтрий</Button>
+		</Stack>
 	</Container>
 </Drawer>

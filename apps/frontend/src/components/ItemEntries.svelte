@@ -27,7 +27,7 @@
 </script>
 
 <Divider class="my-4" />
-<table class="table-fixed text-left">
+<table class="table-fixed text-left w-full">
 	<thead>
 		<tr>
 			<th>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Container, Drawer, Stack } from '../lib/index.js';
+	import { Container, Stack } from '../lib/index.js';
 	import type { ItemEdge, UomConnection } from '../generated/graphql';
 	import Item from '../components/Item.svelte';
 	import Button from '$lib/components/Button.svelte';
@@ -13,7 +13,7 @@ import NewItem from '../components/NewItem.svelte';
 	let addingNewItem = false;
 </script>
 
-<Container class='py-8'>
+<Container class='py-8 max-w-2xl'>
 	<Stack gap={3}>
 		{#each items as item}
 			<Item {item} />

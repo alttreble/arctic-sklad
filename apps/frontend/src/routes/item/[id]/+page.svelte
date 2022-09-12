@@ -1,8 +1,8 @@
-<script lang="ts">
-	import type { Item , UomConnection} from '../../../generated/graphql';
+<script lang='ts'>
+	import type { Item, UomConnection } from '../../../generated/graphql';
 	import ItemComponent from '../../../components/ItemComponent.svelte';
-	import { Stack, Container, Button, Drawer } from '../../../lib/index.js';
-	import { ChevronLeft, ExclamationCircle, Pencil } from '@steeze-ui/heroicons';
+	import { Container, Stack } from '../../../lib/index.js';
+	import { ChevronLeft } from '@steeze-ui/heroicons';
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import Entries from '../../../components/Entries.svelte';
 	import Notifications from '../../../components/Notifications.svelte';
@@ -12,17 +12,17 @@
 	let generalInfo = false;
 	let newEntry = false;
 
-	export let data: { item: Item , uoms: UomConnection  };
-	
+	export let data: { item: Item, uoms: UomConnection };
+
 	$: item = data?.item;
 	$: uoms = data?.uoms;
 </script>
 
 <Container>
 	<Stack gap={3}>
-		<div class="pt40">
-			<a href="/" class="flex items-center mt-10 mb-1">
-				<Icon class="w-4 h-4" src={ChevronLeft} />
+		<div class='pt40'>
+			<a href='/' class='flex items-center mt-10 mb-1'>
+				<Icon class='w-4 h-4' src={ChevronLeft} />
 				<p>Назад</p>
 			</a>
 		</div>
