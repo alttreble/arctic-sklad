@@ -13,9 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
-        name: Checkout
-        uses: actions/checkout@v3
-      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       -
@@ -31,6 +28,6 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: ./apps/api/Dockerfile
+          context: "{{defaultContext}}:apps/api"
           push: true
           tags: tedraykov/arctic-sklad-api:latest
