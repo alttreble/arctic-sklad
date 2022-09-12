@@ -19,7 +19,7 @@ export default async function item(
 			uom: includeOptions.uom,
 			entries: includeOptions.entries && {
 				orderBy: {
-					createdAt: "asc"
+					expirationDate: "asc"
 				}
 			}
 		}
