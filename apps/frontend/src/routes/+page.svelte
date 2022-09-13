@@ -14,12 +14,14 @@
 	let addingNewItem = false;
 </script>
 
-<Container class='py-8 max-w-2xl'>
+<Container class="py-8 lg:max-w-[1200px] max-w-2xl">
 	<Stack gap={3}>
 		<Filters />
+		<Stack  class="lg:grid grid-cols-2">
 		{#each items as item}
 			<Item {item} />
 		{/each}
+		</Stack>
 	</Stack>
 </Container>
 <Button element='a' href='item/new' color='accent' class='fixed bottom-8 right-8 flex items-center gap-2'
