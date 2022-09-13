@@ -82,6 +82,7 @@ import { invalidate } from '$app/navigation';
 
 <Drawer
 	open={true}
+	on:close={() => dispatch("close")}
 >
 	<Container>
 		<div class="flex justify-between mt-3">

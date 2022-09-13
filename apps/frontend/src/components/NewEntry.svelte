@@ -54,7 +54,7 @@
 
 </script>
 
-<Drawer {open}>
+<Drawer {open} on:close={() => dispatch("close")}>
 	<Container>
 		<div class='flex justify-between mt-3'>
 			<Typography variant='h6'>Нова наличност</Typography>
