@@ -14,6 +14,10 @@ import Divider from '$lib/components/Divider.svelte';
 
 	let dispatch = createEventDispatcher()
 	let open = false
+	let willExpire = false;
+	let hasExpired = false;
+	let lowQantity = false;
+	let noQantity = false;
 
 	const handleInput = debounce(async (e) => {
 		const url = new URL(location);
@@ -43,20 +47,52 @@ import Divider from '$lib/components/Divider.svelte';
 				</div>
 				<Stack gap={3}>
 					<div class="flex gap-2">
-						<Button variant="outlined" class="text-black border-gray-200 hover:border-gray-500 text-[14px] focus:bg-black focus:text-white">
+						{#if !lowQantity}
+						<Button variant="outlined" class="text-black border-gray-200 hover:border-gray-500 text-[14px]"
+						on:click={()=> {lowQantity = !lowQantity}}>
 							Ниско количество
 						</Button>
-						<Button variant="outlined" class="text-black border-gray-200 hover:border-gray-500 text-[14px] focus:bg-black focus:text-white">
+						{:else}
+						<Button variant="outlined" class="text-white border-gray-200 hover:border-gray-500 text-[14px] bg-black"
+						on:click={()=> {lowQantity = !lowQantity}}>
+							Ниско количество
+						</Button>
+						{/if}
+						{#if !willExpire}
+						<Button variant="outlined" class="text-black border-gray-200 hover:border-gray-500 text-[14px]"
+						on:click={()=> {willExpire = !willExpire}}>
 							Изтичащ срок
 						</Button>
+						{:else}
+						<Button variant="outlined" class="text-white border-gray-200 hover:border-gray-500 text-[14px] bg-black"
+						on:click={()=> {willExpire = !willExpire}}>
+							Изтичащ срок
+						</Button>
+						{/if}
 					</div>
 					<div class="flex gap-2">
-						<Button variant="outlined" class="text-black border-gray-200 hover:border-gray-500 text-[14px] focus:bg-black focus:text-white">
+						{#if !noQantity}
+						<Button variant="outlined" class="text-black border-gray-200 hover:border-gray-500 text-[14px]"
+						on:click={()=> {noQantity = !noQantity}}>
 							Изчерпано количество
 						</Button>
-						<Button variant="outlined" class="text-black border-gray-200 hover:border-gray-500 text-[14px] focus:bg-black focus:text-white">
+						{:else}
+						<Button variant="outlined" class="text-white border-gray-200 hover:border-gray-500 text-[14px] bg-black"
+						on:click={()=> {noQantity = !noQantity}}>
+							Изчерпано количество
+						</Button>
+						{/if}
+						{#if !hasExpired}
+						<Button variant="outlined" class="text-black border-gray-200 hover:border-gray-500 text-[14px]"
+						on:click={()=> {hasExpired = !hasExpired}}>
 							Изтекъл срок
 						</Button>
+						{:else}
+						<Button variant="outlined" class="text-white border-gray-200 hover:border-gray-500 text-[14px] bg-black"
+						on:click={()=> {hasExpired = !hasExpired}}>
+							Изтекъл срок
+						</Button>
+						{/if}
 					</div>
 					<Divider class='my-4' />
 				</Stack>
