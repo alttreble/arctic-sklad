@@ -33,13 +33,16 @@
 	}
 
 	async function handleDelete() {
-		await client.deleteItem({
+		const text = 'Наси, сигурен ли си, че искаш да изтриеш този артикул?'
+		if(confirm(text) === true) {
+			await client.deleteItem({
 			input: {
 				id: item.id
 			}
 		})
 		await invalidate();
 		window.location.replace('/')
+		}
 	}
 </script>
 
