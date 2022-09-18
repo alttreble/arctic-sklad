@@ -33,6 +33,10 @@ export type DefineUomInput = {
   namePlural: Scalars['String'];
 };
 
+export type DeleteItemInput = {
+  id: Scalars['Int'];
+};
+
 export type Item = {
   __typename?: 'Item';
   createdAt: Scalars['String'];
@@ -42,6 +46,8 @@ export type Item = {
   hasExpiredEntry: Scalars['Boolean'];
   id: Scalars['Int'];
   name: Scalars['String'];
+  notificationListeners?: Maybe<Array<Maybe<NotificationListener>>>;
+  notifications?: Maybe<Array<Maybe<Notification>>>;
   totalQuantity: Scalars['Int'];
   uom: Uom;
   updatedAt: Scalars['String'];
@@ -90,11 +96,15 @@ export enum ItemOrderField {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addItem?: Maybe<Item>;
-  createEntryOnItem?: Maybe<ItemEntry>;
-  defineUOM?: Maybe<Uom>;
-  updateItem?: Maybe<Item>;
-  updateItemEntry?: Maybe<ItemEntry>;
+  addItem: Item;
+  createEntryOnItem: ItemEntry;
+  defineUOM: Uom;
+  deleteItem: Item;
+  registerNotificationListener: NotificationListener;
+  unregisterNotificationListener?: Maybe<NotificationListener>;
+  updateItem: Item;
+  updateItemEntry: ItemEntry;
+  updateNotificationListener: NotificationListener;
 };
 
 
@@ -113,6 +123,21 @@ export type MutationDefineUomArgs = {
 };
 
 
+export type MutationDeleteItemArgs = {
+  input: DeleteItemInput;
+};
+
+
+export type MutationRegisterNotificationListenerArgs = {
+  input: RegisterNotificationListenerInput;
+};
+
+
+export type MutationUnregisterNotificationListenerArgs = {
+  input: UnregisterNotificationListenerInput;
+};
+
+
 export type MutationUpdateItemArgs = {
   input: UpdateItemInput;
 };
@@ -121,6 +146,66 @@ export type MutationUpdateItemArgs = {
 export type MutationUpdateItemEntryArgs = {
   input: UpdateItemEntryInput;
 };
+
+
+export type MutationUpdateNotificationListenerArgs = {
+  input: UpdateNotificationListenerInput;
+};
+
+export type Notification = {
+  __typename?: 'Notification';
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  severity?: Maybe<NotificationSeverity>;
+  title: Scalars['String'];
+  type: Scalars['String'];
+};
+
+export type NotificationCondition = {
+  __typename?: 'NotificationCondition';
+  attribute: Scalars['String'];
+  operator: NotificationConditionOperator;
+  value: Scalars['String'];
+};
+
+export type NotificationConditionInput = {
+  attribute: Scalars['String'];
+  operator: NotificationConditionOperator;
+  value: Scalars['String'];
+};
+
+export enum NotificationConditionOperator {
+  /** Less than */
+  Lt = 'LT',
+  /** Less than or equal */
+  Lte = 'LTE',
+  /** Attribute is of type date and is defined number of months before the current time. */
+  TimeBefore = 'TIME_BEFORE'
+}
+
+export type NotificationListener = {
+  __typename?: 'NotificationListener';
+  /** A list of condition that need to be met in order to create a notification */
+  conditions: Array<NotificationCondition>;
+  description?: Maybe<Scalars['String']>;
+  item: Item;
+  /** The schedule at which the notification check will be run represented in cron notation. Defaults to once a day */
+  schedule: Scalars['String'];
+  /** The severity of the generated notification */
+  severity: NotificationSeverity;
+  title: Scalars['String'];
+  type: Scalars['String'];
+};
+
+export type NotificationListenersInput = {
+  itemId: Scalars['Int'];
+};
+
+export enum NotificationSeverity {
+  Error = 'ERROR',
+  Info = 'INFO',
+  Warning = 'WARNING'
+}
 
 export enum OrderDirection {
   Asc = 'asc',
@@ -139,6 +224,7 @@ export type Query = {
   __typename?: 'Query';
   item?: Maybe<Item>;
   items: ItemConnection;
+  notificationListeners: Array<Maybe<NotificationListener>>;
   uoms: UomConnection;
 };
 
@@ -158,12 +244,30 @@ export type QueryItemsArgs = {
 };
 
 
+export type QueryNotificationListenersArgs = {
+  input: NotificationListenersInput;
+};
+
+
 export type QueryUomsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
   filter?: InputMaybe<UomFiltersInput>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+};
+
+export type RegisterNotificationListenerInput = {
+  /** A list of condition that need to be met in order to create a notification */
+  conditions: Array<InputMaybe<NotificationConditionInput>>;
+  description?: InputMaybe<Scalars['String']>;
+  itemId: Scalars['Int'];
+  /** The schedule at which the notification check will be run represented in cron notation. Defaults to once a day */
+  schedule?: Scalars['String'];
+  /** The severity of the generated notification */
+  severity?: NotificationSeverity;
+  title: Scalars['String'];
+  type: Scalars['String'];
 };
 
 export type Uom = {
@@ -187,6 +291,11 @@ export type UomEdge = {
   node?: Maybe<Uom>;
 };
 
+export type UnregisterNotificationListenerInput = {
+  itemId: Scalars['Int'];
+  type: Scalars['String'];
+};
+
 export type UomFiltersInput = {
   name?: InputMaybe<Scalars['String']>;
 };
@@ -203,6 +312,19 @@ export type UpdateItemInput = {
   id: Scalars['Int'];
   name?: InputMaybe<Scalars['String']>;
   uomId?: InputMaybe<Scalars['Int']>;
+};
+
+export type UpdateNotificationListenerInput = {
+  /** A list of condition that need to be met in order to create a notification */
+  conditions?: InputMaybe<Array<InputMaybe<NotificationConditionInput>>>;
+  description?: InputMaybe<Scalars['String']>;
+  itemId: Scalars['Int'];
+  /** The schedule at which the notification check will be run represented in cron notation. Defaults to once a day */
+  schedule?: InputMaybe<Scalars['String']>;
+  /** The severity of the generated notification */
+  severity?: InputMaybe<NotificationSeverity>;
+  title?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -279,6 +401,7 @@ export type ResolversTypes = {
   CreateEntryOnItemInput: CreateEntryOnItemInput;
   Cursor: ResolverTypeWrapper<Scalars['Cursor']>;
   DefineUOMInput: DefineUomInput;
+  DeleteItemInput: DeleteItemInput;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Item: ResolverTypeWrapper<Item>;
   ItemConnection: ResolverTypeWrapper<ItemConnection>;
@@ -288,16 +411,26 @@ export type ResolversTypes = {
   ItemOrderByInput: ItemOrderByInput;
   ItemOrderField: ItemOrderField;
   Mutation: ResolverTypeWrapper<{}>;
+  Notification: ResolverTypeWrapper<Notification>;
+  NotificationCondition: ResolverTypeWrapper<NotificationCondition>;
+  NotificationConditionInput: NotificationConditionInput;
+  NotificationConditionOperator: NotificationConditionOperator;
+  NotificationListener: ResolverTypeWrapper<NotificationListener>;
+  NotificationListenersInput: NotificationListenersInput;
+  NotificationSeverity: NotificationSeverity;
   OrderDirection: OrderDirection;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Query: ResolverTypeWrapper<{}>;
+  RegisterNotificationListenerInput: RegisterNotificationListenerInput;
   String: ResolverTypeWrapper<Scalars['String']>;
   UOM: ResolverTypeWrapper<Uom>;
   UOMConnection: ResolverTypeWrapper<UomConnection>;
   UOMEdge: ResolverTypeWrapper<UomEdge>;
+  UnregisterNotificationListenerInput: UnregisterNotificationListenerInput;
   UomFiltersInput: UomFiltersInput;
   UpdateItemEntryInput: UpdateItemEntryInput;
   UpdateItemInput: UpdateItemInput;
+  UpdateNotificationListenerInput: UpdateNotificationListenerInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -307,6 +440,7 @@ export type ResolversParentTypes = {
   CreateEntryOnItemInput: CreateEntryOnItemInput;
   Cursor: Scalars['Cursor'];
   DefineUOMInput: DefineUomInput;
+  DeleteItemInput: DeleteItemInput;
   Int: Scalars['Int'];
   Item: Item;
   ItemConnection: ItemConnection;
@@ -315,15 +449,23 @@ export type ResolversParentTypes = {
   ItemFiltersInput: ItemFiltersInput;
   ItemOrderByInput: ItemOrderByInput;
   Mutation: {};
+  Notification: Notification;
+  NotificationCondition: NotificationCondition;
+  NotificationConditionInput: NotificationConditionInput;
+  NotificationListener: NotificationListener;
+  NotificationListenersInput: NotificationListenersInput;
   PageInfo: PageInfo;
   Query: {};
+  RegisterNotificationListenerInput: RegisterNotificationListenerInput;
   String: Scalars['String'];
   UOM: Uom;
   UOMConnection: UomConnection;
   UOMEdge: UomEdge;
+  UnregisterNotificationListenerInput: UnregisterNotificationListenerInput;
   UomFiltersInput: UomFiltersInput;
   UpdateItemEntryInput: UpdateItemEntryInput;
   UpdateItemInput: UpdateItemInput;
+  UpdateNotificationListenerInput: UpdateNotificationListenerInput;
 };
 
 export interface CursorScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Cursor'], any> {
@@ -338,6 +480,8 @@ export type ItemResolvers<ContextType = any, ParentType extends ResolversParentT
   hasExpiredEntry?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  notificationListeners?: Resolver<Maybe<Array<Maybe<ResolversTypes['NotificationListener']>>>, ParentType, ContextType>;
+  notifications?: Resolver<Maybe<Array<Maybe<ResolversTypes['Notification']>>>, ParentType, ContextType>;
   totalQuantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   uom?: Resolver<ResolversTypes['UOM'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -369,11 +513,42 @@ export type ItemEntryResolvers<ContextType = any, ParentType extends ResolversPa
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  addItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationAddItemArgs, 'input'>>;
-  createEntryOnItem?: Resolver<Maybe<ResolversTypes['ItemEntry']>, ParentType, ContextType, RequireFields<MutationCreateEntryOnItemArgs, 'input'>>;
-  defineUOM?: Resolver<Maybe<ResolversTypes['UOM']>, ParentType, ContextType, RequireFields<MutationDefineUomArgs, 'input'>>;
-  updateItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationUpdateItemArgs, 'input'>>;
-  updateItemEntry?: Resolver<Maybe<ResolversTypes['ItemEntry']>, ParentType, ContextType, RequireFields<MutationUpdateItemEntryArgs, 'input'>>;
+  addItem?: Resolver<ResolversTypes['Item'], ParentType, ContextType, RequireFields<MutationAddItemArgs, 'input'>>;
+  createEntryOnItem?: Resolver<ResolversTypes['ItemEntry'], ParentType, ContextType, RequireFields<MutationCreateEntryOnItemArgs, 'input'>>;
+  defineUOM?: Resolver<ResolversTypes['UOM'], ParentType, ContextType, RequireFields<MutationDefineUomArgs, 'input'>>;
+  deleteItem?: Resolver<ResolversTypes['Item'], ParentType, ContextType, RequireFields<MutationDeleteItemArgs, 'input'>>;
+  registerNotificationListener?: Resolver<ResolversTypes['NotificationListener'], ParentType, ContextType, RequireFields<MutationRegisterNotificationListenerArgs, 'input'>>;
+  unregisterNotificationListener?: Resolver<Maybe<ResolversTypes['NotificationListener']>, ParentType, ContextType, RequireFields<MutationUnregisterNotificationListenerArgs, 'input'>>;
+  updateItem?: Resolver<ResolversTypes['Item'], ParentType, ContextType, RequireFields<MutationUpdateItemArgs, 'input'>>;
+  updateItemEntry?: Resolver<ResolversTypes['ItemEntry'], ParentType, ContextType, RequireFields<MutationUpdateItemEntryArgs, 'input'>>;
+  updateNotificationListener?: Resolver<ResolversTypes['NotificationListener'], ParentType, ContextType, RequireFields<MutationUpdateNotificationListenerArgs, 'input'>>;
+};
+
+export type NotificationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Notification'] = ResolversParentTypes['Notification']> = {
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  severity?: Resolver<Maybe<ResolversTypes['NotificationSeverity']>, ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NotificationConditionResolvers<ContextType = any, ParentType extends ResolversParentTypes['NotificationCondition'] = ResolversParentTypes['NotificationCondition']> = {
+  attribute?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  operator?: Resolver<ResolversTypes['NotificationConditionOperator'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NotificationListenerResolvers<ContextType = any, ParentType extends ResolversParentTypes['NotificationListener'] = ResolversParentTypes['NotificationListener']> = {
+  conditions?: Resolver<Array<ResolversTypes['NotificationCondition']>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  item?: Resolver<ResolversTypes['Item'], ParentType, ContextType>;
+  schedule?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  severity?: Resolver<ResolversTypes['NotificationSeverity'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
@@ -387,6 +562,7 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   item?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<QueryItemArgs, 'id'>>;
   items?: Resolver<ResolversTypes['ItemConnection'], ParentType, ContextType, Partial<QueryItemsArgs>>;
+  notificationListeners?: Resolver<Array<Maybe<ResolversTypes['NotificationListener']>>, ParentType, ContextType, RequireFields<QueryNotificationListenersArgs, 'input'>>;
   uoms?: Resolver<ResolversTypes['UOMConnection'], ParentType, ContextType, Partial<QueryUomsArgs>>;
 };
 
@@ -418,6 +594,9 @@ export type Resolvers<ContextType = any> = {
   ItemEdge?: ItemEdgeResolvers<ContextType>;
   ItemEntry?: ItemEntryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  Notification?: NotificationResolvers<ContextType>;
+  NotificationCondition?: NotificationConditionResolvers<ContextType>;
+  NotificationListener?: NotificationListenerResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   UOM?: UomResolvers<ContextType>;

@@ -11,15 +11,17 @@ datasource db {
 }
 
 model Item {
-  id          Int         @id @default(autoincrement())
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  name        String
-  genericName String?
-  description String?
-  entries     ItemEntry[]
-  uom         UOM         @relation(fields: [uomId], references: [id])
-  uomId       Int
+  id                    Int                    @id @default(autoincrement())
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  name                  String
+  genericName           String?
+  description           String?
+  entries               ItemEntry[]
+  uom                   UOM                    @relation(fields: [uomId], references: [id])
+  uomId                 Int
+  notificationListeners NotificationListener[]
+  notifications         Notification[]
 }
 
 model ItemEntry {
@@ -45,4 +47,31 @@ model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
   name  String?
+}
+
+model NotificationListener {
+  id          Int     @id @default(autoincrement())
+  item        Item    @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  itemId      Int
+  type        String
+  schedule    String?
+  conditions  Json
+  severity    String
+  title       String
+  description String?
+
+  @@unique([itemId, type])
+}
+
+model Notification {
+  id          Int     @id @default(autoincrement())
+  item        Item    @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  itemId      Int
+  type        String
+  severity    String
+  title       String
+  description String?
+  data        Json?
+
+  @@unique([itemId, type])
 }

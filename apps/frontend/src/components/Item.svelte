@@ -4,7 +4,7 @@
 	import { ChevronDown, ChevronUp, ExclamationCircle } from '@steeze-ui/heroicons';
 	import Divider from '$lib/components/Divider.svelte';
 	import type { ItemEdge } from '../generated/graphql';
-	import { Button, Card, CardContent, Typography } from '../lib/index.js';
+	import { Button, Card, CardContent, Stack, Typography } from '../lib/index.js';
 	import ItemEntries from './ItemEntries.svelte';
 
 	export let item: ItemEdge;
@@ -18,23 +18,26 @@
 
 <Card class='bg-white' element='a' href={`item/${item.node?.id}`}>
 	<CardContent class='flex flex-col'>
-		<div class='flex justify-between'>
-			<div class='flex flex-col'>
-				<div class='pb-6'>
-					<Typography variant='h6'>
-						{item.node?.name}
-					</Typography>
-					{#if item.node?.genericName}
-						<Typography class='text-sm' variant='subtitle1'>
-							{item.node?.genericName}
+		<div class='flex'>
+			<Stack class='xs:flex-row sm:flex-col flex-1 justify-between'>
+				<Stack class='justify-between'>
+					<div class='pb-6'>
+						<Typography variant='h6'>
+							{item.node?.name}
 						</Typography>
-					{/if}
-				</div>
-				<Typography class='text-accent-600'>Количесто:</Typography>
-				<Typography>
-					<strong> {item.node?.totalQuantity} {item.node?.uom.name} </strong>
-				</Typography>
-			</div>
+						{#if item.node?.genericName}
+							<Typography class='text-sm' variant='subtitle1'>
+								{item.node?.genericName}
+							</Typography>
+						{/if}
+					</div>
+				</Stack>
+				<Stack direction='row'>
+					<Typography>
+						<strong> {item.node?.totalQuantity} {item.node?.uom.name} </strong>
+					</Typography>
+				</Stack>
+			</Stack>
 			<div class='flex flex-col justify-center'>
 				<Button variant='text' on:click={toggleItemEntries}>
 					<Icon

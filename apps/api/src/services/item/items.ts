@@ -8,7 +8,7 @@ export type ItemFilters = {
 }
 
 export type IncludeOptions = {
-  [key in "uom" | "entries"]: boolean;
+  [key in "uom" | "entries" | "notifications" | "notificationListeners"]: boolean;
 };
 
 export default async function items(

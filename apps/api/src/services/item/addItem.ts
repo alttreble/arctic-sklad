@@ -1,8 +1,9 @@
 import {Context} from "@app/context";
 import { AddItemInput } from "@app/types";
+import defaultNotificationListeners from '@app/services/notification/defaultNotificationListeners';
 
 export default async function addItem(context: Context, input: AddItemInput) {
-  const {prisma} = context;
+  const {prisma, events} = context;
   const {uomId} = input;
 
   const uom = await prisma.uOM.findFirst({
@@ -11,9 +12,12 @@ export default async function addItem(context: Context, input: AddItemInput) {
 
   if (!uom) throw new Error("UOM not found");
 
-  return await prisma.item.create({
+  const newItem = await prisma.item.create({
     data: {
       ...input
     }
   })
+
+  events.emit("itemCreated", {id: newItem.id})
+  return newItem;
 }
