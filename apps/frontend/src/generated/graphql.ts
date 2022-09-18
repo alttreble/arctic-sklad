@@ -355,7 +355,7 @@ export type ItemQueryVariables = Exact<{
 }>;
 
 
-export type ItemQuery = { __typename?: 'Query', item?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, name: string, genericName?: string | null, totalQuantity: number, hasExpiredEntry: boolean, entries: Array<{ __typename?: 'ItemEntry', createdAt: string, updatedAt: string, expirationDate?: string | null, hasExpired?: boolean | null, quantity: number, id: number } | null>, uom: { __typename?: 'UOM', name: string, id: number } } | null };
+export type ItemQuery = { __typename?: 'Query', item?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, name: string, genericName?: string | null, description?: string | null, totalQuantity: number, hasExpiredEntry: boolean, entries: Array<{ __typename?: 'ItemEntry', createdAt: string, updatedAt: string, expirationDate?: string | null, hasExpired?: boolean | null, quantity: number, id: number } | null>, uom: { __typename?: 'UOM', name: string, id: number } } | null };
 
 export type ItemsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
@@ -415,6 +415,7 @@ export const ItemDocument = gql`
     updatedAt
     name
     genericName
+    description
     totalQuantity
     hasExpiredEntry
     entries {

@@ -4,6 +4,7 @@ import { Card, CardContent, Typography, Button } from '../lib/index.js';
 import { Icon } from '@steeze-ui/svelte-icon';
 import { Pencil } from '@steeze-ui/heroicons';
 
+
 export let item: Item;
 </script>
 
@@ -18,6 +19,11 @@ export let item: Item;
                     {#if item.genericName}
                         <Typography class="text-sm" variant="subtitle1">
                             {item.genericName}
+                        </Typography>
+                    {/if}
+                    {#if item.description}
+                        <Typography class="text-sm" variant="subtitle1">
+                            {item.description}
                         </Typography>
                     {/if}
                 </div>

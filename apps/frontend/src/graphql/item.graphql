@@ -5,6 +5,7 @@ query item($itemId: Int!) {
     updatedAt
     name
     genericName
+    description
     totalQuantity
     hasExpiredEntry
     entries {
