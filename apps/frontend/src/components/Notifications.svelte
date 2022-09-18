@@ -3,8 +3,8 @@
 
 	let quantity = true;
 	let expiration = true;
-	let minQantity = 10;
-	let expirationTimeWarning = "1 Месец";
+	let minQantity = 1;
+	let expirationTimeWarning = "6 Месец";
 </script>
 
 <Card class="bg-white space-y-10">
@@ -38,6 +38,8 @@
 						<option value="2 Месец">2 Месеца</option>
 						<option value="3 Месец">3 Месеца</option>
 						<option value="4 Месец">4 Месеца</option>
+						<option value="5 Месец">5 Месеца</option>
+						<option value="6 Месец">6 Месеца</option>
 					</select>
 				{/if}
 			</div>

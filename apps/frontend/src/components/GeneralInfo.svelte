@@ -31,6 +31,16 @@
 		await invalidate();
 		dispatch('close');
 	}
+
+	async function handleDelete() {
+		await client.deleteItem({
+			input: {
+				id: item.id
+			}
+		})
+		await invalidate();
+		window.location.replace('/')
+	}
 </script>
 
 <Drawer {open} on:close={() => dispatch("close")}>
@@ -62,7 +72,7 @@
 		</select>
 		<div class='flex gap-1'>
 			<Button variant='text' class='bg-black text-white h-10 w-[90px]' on:click={handleSave}>Запази</Button>
-			<Button variant='text' class='border-red-500 text-red-500 border-[1px] h-[40px] w-[90px]'>Изтрий</Button>
+			<Button variant='text' class='border-red-500 text-red-500 border-[1px] h-[40px] w-[90px]' on:click={handleDelete}>Изтрий</Button>
 		</div>
 	</Container>
 </Drawer>

@@ -35,6 +35,10 @@ export type DefineUomInput = {
   namePlural: Scalars['String'];
 };
 
+export type DeleteItemInput = {
+  id: Scalars['Int'];
+};
+
 export type Item = {
   __typename?: 'Item';
   createdAt: Scalars['String'];
@@ -44,6 +48,8 @@ export type Item = {
   hasExpiredEntry: Scalars['Boolean'];
   id: Scalars['Int'];
   name: Scalars['String'];
+  notificationListeners?: Maybe<Array<Maybe<NotificationListener>>>;
+  notifications?: Maybe<Array<Maybe<Notification>>>;
   totalQuantity: Scalars['Int'];
   uom: Uom;
   updatedAt: Scalars['String'];
@@ -92,11 +98,15 @@ export enum ItemOrderField {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addItem?: Maybe<Item>;
-  createEntryOnItem?: Maybe<ItemEntry>;
-  defineUOM?: Maybe<Uom>;
-  updateItem?: Maybe<Item>;
-  updateItemEntry?: Maybe<ItemEntry>;
+  addItem: Item;
+  createEntryOnItem: ItemEntry;
+  defineUOM: Uom;
+  deleteItem: Item;
+  registerNotificationListener: NotificationListener;
+  unregisterNotificationListener?: Maybe<NotificationListener>;
+  updateItem: Item;
+  updateItemEntry: ItemEntry;
+  updateNotificationListener: NotificationListener;
 };
 
 
@@ -115,6 +125,21 @@ export type MutationDefineUomArgs = {
 };
 
 
+export type MutationDeleteItemArgs = {
+  input: DeleteItemInput;
+};
+
+
+export type MutationRegisterNotificationListenerArgs = {
+  input: RegisterNotificationListenerInput;
+};
+
+
+export type MutationUnregisterNotificationListenerArgs = {
+  input: UnregisterNotificationListenerInput;
+};
+
+
 export type MutationUpdateItemArgs = {
   input: UpdateItemInput;
 };
@@ -123,6 +148,66 @@ export type MutationUpdateItemArgs = {
 export type MutationUpdateItemEntryArgs = {
   input: UpdateItemEntryInput;
 };
+
+
+export type MutationUpdateNotificationListenerArgs = {
+  input: UpdateNotificationListenerInput;
+};
+
+export type Notification = {
+  __typename?: 'Notification';
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  severity?: Maybe<NotificationSeverity>;
+  title: Scalars['String'];
+  type: Scalars['String'];
+};
+
+export type NotificationCondition = {
+  __typename?: 'NotificationCondition';
+  attribute: Scalars['String'];
+  operator: NotificationConditionOperator;
+  value: Scalars['String'];
+};
+
+export type NotificationConditionInput = {
+  attribute: Scalars['String'];
+  operator: NotificationConditionOperator;
+  value: Scalars['String'];
+};
+
+export enum NotificationConditionOperator {
+  /** Less than */
+  Lt = 'LT',
+  /** Less than or equal */
+  Lte = 'LTE',
+  /** Attribute is of type date and is defined number of months before the current time. */
+  TimeBefore = 'TIME_BEFORE'
+}
+
+export type NotificationListener = {
+  __typename?: 'NotificationListener';
+  /** A list of condition that need to be met in order to create a notification */
+  conditions: Array<NotificationCondition>;
+  description?: Maybe<Scalars['String']>;
+  item: Item;
+  /** The schedule at which the notification check will be run represented in cron notation. Defaults to once a day */
+  schedule: Scalars['String'];
+  /** The severity of the generated notification */
+  severity: NotificationSeverity;
+  title: Scalars['String'];
+  type: Scalars['String'];
+};
+
+export type NotificationListenersInput = {
+  itemId: Scalars['Int'];
+};
+
+export enum NotificationSeverity {
+  Error = 'ERROR',
+  Info = 'INFO',
+  Warning = 'WARNING'
+}
 
 export enum OrderDirection {
   Asc = 'asc',
@@ -141,6 +226,7 @@ export type Query = {
   __typename?: 'Query';
   item?: Maybe<Item>;
   items: ItemConnection;
+  notificationListeners: Array<Maybe<NotificationListener>>;
   uoms: UomConnection;
 };
 
@@ -160,12 +246,30 @@ export type QueryItemsArgs = {
 };
 
 
+export type QueryNotificationListenersArgs = {
+  input: NotificationListenersInput;
+};
+
+
 export type QueryUomsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
   filter?: InputMaybe<UomFiltersInput>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+};
+
+export type RegisterNotificationListenerInput = {
+  /** A list of condition that need to be met in order to create a notification */
+  conditions: Array<InputMaybe<NotificationConditionInput>>;
+  description?: InputMaybe<Scalars['String']>;
+  itemId: Scalars['Int'];
+  /** The schedule at which the notification check will be run represented in cron notation. Defaults to once a day */
+  schedule?: Scalars['String'];
+  /** The severity of the generated notification */
+  severity?: NotificationSeverity;
+  title: Scalars['String'];
+  type: Scalars['String'];
 };
 
 export type Uom = {
@@ -189,6 +293,11 @@ export type UomEdge = {
   node?: Maybe<Uom>;
 };
 
+export type UnregisterNotificationListenerInput = {
+  itemId: Scalars['Int'];
+  type: Scalars['String'];
+};
+
 export type UomFiltersInput = {
   name?: InputMaybe<Scalars['String']>;
 };
@@ -207,19 +316,39 @@ export type UpdateItemInput = {
   uomId?: InputMaybe<Scalars['Int']>;
 };
 
+export type UpdateNotificationListenerInput = {
+  /** A list of condition that need to be met in order to create a notification */
+  conditions?: InputMaybe<Array<InputMaybe<NotificationConditionInput>>>;
+  description?: InputMaybe<Scalars['String']>;
+  itemId: Scalars['Int'];
+  /** The schedule at which the notification check will be run represented in cron notation. Defaults to once a day */
+  schedule?: InputMaybe<Scalars['String']>;
+  /** The severity of the generated notification */
+  severity?: InputMaybe<NotificationSeverity>;
+  title?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
+};
+
 export type AddItemMutationVariables = Exact<{
   input: AddItemInput;
 }>;
 
 
-export type AddItemMutation = { __typename?: 'Mutation', addItem?: { __typename?: 'Item', id: number } | null };
+export type AddItemMutation = { __typename?: 'Mutation', addItem: { __typename?: 'Item', id: number } };
 
 export type CreateEntryOnItemMutationVariables = Exact<{
   input: CreateEntryOnItemInput;
 }>;
 
 
-export type CreateEntryOnItemMutation = { __typename?: 'Mutation', createEntryOnItem?: { __typename?: 'ItemEntry', id: number } | null };
+export type CreateEntryOnItemMutation = { __typename?: 'Mutation', createEntryOnItem: { __typename?: 'ItemEntry', id: number } };
+
+export type DeleteItemMutationVariables = Exact<{
+  input: DeleteItemInput;
+}>;
+
+
+export type DeleteItemMutation = { __typename?: 'Mutation', deleteItem: { __typename?: 'Item', id: number } };
 
 export type ItemQueryVariables = Exact<{
   itemId: Scalars['Int'];
@@ -247,14 +376,14 @@ export type UpdateItemEntryMutationVariables = Exact<{
 }>;
 
 
-export type UpdateItemEntryMutation = { __typename?: 'Mutation', updateItemEntry?: { __typename?: 'ItemEntry', id: number } | null };
+export type UpdateItemEntryMutation = { __typename?: 'Mutation', updateItemEntry: { __typename?: 'ItemEntry', id: number } };
 
 export type UpdateItemMutationVariables = Exact<{
   input: UpdateItemInput;
 }>;
 
 
-export type UpdateItemMutation = { __typename?: 'Mutation', updateItem?: { __typename?: 'Item', id: number } | null };
+export type UpdateItemMutation = { __typename?: 'Mutation', updateItem: { __typename?: 'Item', id: number } };
 
 
 export const AddItemDocument = gql`
@@ -267,6 +396,13 @@ export const AddItemDocument = gql`
 export const CreateEntryOnItemDocument = gql`
     mutation createEntryOnItem($input: CreateEntryOnItemInput!) {
   createEntryOnItem(input: $input) {
+    id
+  }
+}
+    `;
+export const DeleteItemDocument = gql`
+    mutation deleteItem($input: DeleteItemInput!) {
+  deleteItem(input: $input) {
     id
   }
 }
@@ -358,6 +494,7 @@ export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, str
 const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
 const AddItemDocumentString = print(AddItemDocument);
 const CreateEntryOnItemDocumentString = print(CreateEntryOnItemDocument);
+const DeleteItemDocumentString = print(DeleteItemDocument);
 const ItemDocumentString = print(ItemDocument);
 const ItemsDocumentString = print(ItemsDocument);
 const UomsDocumentString = print(UomsDocument);
@@ -370,6 +507,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createEntryOnItem(variables: CreateEntryOnItemMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: CreateEntryOnItemMutation; extensions?: any; headers: Dom.Headers; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<CreateEntryOnItemMutation>(CreateEntryOnItemDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createEntryOnItem', 'mutation');
+    },
+    deleteItem(variables: DeleteItemMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: DeleteItemMutation; extensions?: any; headers: Dom.Headers; status: number; }> {
+        return withWrapper((wrappedRequestHeaders) => client.rawRequest<DeleteItemMutation>(DeleteItemDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteItem', 'mutation');
     },
     item(variables: ItemQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: ItemQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<ItemQuery>(ItemDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'item', 'query');
