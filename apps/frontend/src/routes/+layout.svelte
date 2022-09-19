@@ -8,7 +8,15 @@
 	/** @type {import('./$types').LayoutData} */
 	export let data;
 	let transitionDirection: 'forward' | 'backwards';
-	const theme = createTheme({});
+	const theme = createTheme({
+		components: {
+			Button: {
+				defaultProps: {
+					color: 'accent',
+				}
+			}
+		}
+	});
 	setThemeContext(theme);
 
 	beforeNavigate(({ from, to }) => {

@@ -16,6 +16,7 @@
 	let uomId = item.uom.id;
 	let name = item.name;
 	let genericName = item.genericName;
+	let description = item.description;
 	let dispatch = createEventDispatcher();
 
 	async function handleSave() {
@@ -25,11 +26,25 @@
 				id: item.id,
 				name,
 				genericName,
-				uomId
+				uomId,
+				description
 			}
 		});
 		await invalidate();
 		dispatch('close');
+	}
+
+	async function handleDelete() {
+		const text = 'Наси, сигурен ли си, че искаш да изтриеш този артикул?'
+		if(confirm(text) === true) {
+			await client.deleteItem({
+			input: {
+				id: item.id
+			}
+		})
+		await invalidate();
+		window.location.replace('/')
+		}
 	}
 </script>
 
@@ -53,6 +68,12 @@
 			class='rounded-md h-9 bg-gray-200 pl-4 text-[15px] mt-1 mb-2'
 			bind:value={genericName}
 		/>
+		<Typography variant='subtitle2' class='text-[11px] text-gray-500'>Описание</Typography>
+		<input
+			type='text'
+			class='rounded-md h-9 bg-gray-200 pl-4 text-[15px] mt-1 mb-2'
+			bind:value={description}
+		/>
 		<Typography variant='subtitle2' class='text-[11px] text-gray-500'>Мерна единица</Typography>
 		<select class='rounded-md h-9 bg-gray-200 pl-4 text-[15px] mt-1 mb-2 w-[40%]' required bind:value={uomId}>
 			<option value='{item.uom.id}' disabled selected hidden>{item.uom.name}</option>
@@ -62,7 +83,7 @@
 		</select>
 		<div class='flex gap-1'>
 			<Button variant='text' class='bg-black text-white h-10 w-[90px]' on:click={handleSave}>Запази</Button>
-			<Button variant='text' class='border-red-500 text-red-500 border-[1px] h-[40px] w-[90px]'>Изтрий</Button>
+			<Button variant='text' class='border-red-500 text-red-500 border-[1px] h-[40px] w-[90px]' on:click={handleDelete}>Изтрий</Button>
 		</div>
 	</Container>
 </Drawer>

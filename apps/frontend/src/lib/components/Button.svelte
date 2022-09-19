@@ -69,7 +69,7 @@
 					styleOverrides.accentOutlined
 				)]: variant === 'outlined' && color === 'error',
 				// Contained Default
-				[twMerge('text-white hover:opacity-90 transition-opacity', styleOverrides.contained)]:
+				[twMerge('text-white hover:opacity-90 transition-opacity border border-white', styleOverrides.contained)]:
 					variant === 'contained',
 				// Contained Primary
 				[twMerge(

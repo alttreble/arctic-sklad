@@ -17,6 +17,8 @@ export default async function item(
 			id
 		},
 		include: {
+			notificationListeners: true,
+			notifications: true,
 			uom: includeOptions?.uom,
 			entries: includeOptions?.entries && {
 				orderBy: {
@@ -29,7 +31,7 @@ export default async function item(
 	if (!matchedItem) return matchedItem;
 
 	(matchedItem as unknown as Item).totalQuantity = matchedItem?.entries
-		.reduce((totalQuantity, entry) => {
+		?.reduce((totalQuantity, entry) => {
 			return totalQuantity + (entry?.quantity || 0);
 		}, 0);
 
