@@ -30,7 +30,7 @@ model ItemEntry {
   updatedAt      DateTime  @updatedAt
   expirationDate DateTime?
   quantity       Int
-  item           Item      @relation(fields: [itemId], references: [id])
+  item           Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
   itemId         Int
 }
 
