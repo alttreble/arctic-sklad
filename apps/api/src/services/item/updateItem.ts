@@ -19,7 +19,7 @@ export default async function updateItem(context: Context, input: UpdateItemInpu
 			...(uomId && { uomId }),
 			...(name && { name }),
 			...(genericName && { genericName }),
-			...(description && { description })
+			 description
 		}
 	});
 
