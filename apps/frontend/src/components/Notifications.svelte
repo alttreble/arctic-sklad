@@ -3,8 +3,9 @@
 
 	let quantity = true;
 	let expiration = true;
+	let suitableForExpedition = true
 	let minQantity = 1;
-	let expirationTimeWarning = "6 Месец";
+	let expirationTimeWarning = "4 Месец";
 </script>
 
 <Card class="bg-white space-y-10">
@@ -41,6 +42,18 @@
 						<option value="5 Месец">5 Месеца</option>
 						<option value="6 Месец">6 Месеца</option>
 					</select>
+				{/if}
+			</div>
+		</div>
+		<Divider class="my-4" />
+		<div class="flex gap-5 items-start">
+			<input type="checkbox" class="accent-gray-500 mt-1.5" bind:checked={suitableForExpedition} />
+			<div>
+				<Typography>Годно за експедиция</Typography>
+				{#if suitableForExpedition}
+					<Typography class="text-[11px] mt-2 font-bold text-gray-500">
+						АРТИКУЛА Е ГОДЕН АКО ГОДНОСТТА МУ НЕ ИЗТИЧА В ТЕКУЩАТА КАЛЕНДАРНА ГОДИНА
+					</Typography>
 				{/if}
 			</div>
 		</div>
