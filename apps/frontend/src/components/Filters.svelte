@@ -29,7 +29,6 @@
 <Card class="bg-white">
 	<CardContent class="flex flex-col items-end">
 		<input
-			autofocus
 			type="text"
 			class="rounded-md w-full h-9 bg-gray-200 pl-4 text-[15px] mt-1 mb-2"
 			on:input={handleInput}

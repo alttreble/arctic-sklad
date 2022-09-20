@@ -15,7 +15,6 @@ export const load: PageLoad = async ({ url }) => {
     }
   };
   let uomData = await client.uoms()
-
   let itemsData = await client.items(params);
   let items = itemsData.data.items.edges;
   let uoms = uomData.data.uoms

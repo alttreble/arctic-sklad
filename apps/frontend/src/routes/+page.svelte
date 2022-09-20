@@ -29,5 +29,8 @@
 	Добави
 	<Icon src={PlusCircle} class='w-4 h-4' />
 </Button>
+<a href={`tableData`} color='accent' class='fixed bottom-8 left-8 flex items-center gap-2'>
+	Изкарай в таблица
+</a>
 
 <NewItem {uoms} open={addingNewItem} on:close={() => addingNewItem = false} />
