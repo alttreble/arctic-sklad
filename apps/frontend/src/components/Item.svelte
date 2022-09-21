@@ -11,7 +11,8 @@
 
 	let itemEntriesBtn = false;
 
-	function toggleItemEntries() {
+	function toggleItemEntries(e) {
+		e.preventDefault()
 		itemEntriesBtn = !itemEntriesBtn;
 	}
 </script>
