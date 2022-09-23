@@ -5,7 +5,6 @@
     import CardContent from '$lib/components/CardContent.svelte';
     import { ChevronLeft } from '@steeze-ui/heroicons';
 	import { Icon } from '@steeze-ui/svelte-icon';
-    import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
     import Typography from '$lib/components/Typography.svelte';
 	import Button from '$lib/components/Button.svelte';
 
@@ -14,8 +13,19 @@
 
     let items: ItemEdge = data.items; 
 
+	let table;
 
+	function exportTable() {
+		// window.open('data:application/vnd.ms-excel,' + encodeURIComponent(table.textContent))
+		let dataType = 'application/vnd.ms-excel';
+		let tableHtml = table.outerHTML.replace(/ /g, '%20');
+		const downloadLink = document.createElement("a");
+		document.body.appendChild(downloadLink);
 
+        downloadLink.href = 'data:' + dataType + ', ' + tableHtml;
+        
+        downloadLink.click();
+    }
    
 </script>
 
@@ -29,7 +39,7 @@
     
   <Card class='bg-white'>
     <CardContent>
-        <table id='tblCustomers' class="table-fixed text-left w-full">
+        <table bind:this={table} class="table-fixed text-left w-full">
 			<thead>
 				<tr>
 					<th>
@@ -77,5 +87,6 @@
 		</table>
     </CardContent>
   </Card>
-  <Button class='fixed bottom-8 right-8 flex items-center gap-2'>Изтегли Excel</Button>
+  <Button class='fixed bottom-8 right-8 flex items-center gap-2' on:click={exportTable}>Изтегли Excel</Button>
 </Container>
+  
