@@ -7,10 +7,16 @@
 	import { Icon } from '@steeze-ui/svelte-icon';
     import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
     import Typography from '$lib/components/Typography.svelte';
+	import Button from '$lib/components/Button.svelte';
 
     export let data;
+    
 
     let items: ItemEdge = data.items; 
+
+
+
+   
 </script>
 
 <Container>
@@ -23,7 +29,7 @@
     
   <Card class='bg-white'>
     <CardContent>
-        <table class="table-fixed text-left w-full">
+        <table id='tblCustomers' class="table-fixed text-left w-full">
 			<thead>
 				<tr>
 					<th>
@@ -71,4 +77,5 @@
 		</table>
     </CardContent>
   </Card>
+  <Button class='fixed bottom-8 right-8 flex items-center gap-2'>Изтегли Excel</Button>
 </Container>
