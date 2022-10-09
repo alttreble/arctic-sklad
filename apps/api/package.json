@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "start": "node .",
-    "build": "tsc && node scripts/build.mjs",
+    "build": "tsc && tsc-alias && node scripts/build.mjs",
     "codegen": "graphql-codegen",
     "test": "vitest"
   },
@@ -14,6 +14,8 @@
   "author": "Teodor Raykov",
   "license": "ISC",
   "dependencies": {
+    "@graphql-tools/load-files": "^6.6.1",
+    "@graphql-tools/merge": "^8.3.6",
     "@prisma/client": "^3.15.2",
     "apollo-server": "^3.9.0",
     "envalid": "^7.3.1",
@@ -32,8 +34,6 @@
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/typescript": "^2.5.1",
     "@graphql-codegen/typescript-resolvers": "^2.6.6",
-    "@graphql-tools/load-files": "^6.6.1",
-    "@graphql-tools/merge": "^8.3.6",
     "@types/express": "^4.17.13",
     "@types/graphql-fields": "^1.3.4",
     "@types/later": "^1.2.7",
@@ -41,11 +41,16 @@
     "@types/lodash-es": "^4.17.6",
     "@types/node": "^17.0.44",
     "@types/node-cron": "^3.0.4",
+    "cpy": "^9.0.1",
     "nodemon": "^2.0.16",
+    "tsc-alias": "^1.7.0",
     "typescript": "^4.7.3",
     "vite": "^3.1.6",
     "vite-node": "^0.24.0",
     "vitest": "^0.24.0",
     "vitest-mock-extended": "^0.1.16"
+  },
+  "_moduleAliases": {
+    "@app": "dist"
   }
 }

@@ -1,5 +1,5 @@
 import { createLogger, format, transports } from 'winston';
-import { LOG_LEVEL } from '@app/env/env';
+import { LOG_LEVEL } from '@app/env';
 
 const logLevels = {
 	fatal: 0,
