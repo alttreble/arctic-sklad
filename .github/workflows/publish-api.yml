@@ -1,12 +1,7 @@
 name: Docker Image CI
 
 on:
-  push:
-    branches: [ "trunk" ]
-    paths:
-      - 'apps/api/**'
-  pull_request:
-    branches: [ "trunk" ]
+  workflow_dispatch:
 
 jobs:
   docker:
