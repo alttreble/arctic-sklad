@@ -12,6 +12,16 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            tedraykov/arctic-sklad-api
+          tags: |
+            type=sha,prefix=
+            type=raw,value=latest,enable={{is_default_branch}}
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -30,4 +40,4 @@ jobs:
         with:
           context: "{{defaultContext}}:apps/api"
           push: true
-          tags: tedraykov/arctic-sklad-api:latest
+          tags: ${{ steps.meta.outputs.tags }}
