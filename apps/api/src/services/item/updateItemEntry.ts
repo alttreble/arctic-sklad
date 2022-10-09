@@ -32,5 +32,5 @@ export default function updateItemEntry(context: Context, input: UpdateItemEntry
 	}
 
 	return deleteEntry(context, input)
-		.then((deletedEntry) => events.emit('itemDeleted', {id: deletedEntry.itemId}));
+		.then((deletedEntry) => events.emit('itemUpdated', {id: deletedEntry.itemId}));
 }

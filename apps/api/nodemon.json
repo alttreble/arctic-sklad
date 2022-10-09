@@ -2,5 +2,5 @@
   "watch": ["src/**/*"],
   "ignore": ["src/**/*.test.ts", "logs/*"],
   "ext": "ts,mjs,js,json,graphql",
-  "exec": "etsc && node ./dist/index.js"
+  "exec": "vite-node ./src"
 }

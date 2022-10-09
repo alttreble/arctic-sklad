@@ -7,11 +7,25 @@
     "dev": "nodemon",
     "start": "node .",
     "build": "tsc && node scripts/build.mjs",
-    "codegen": "graphql-codegen"
+    "codegen": "graphql-codegen",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "Teodor Raykov",
   "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^3.15.2",
+    "apollo-server": "^3.9.0",
+    "graphql": "^16.5.0",
+    "graphql-fields": "^2.0.3",
+    "graphql-import-node": "^0.0.5",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "node-cron": "^3.0.2",
+    "prisma": "^3.15.2",
+    "prisma-cursor-pagination": "^0.2.0",
+    "rxjs": "^7.5.6"
+  },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/typescript": "^2.5.1",
@@ -25,31 +39,8 @@
     "@types/lodash-es": "^4.17.6",
     "@types/node": "^17.0.44",
     "@types/node-cron": "^3.0.4",
-    "cpy": "^9.0.1",
-    "esbuild": "^0.15.5",
-    "esbuild-node-tsc": "^2.0.2",
     "nodemon": "^2.0.16",
-    "prisma": "^3.15.2",
-    "ts-node": "^10.8.1",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^4.7.3"
-  },
-  "dependencies": {
-    "@breejs/later": "^4.1.0",
-    "@prisma/client": "^3.15.2",
-    "apollo-server": "^3.9.0",
-    "bree": "^9.1.2",
-    "graphql": "^16.5.0",
-    "graphql-fields": "^2.0.3",
-    "graphql-import-node": "^0.0.5",
-    "lodash": "^4.17.21",
-    "lodash-es": "^4.17.21",
-    "module-alias": "^2.2.2",
-    "node-cron": "^3.0.2",
-    "prisma-cursor-pagination": "^0.2.0",
-    "rxjs": "^7.5.6"
-  },
-  "_moduleAliases": {
-    "@app": "dist"
+    "vite-node": "^0.24.0",
+    "vitest-mock-extended": "^0.1.16"
   }
 }

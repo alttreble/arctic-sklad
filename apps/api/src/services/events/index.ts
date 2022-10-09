@@ -1,4 +1,4 @@
-import { filter, map, Subject, tap } from 'rxjs';
+import { filter, map, Subject } from 'rxjs';
 
 export class Events {
 	private events: Subject<[string, any?]>;

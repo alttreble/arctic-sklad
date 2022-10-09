@@ -1,12 +1,9 @@
 import { Context } from '@app/context';
 import cron from 'node-cron';
-import { Item, NotificationCondition } from '@app/types';
-import { NotificationListener } from '@prisma/client';
 import notificationListeners from '@app/services/notification/notificationListeners';
-import item from '@app/services/item/item';
-import get from 'lodash/get';
 import runNotificationCheck from './runNotificationCheck';
 import defaultNotificationListeners from '@app/services/notification/defaultNotificationListeners';
+import logger from '@app/logger';
 
 async function scheduleNotificationListeners(context: Context) {
 	const { prisma } = context;
@@ -24,10 +21,22 @@ async function scheduleNotificationListeners(context: Context) {
 	return notificationListeners;
 }
 
+function createDefaultNotificationListenersOnItemCreated(context: Context) {
+	const {events} = context;
+	events.on('itemCreated').subscribe(
+		async (data) => {
+			if (!data?.id) return;
+			await defaultNotificationListeners(context, data.id);
+			logger.debug(`Created all default notification listeners for item with id ${data?.id}`)
+		}
+	);
+}
+
 export default async function notificationsStartup(context: Context) {
 	const { events } = context;
 
-	scheduleNotificationListeners(context).then();
+	scheduleNotificationListeners(context).then(() =>
+		logger.info('Scheduled all notification listeners'));
 
 	events.on('itemUpdated').subscribe(
 		async (data) => {
@@ -37,10 +46,5 @@ export default async function notificationsStartup(context: Context) {
 		}
 	);
 
-	events.on('itemCreated').subscribe(
-		(data) => {
-			if (!data?.id) return;
-			defaultNotificationListeners(context, data.id);
-		}
-	)
+	createDefaultNotificationListenersOnItemCreated(context);
 }

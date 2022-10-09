@@ -2,17 +2,21 @@ import { Context } from '@app/context';
 import { NotificationListener } from '@prisma/client';
 import item from '@app/services/item/item';
 import { Item, NotificationCondition } from '@app/types';
-import get from 'lodash/get';
+import get from '@app/utils/get';
+import logger from '@app/logger';
 
 
-type TimeBeforeValue = {
+export type TimeBeforeValue = {
 	value: number
 	type: 'hours' | 'days' | 'months' | 'years'
+	// Date to compare against. If date is not defined, compare against current date
+	date?: string
 }
 
 function lteConditionMet(condition: NotificationCondition, item: Item) {
 	const attributeValue = get(item, condition.attribute);
 	if (Array.isArray(attributeValue)) {
+		logger.info(attributeValue)
 		return attributeValue.some(element => +element <= +condition.value);
 	}
 	return +attributeValue <= +condition.value;
@@ -26,27 +30,32 @@ function ltConditionMet(condition: NotificationCondition, item: Item) {
 	return +attributeValue < +condition.value;
 }
 
+function timeBefore(time: Date, timeBeforeValue: TimeBeforeValue) {
+	if (timeBeforeValue?.type === 'months') {
+		time.setMonth(time.getMonth() - timeBeforeValue.value);
+	} else if (timeBeforeValue?.type === 'days') {
+		time.setDate(time.getDate() - timeBeforeValue.value);
+	}
+	return time;
+}
+
 function timeBeforeConditionMet(condition: NotificationCondition, item: Item) {
 	const timeBeforeValue = JSON.parse(condition.value) as TimeBeforeValue;
+	if (timeBeforeValue?.value === undefined || timeBeforeValue?.type === undefined) return;
 
-	if (timeBeforeValue?.value || timeBeforeValue?.type) return;
-
-	function timeBefore(time: Date, timeBeforeValue: TimeBeforeValue) {
-		if (timeBeforeValue?.type === 'months') {
-			return time.setMonth(time.getMonth() - timeBeforeValue.value);
-		}
-		if (timeBeforeValue?.type === 'days') {
-			return time.setDate(time.getDate() - timeBeforeValue.value);
-		}
-		return time;
-	}
-
+	const targetDate = timeBeforeValue?.date && new Date(timeBeforeValue.date) || Date.now();
 	const attributeValue = get(item, condition.attribute);
+
 	if (Array.isArray(attributeValue)) {
-		return attributeValue.some(element => Date.now() < timeBefore(element, timeBeforeValue));
+		return attributeValue.some(element => {
+				const attributeElementDate = new Date(element);
+				return targetDate > timeBefore(attributeElementDate, timeBeforeValue);
+			}
+		);
 	}
 
-	return Date.now() < timeBefore(attributeValue, timeBeforeValue);
+	const attributeElementDate = new Date(attributeValue as unknown as string);
+	return targetDate > timeBefore(attributeElementDate, timeBeforeValue);
 }
 
 function conditionsMet(conditions: NotificationCondition[], item: Item) {
@@ -109,6 +118,7 @@ export default async function runNotificationCheck(context: Context, listener: N
 	if (!targetItem) return;
 
 	if (conditionsMet(conditions as unknown as NotificationCondition[], targetItem)) {
+		logger.info(`Conditions met. Creating notification for item ${targetItem.id}`);
 		return createNotificationForItem(context, targetItem, listener).then();
 	}
 

@@ -1,6 +1,5 @@
 import {Context} from "@app/context";
 import { AddItemInput } from "@app/types";
-import defaultNotificationListeners from '@app/services/notification/defaultNotificationListeners';
 
 export default async function addItem(context: Context, input: AddItemInput) {
   const {prisma, events} = context;

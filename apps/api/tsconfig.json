@@ -13,6 +13,7 @@
     "preserveWatchOutput": true,
     "skipLibCheck": true,
     "strict": true,
+    "types": ["vitest/globals"],
     "lib": ["ES2015"],
     "module": "CommonJS",
     "outDir": "./dist",

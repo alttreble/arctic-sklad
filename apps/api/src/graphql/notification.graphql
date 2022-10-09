@@ -6,7 +6,15 @@ enum NotificationSeverity {
 
 enum NotificationConditionOperator {
   """
+  Attribute is of type date and is set number of months before the current time.
+  If the attribute is an array, all of the dates in the list should be before the target date
+  to cause the condition to be true.
+  """
+  TIME_BEFORE_EVERY
+  """
   Attribute is of type date and is defined number of months before the current time.
+  If the attribute is an array, any one of the dates in the list should be before the target date
+  to cause the condition to be true.
   """
   TIME_BEFORE
   "Less than"
@@ -30,7 +38,7 @@ type NotificationListener {
   "A list of condition that need to be met in order to create a notification"
   conditions: [NotificationCondition!]!
   "The schedule at which the notification check will be run represented in cron notation. Defaults to once a day"
-  schedule: String!
+  schedule: String
   type: String!
   title: String!
   description: String
@@ -60,7 +68,7 @@ input RegisterNotificationListenerInput {
   "A list of condition that need to be met in order to create a notification"
   conditions: [NotificationConditionInput]!
   "The schedule at which the notification check will be run represented in cron notation. Defaults to once a day"
-  schedule: String! = "0 0 * * *"
+  schedule: String = "0 0 * * *"
   type: String!
   title: String!
   description: String
