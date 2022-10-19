@@ -78,6 +78,18 @@ import { invalidate } from '$app/navigation';
 		await invalidate()
 		dispatch('close')
 	}
+
+	async function handleDelete(){
+		await client.updateItemEntry({
+			input: {
+				id: entry.id,
+				quantity: 0,
+				expirationDate: new Date(expirationDate).toISOString()
+			}
+		})
+		await invalidate()
+		dispatch('close')
+	}
 </script>
 
 <Drawer
@@ -117,7 +129,7 @@ import { invalidate } from '$app/navigation';
 		/>
 		<Stack direction='row' gap={2}>
 			<Button variant="contained" color='accent' on:click={handleSave}>Запази</Button>
-			<Button variant='outlined' color='error'>Изтрий</Button>
+			<Button variant='outlined' color='error'on:click={handleDelete}>Изтрий</Button>
 		</Stack>
 	</Container>
 </Drawer>

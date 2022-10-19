@@ -19,6 +19,7 @@
 		// window.open('data:application/vnd.ms-excel,' + encodeURIComponent(table.textContent))
 		let dataType = 'application/vnd.ms-excel';
 		let tableHtml = table.outerHTML.replace(/ /g, '%20');
+		tableHtml.replace(Typography, 'p')
 		const downloadLink = document.createElement("a");
 		document.body.appendChild(downloadLink);
 

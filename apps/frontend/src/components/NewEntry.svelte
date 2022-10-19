@@ -13,7 +13,7 @@
 	export let item: Item;
 	let itemQuantity = 5;
 
-	let dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher();
 
 	function incrementItem() {
 		itemQuantity += 1;
