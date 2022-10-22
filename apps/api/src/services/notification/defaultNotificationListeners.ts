@@ -12,7 +12,24 @@ function buildHasExpiredEntriesNotificationListener(context: Context, itemId: nu
 			{
 				attribute: 'entries.expirationDate',
 				operator: 'TIME_BEFORE',
-				value: JSON.stringify({value:"6", type: "months"})
+				value: JSON.stringify({value:"0", type: "months"})
+			}
+		],
+		schedule: '0 0 * * *',
+		itemId
+	};
+}
+
+function buildHasEntriesThatWillExpireNotificationListener(context: Context, itemId: number) {
+	return {
+		type: 'hasEntriesThatWillExpire',
+		title: 'Изтичащ срок',
+		severity: NotificationSeverity.Warning,
+		conditions: [
+			{
+				attribute: 'entries.expirationDate',
+				operator: 'TIME_BEFORE',
+				value: JSON.stringify({value:"4", type: "months"})
 			}
 		],
 		schedule: '0 0 * * *',
@@ -36,10 +53,10 @@ function buildLowQuantityNotificationListener(context: Context, itemId: number) 
 	};
 }
 
-function buildExpiredForNextExpedition(context: Context, itemId: number) {
+function buildExpiredForNextExpeditionNotificationListener(context: Context, itemId: number) {
 	return {
 		type: "expiredForNextExpedition",
-		title: "Годно за следваща експедиция",
+		title: "Негодно за следваща експедиция",
 		severity: NotificationSeverity.Error,
 		conditions: [
 			{
@@ -58,7 +75,8 @@ export default async function defaultNotificationListeners(context: Context, ite
 	const notificationListenersInput = [
 		buildHasExpiredEntriesNotificationListener(context, itemId),
 		buildLowQuantityNotificationListener(context, itemId),
-		buildExpiredForNextExpedition(context, itemId)
+		buildExpiredForNextExpeditionNotificationListener(context, itemId),
+		buildHasEntriesThatWillExpireNotificationListener(context, itemId)
 	];
 
 	await prisma.notificationListener.createMany({

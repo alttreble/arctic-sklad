@@ -8,6 +8,21 @@ query item($itemId: Int!) {
     description
     totalQuantity
     hasExpiredEntry
+    notificationListeners {
+      conditions {
+        attribute
+        operator
+        value
+      }
+      schedule
+      severity
+      title
+    }
+    notifications {
+      description
+      title
+      severity
+    }
     entries {
       createdAt
       updatedAt

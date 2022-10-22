@@ -181,8 +181,18 @@ export enum NotificationConditionOperator {
   Lt = 'LT',
   /** Less than or equal */
   Lte = 'LTE',
-  /** Attribute is of type date and is defined number of months before the current time. */
-  TimeBefore = 'TIME_BEFORE'
+  /**
+   * Attribute is of type date and is defined number of months before the current time.
+   * If the attribute is an array, any one of the dates in the list should be before the target date
+   * to cause the condition to be true.
+   */
+  TimeBefore = 'TIME_BEFORE',
+  /**
+   * Attribute is of type date and is set number of months before the current time.
+   * If the attribute is an array, all of the dates in the list should be before the target date
+   * to cause the condition to be true.
+   */
+  TimeBeforeEvery = 'TIME_BEFORE_EVERY'
 }
 
 export type NotificationListener = {
@@ -192,7 +202,7 @@ export type NotificationListener = {
   description?: Maybe<Scalars['String']>;
   item: Item;
   /** The schedule at which the notification check will be run represented in cron notation. Defaults to once a day */
-  schedule: Scalars['String'];
+  schedule?: Maybe<Scalars['String']>;
   /** The severity of the generated notification */
   severity: NotificationSeverity;
   title: Scalars['String'];
@@ -265,7 +275,7 @@ export type RegisterNotificationListenerInput = {
   description?: InputMaybe<Scalars['String']>;
   itemId: Scalars['Int'];
   /** The schedule at which the notification check will be run represented in cron notation. Defaults to once a day */
-  schedule?: Scalars['String'];
+  schedule?: InputMaybe<Scalars['String']>;
   /** The severity of the generated notification */
   severity?: NotificationSeverity;
   title: Scalars['String'];
@@ -355,7 +365,7 @@ export type ItemQueryVariables = Exact<{
 }>;
 
 
-export type ItemQuery = { __typename?: 'Query', item?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, name: string, genericName?: string | null, description?: string | null, totalQuantity: number, hasExpiredEntry: boolean, entries: Array<{ __typename?: 'ItemEntry', createdAt: string, updatedAt: string, expirationDate?: string | null, hasExpired?: boolean | null, quantity: number, id: number } | null>, uom: { __typename?: 'UOM', name: string, id: number } } | null };
+export type ItemQuery = { __typename?: 'Query', item?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, name: string, genericName?: string | null, description?: string | null, totalQuantity: number, hasExpiredEntry: boolean, notificationListeners?: Array<{ __typename?: 'NotificationListener', schedule?: string | null, severity: NotificationSeverity, title: string, conditions: Array<{ __typename?: 'NotificationCondition', attribute: string, operator: NotificationConditionOperator, value: string }> } | null> | null, notifications?: Array<{ __typename?: 'Notification', description?: string | null, title: string, severity?: NotificationSeverity | null } | null> | null, entries: Array<{ __typename?: 'ItemEntry', createdAt: string, updatedAt: string, expirationDate?: string | null, hasExpired?: boolean | null, quantity: number, id: number } | null>, uom: { __typename?: 'UOM', name: string, id: number } } | null };
 
 export type ItemsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
@@ -418,6 +428,21 @@ export const ItemDocument = gql`
     description
     totalQuantity
     hasExpiredEntry
+    notificationListeners {
+      conditions {
+        attribute
+        operator
+        value
+      }
+      schedule
+      severity
+      title
+    }
+    notifications {
+      description
+      title
+      severity
+    }
     entries {
       createdAt
       updatedAt

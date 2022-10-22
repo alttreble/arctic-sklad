@@ -6,6 +6,10 @@ import { Pencil } from '@steeze-ui/heroicons';
 
 
 export let item: Item;
+
+
+
+console.log(item.notifications)
 </script>
 
 <Card class='bg-white'>
