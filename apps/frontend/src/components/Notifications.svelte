@@ -5,8 +5,8 @@ import { Card, CardContent, Typography, Divider } from '../lib/index.js';
 
     export let item: Item;
 
-	let data = JSON.parse(item.notificationListeners[3]?.conditions[0]?.value)	
-	console.log(data.value)
+	// let data = JSON.parse(item.notificationListeners[3]?.conditions[0]?.value)	
+	// console.log(data.value)
 
 	let quantity = true;
 	let expiration = true;
