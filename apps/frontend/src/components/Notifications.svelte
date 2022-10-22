@@ -1,11 +1,21 @@
 <script lang="ts">
-	import { Card, CardContent, Typography, Divider } from '../lib/index.js';
+	import Button from '$lib/components/Button.svelte';
+	import type { Item } from '../generated/graphql';
+import { Card, CardContent, Typography, Divider } from '../lib/index.js';
+
+    export let item: Item;
+
+	let data = JSON.parse(item.notificationListeners[3]?.conditions[0]?.value)	
+	console.log(data.value)
 
 	let quantity = true;
 	let expiration = true;
 	let suitableForExpedition = true
-	let minQantity = 1;
-	let expirationTimeWarning = "4 Месец";
+	let minQantity = item.notificationListeners[1]?.conditions[0].value;
+	let newMinQantity = minQantity
+	let expirationTimeWarning = "4 Месец"     // `${data.value} Месец`;
+
+	
 </script>
 
 <Card class="bg-white space-y-10">
@@ -13,17 +23,22 @@
 		<Typography variant="h6" class="mb-4">Известия</Typography>
 		<div class="flex gap-5 items-start">
 			<input type="checkbox" class="accent-gray-500 mt-1.5" bind:checked={quantity} />
-			<div>
+			<div class="w-full">
 				<Typography>Извести при ниско количество</Typography>
-				{#if quantity}
+				{#if quantity}				
 					<Typography class="text-[11px] mt-2 font-bold text-gray-500">
 						МИНИМАЛНО КОЛИЧЕСТВО:
 					</Typography>
-					<input
-						type="number"
-						bind:value={minQantity}
-						class="bg-gray-100 rounded-md text-center w-12 text=gray-100"
-					/>
+					<div class="flex justify-between h-[24px]">
+						<input
+							type="number"
+							bind:value={minQantity}
+							class="bg-gray-100 rounded-md text-center w-12 text=gray-100"
+						/>
+						{#if newMinQantity != minQantity}
+						<Button size="small" class="mr-9 border-0">Запази</Button>
+						{/if}
+					</div>	
 				{/if}
 			</div>
 		</div>

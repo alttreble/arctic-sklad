@@ -38,7 +38,7 @@
 				newEntry = !newEntry;
 			}}
 		/>
-		<Notifications />
+		<Notifications {item}/>
 	</Stack>
 </Container>
 
