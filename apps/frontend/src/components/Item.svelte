@@ -3,7 +3,7 @@
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { ChevronDown, ChevronUp, ExclamationCircle } from '@steeze-ui/heroicons';
 	import Divider from '$lib/components/Divider.svelte';
-	import type { ItemEdge } from '../generated/graphql';
+	import type { ItemEdge, UomsDocument } from '../generated/graphql';
 	import { Button, Card, CardContent, Stack, Typography } from '../lib/index.js';
 	import ItemEntries from './ItemEntries.svelte';
 
@@ -35,7 +35,13 @@
 				</Stack>
 				<Stack direction='row'>
 					<Typography>
-						<strong> {item.node?.totalQuantity} {item.node?.uom.name} </strong>
+						<strong> {item.node?.totalQuantity} 
+							{#if item.node?.totalQuantity === 1}
+								{item.node?.uom.name}
+							{:else}
+								{item.node?.uom.namePlural}
+							{/if}	
+						</strong>
 					</Typography>
 				</Stack>
 			</Stack>

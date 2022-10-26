@@ -4,6 +4,7 @@ query uoms {
       node {
         id
         name
+        namePlural
         items {
           name
         }

@@ -8,6 +8,7 @@ query items($first: Int, $after: Cursor, $filter: ItemFiltersInput) {
         totalQuantity
         uom {
           name
+          namePlural
         }
         hasExpiredEntry
         entries {

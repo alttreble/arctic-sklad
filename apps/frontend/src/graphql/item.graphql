@@ -33,6 +33,7 @@ query item($itemId: Int!) {
     }
     uom {
       name
+      namePlural
       id
     }
   }

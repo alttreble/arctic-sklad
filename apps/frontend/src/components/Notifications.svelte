@@ -5,17 +5,19 @@ import { Card, CardContent, Typography, Divider } from '../lib/index.js';
 
     export let item: Item;
 
-	// let data = JSON.parse(item.notificationListeners[3]?.conditions[0]?.value)	
-	// console.log(data.value)
+	let data = item.notificationListeners?.find((e) => e.title === 'Изтичащ срок')
+	let notificationExpirationTimeWarning = JSON.parse(data?.conditions[0].value)
+	let notificationMinQuantity = item.notificationListeners?.find((e) => e.title === 'Ниско количество')
 
 	let quantity = true;
 	let expiration = true;
 	let suitableForExpedition = true
-	let minQantity = item.notificationListeners[1]?.conditions[0].value;
+	let minQantity = notificationMinQuantity?.conditions[0]?.value;
 	let newMinQantity = minQantity
-	let expirationTimeWarning = "4 Месец"     // `${data.value} Месец`;
-
+	let expirationTimeWarning = `${notificationExpirationTimeWarning.value} Месец`;
 	
+	console.log(item.notifications)
+	console.log(notificationExpirationTimeWarning)
 </script>
 
 <Card class="bg-white space-y-10">

@@ -353,6 +353,13 @@ export type CreateEntryOnItemMutationVariables = Exact<{
 
 export type CreateEntryOnItemMutation = { __typename?: 'Mutation', createEntryOnItem: { __typename?: 'ItemEntry', id: number } };
 
+export type DefineUomMutationVariables = Exact<{
+  input: DefineUomInput;
+}>;
+
+
+export type DefineUomMutation = { __typename?: 'Mutation', defineUOM: { __typename?: 'UOM', id: number } };
+
 export type DeleteItemMutationVariables = Exact<{
   input: DeleteItemInput;
 }>;
@@ -365,7 +372,7 @@ export type ItemQueryVariables = Exact<{
 }>;
 
 
-export type ItemQuery = { __typename?: 'Query', item?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, name: string, genericName?: string | null, description?: string | null, totalQuantity: number, hasExpiredEntry: boolean, notificationListeners?: Array<{ __typename?: 'NotificationListener', schedule?: string | null, severity: NotificationSeverity, title: string, conditions: Array<{ __typename?: 'NotificationCondition', attribute: string, operator: NotificationConditionOperator, value: string }> } | null> | null, notifications?: Array<{ __typename?: 'Notification', description?: string | null, title: string, severity?: NotificationSeverity | null } | null> | null, entries: Array<{ __typename?: 'ItemEntry', createdAt: string, updatedAt: string, expirationDate?: string | null, hasExpired?: boolean | null, quantity: number, id: number } | null>, uom: { __typename?: 'UOM', name: string, id: number } } | null };
+export type ItemQuery = { __typename?: 'Query', item?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, name: string, genericName?: string | null, description?: string | null, totalQuantity: number, hasExpiredEntry: boolean, notificationListeners?: Array<{ __typename?: 'NotificationListener', schedule?: string | null, severity: NotificationSeverity, title: string, conditions: Array<{ __typename?: 'NotificationCondition', attribute: string, operator: NotificationConditionOperator, value: string }> } | null> | null, notifications?: Array<{ __typename?: 'Notification', description?: string | null, title: string, severity?: NotificationSeverity | null } | null> | null, entries: Array<{ __typename?: 'ItemEntry', createdAt: string, updatedAt: string, expirationDate?: string | null, hasExpired?: boolean | null, quantity: number, id: number } | null>, uom: { __typename?: 'UOM', name: string, namePlural: string, id: number } } | null };
 
 export type ItemsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
@@ -374,12 +381,12 @@ export type ItemsQueryVariables = Exact<{
 }>;
 
 
-export type ItemsQuery = { __typename?: 'Query', items: { __typename?: 'ItemConnection', edges?: Array<{ __typename?: 'ItemEdge', node?: { __typename?: 'Item', id: number, name: string, genericName?: string | null, totalQuantity: number, hasExpiredEntry: boolean, uom: { __typename?: 'UOM', name: string }, entries: Array<{ __typename?: 'ItemEntry', id: number, createdAt: string, updatedAt: string, expirationDate?: string | null, hasExpired?: boolean | null, quantity: number } | null> } | null } | null> | null } };
+export type ItemsQuery = { __typename?: 'Query', items: { __typename?: 'ItemConnection', edges?: Array<{ __typename?: 'ItemEdge', node?: { __typename?: 'Item', id: number, name: string, genericName?: string | null, totalQuantity: number, hasExpiredEntry: boolean, uom: { __typename?: 'UOM', name: string, namePlural: string }, entries: Array<{ __typename?: 'ItemEntry', id: number, createdAt: string, updatedAt: string, expirationDate?: string | null, hasExpired?: boolean | null, quantity: number } | null> } | null } | null> | null } };
 
 export type UomsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UomsQuery = { __typename?: 'Query', uoms: { __typename?: 'UOMConnection', edges?: Array<{ __typename?: 'UOMEdge', node?: { __typename?: 'UOM', id: number, name: string, items?: Array<{ __typename?: 'Item', name: string } | null> | null } | null } | null> | null } };
+export type UomsQuery = { __typename?: 'Query', uoms: { __typename?: 'UOMConnection', edges?: Array<{ __typename?: 'UOMEdge', node?: { __typename?: 'UOM', id: number, name: string, namePlural: string, items?: Array<{ __typename?: 'Item', name: string } | null> | null } | null } | null> | null } };
 
 export type UpdateItemEntryMutationVariables = Exact<{
   input: UpdateItemEntryInput;
@@ -406,6 +413,13 @@ export const AddItemDocument = gql`
 export const CreateEntryOnItemDocument = gql`
     mutation createEntryOnItem($input: CreateEntryOnItemInput!) {
   createEntryOnItem(input: $input) {
+    id
+  }
+}
+    `;
+export const DefineUomDocument = gql`
+    mutation DefineUOM($input: DefineUOMInput!) {
+  defineUOM(input: $input) {
     id
   }
 }
@@ -453,6 +467,7 @@ export const ItemDocument = gql`
     }
     uom {
       name
+      namePlural
       id
     }
   }
@@ -469,6 +484,7 @@ export const ItemsDocument = gql`
         totalQuantity
         uom {
           name
+          namePlural
         }
         hasExpiredEntry
         entries {
@@ -491,6 +507,7 @@ export const UomsDocument = gql`
       node {
         id
         name
+        namePlural
         items {
           name
         }
@@ -520,6 +537,7 @@ export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, str
 const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
 const AddItemDocumentString = print(AddItemDocument);
 const CreateEntryOnItemDocumentString = print(CreateEntryOnItemDocument);
+const DefineUomDocumentString = print(DefineUomDocument);
 const DeleteItemDocumentString = print(DeleteItemDocument);
 const ItemDocumentString = print(ItemDocument);
 const ItemsDocumentString = print(ItemsDocument);
@@ -533,6 +551,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createEntryOnItem(variables: CreateEntryOnItemMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: CreateEntryOnItemMutation; extensions?: any; headers: Dom.Headers; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<CreateEntryOnItemMutation>(CreateEntryOnItemDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createEntryOnItem', 'mutation');
+    },
+    DefineUOM(variables: DefineUomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: DefineUomMutation; extensions?: any; headers: Dom.Headers; status: number; }> {
+        return withWrapper((wrappedRequestHeaders) => client.rawRequest<DefineUomMutation>(DefineUomDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DefineUOM', 'mutation');
     },
     deleteItem(variables: DeleteItemMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: DeleteItemMutation; extensions?: any; headers: Dom.Headers; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<DeleteItemMutation>(DeleteItemDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteItem', 'mutation');

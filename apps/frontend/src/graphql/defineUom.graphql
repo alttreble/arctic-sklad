@@ -1,0 +1,5 @@
+mutation DefineUOM($input: DefineUOMInput!) {
+  defineUOM(input: $input) {
+    id
+  }
+}

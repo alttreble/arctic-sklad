@@ -29,7 +29,14 @@ export let item: Item;
                     {/if}
                 </div>
                 <Typography>
-                    <strong> {item.totalQuantity} {item.uom.name} </strong>
+                    <strong> {item.totalQuantity} 
+                        {#if item.totalQuantity === 1}
+								{item.uom.name}
+							{:else}
+								{item.uom.namePlural}
+						{/if} 
+                    </strong>
+                    
                 </Typography>
             </div>
             <div>
