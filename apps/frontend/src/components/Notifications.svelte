@@ -15,7 +15,7 @@ import { Card, CardContent, Typography, Divider } from '../lib/index.js';
 	`${notificationExpirationTimeWarning.value} Месец` != expirationTimeWarning ||
 
 	
-	console.log(item.notificationListeners)
+	console.log(item.notifications?.find((e) => e?.type === 'hasEntriesThatWillExpire'))
 </script>
 
 <Card class="bg-white space-y-10">
@@ -70,3 +70,4 @@ import { Card, CardContent, Typography, Divider } from '../lib/index.js';
 		<Button class="border-0">Запази</Button>
 	</div>
 {/if}
+

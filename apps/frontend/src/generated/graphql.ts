@@ -372,7 +372,7 @@ export type ItemQueryVariables = Exact<{
 }>;
 
 
-export type ItemQuery = { __typename?: 'Query', item?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, name: string, genericName?: string | null, description?: string | null, totalQuantity: number, hasExpiredEntry: boolean, notificationListeners?: Array<{ __typename?: 'NotificationListener', schedule?: string | null, severity: NotificationSeverity, title: string, type: string, conditions: Array<{ __typename?: 'NotificationCondition', attribute: string, operator: NotificationConditionOperator, value: string }> } | null> | null, notifications?: Array<{ __typename?: 'Notification', description?: string | null, title: string, severity?: NotificationSeverity | null } | null> | null, entries: Array<{ __typename?: 'ItemEntry', createdAt: string, updatedAt: string, expirationDate?: string | null, hasExpired?: boolean | null, quantity: number, id: number } | null>, uom: { __typename?: 'UOM', name: string, namePlural: string, id: number } } | null };
+export type ItemQuery = { __typename?: 'Query', item?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, name: string, genericName?: string | null, description?: string | null, totalQuantity: number, hasExpiredEntry: boolean, notificationListeners?: Array<{ __typename?: 'NotificationListener', schedule?: string | null, severity: NotificationSeverity, title: string, type: string, conditions: Array<{ __typename?: 'NotificationCondition', attribute: string, operator: NotificationConditionOperator, value: string }> } | null> | null, notifications?: Array<{ __typename?: 'Notification', description?: string | null, title: string, severity?: NotificationSeverity | null, type: string } | null> | null, entries: Array<{ __typename?: 'ItemEntry', createdAt: string, updatedAt: string, expirationDate?: string | null, hasExpired?: boolean | null, quantity: number, id: number } | null>, uom: { __typename?: 'UOM', name: string, namePlural: string, id: number } } | null };
 
 export type ItemsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
@@ -457,6 +457,7 @@ export const ItemDocument = gql`
       description
       title
       severity
+      type
     }
     entries {
       createdAt

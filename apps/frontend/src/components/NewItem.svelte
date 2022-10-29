@@ -24,10 +24,21 @@
 		namePlural: ''
 	}
 
+	let borderName = ''
+	let borderPluralName = ''
+
 	async function handleSave() {
 		const { name, genericName } = newItem;
 		if (!name || !genericName) throw new Error('invalid input');
-		if (newItem.uomId === "-") {
+		if (newItem.uomId === null) {
+				if(defineUom.name === '') {
+					borderName = 'border-red-400'
+					throw new Error('invalid input')			
+				}
+				else if(defineUom.namePlural === '') {
+					borderPluralName = 'border-red-400'
+					throw new Error('invalid input')
+				}
 			let response = await client.DefineUOM({input: defineUom})
 			newItem.uomId = response.data.defineUOM.id
 		}
@@ -79,13 +90,13 @@
 			{#each uoms.edges as uom}
 				<option value={uom.node.id}>{uom.node.name}</option>
 			{/each}
-			<option value="-">Нова мерна единица</option>
+			<option value={null}>Нова мерна единица</option>
 		</select>
-			{#if newItem.uomId === "-"}
+			{#if newItem.uomId === null}
 			<Typography variant="subtitle2" class="text-[11px] text-gray-500">Единствено число</Typography>
-				<input type="text" class="rounded-md h-9 bg-gray-200 pl-4 text-[15px] mt-1 mb-2 w-[40%]" bind:value={defineUom.name}>
+				<input type="text" required class="rounded-md h-9 border-2 {borderName} bg-gray-200 pl-4 text-[15px] mt-1 mb-2 w-[40%]" bind:value={defineUom.name}>
 			<Typography variant="subtitle2" class="text-[11px] text-gray-500">Множествено число</Typography>
-				<input type="text" class="rounded-md h-9 bg-gray-200 pl-4 text-[15px] mt-1 mb-2 w-[40%]" bind:value={defineUom.namePlural}>
+				<input type="text" required class="rounded-md h-9 border-2 {borderPluralName} bg-gray-200 pl-4 text-[15px] mt-1 mb-2 w-[40%]" bind:value={defineUom.namePlural}>
 			{/if}
 		<Button variant="contained" color="accent" on:click={handleSave}>Запази</Button>
 	</Container>

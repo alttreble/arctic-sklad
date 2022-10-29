@@ -23,6 +23,7 @@ query item($itemId: Int!) {
       description
       title
       severity
+      type
     }
     entries {
       createdAt
