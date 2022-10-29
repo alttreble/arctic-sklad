@@ -5,29 +5,26 @@ import { Card, CardContent, Typography, Divider } from '../lib/index.js';
 
     export let item: Item;
 
-	let data = item.notificationListeners?.find((e) => e.title === 'Изтичащ срок')
+	let data = item.notificationListeners?.find((e) => e?.type === 'hasEntriesThatWillExpire')
 	let notificationExpirationTimeWarning = JSON.parse(data?.conditions[0].value)
-	let notificationMinQuantity = item.notificationListeners?.find((e) => e.title === 'Ниско количество')
+	let notificationMinQuantity = item.notificationListeners?.find((e) => e?.type === 'lowQuantity')
 
-	let quantity = true;
-	let expiration = true;
-	let suitableForExpedition = true
 	let minQantity = notificationMinQuantity?.conditions[0]?.value;
-	let newMinQantity = minQantity
 	let expirationTimeWarning = `${notificationExpirationTimeWarning.value} Месец`;
+	$: notificationChanged = notificationMinQuantity?.conditions[0]?.value != minQantity ||
+	`${notificationExpirationTimeWarning.value} Месец` != expirationTimeWarning ||
+
 	
-	console.log(item.notifications)
-	console.log(notificationExpirationTimeWarning)
+	console.log(item.notificationListeners)
 </script>
 
 <Card class="bg-white space-y-10">
 	<CardContent class="flex flex-col">
 		<Typography variant="h6" class="mb-4">Известия</Typography>
 		<div class="flex gap-5 items-start">
-			<input type="checkbox" class="accent-gray-500 mt-1.5" bind:checked={quantity} />
-			<div class="w-full">
+			<div class="w-full ml-4">
 				<Typography>Извести при ниско количество</Typography>
-				{#if quantity}				
+							
 					<Typography class="text-[11px] mt-2 font-bold text-gray-500">
 						МИНИМАЛНО КОЛИЧЕСТВО:
 					</Typography>
@@ -37,19 +34,13 @@ import { Card, CardContent, Typography, Divider } from '../lib/index.js';
 							bind:value={minQantity}
 							class="bg-gray-100 rounded-md text-center w-12 text=gray-100"
 						/>
-						{#if newMinQantity != minQantity}
-						<Button size="small" class="mr-9 border-0">Запази</Button>
-						{/if}
 					</div>	
-				{/if}
 			</div>
 		</div>
 		<Divider class="my-4" />
-		<div class="flex items-start gap-5">
-			<input type="checkbox" class="accent-gray-500 mt-1.5" bind:checked={expiration} />
+		<div class="flex items-start gap-5 ml-4">
 			<div>
 				<Typography>Извести при наближаващо изтичане на срок</Typography>
-				{#if expiration}
 					<Typography class="text-[11px] mt-2 font-bold text-gray-500">ИЗВЕСТИ ПРЕДИ:</Typography>
 					<select name="Месеци" class="bg-gray-100 text-sm p-1 rounded-md"  required bind:value={expirationTimeWarning}>
 						<option value="1 Месец">1 Месец</option>
@@ -59,20 +50,23 @@ import { Card, CardContent, Typography, Divider } from '../lib/index.js';
 						<option value="5 Месец">5 Месеца</option>
 						<option value="6 Месец">6 Месеца</option>
 					</select>
-				{/if}
 			</div>
 		</div>
 		<Divider class="my-4" />
-		<div class="flex gap-5 items-start">
-			<input type="checkbox" class="accent-gray-500 mt-1.5" bind:checked={suitableForExpedition} />
+		<div class="flex gap-5 items-start ml-4">
 			<div>
 				<Typography>Годно за експедиция</Typography>
-				{#if suitableForExpedition}
 					<Typography class="text-[11px] mt-2 font-bold text-gray-500">
 						АРТИКУЛА Е ГОДЕН АКО ГОДНОСТТА МУ НЕ ИЗТИЧА В ТЕКУЩАТА КАЛЕНДАРНА ГОДИНА
 					</Typography>
-				{/if}
 			</div>
 		</div>
 	</CardContent>
 </Card>
+
+
+{#if notificationChanged}
+	<div class="flex justify-end">
+		<Button class="border-0">Запази</Button>
+	</div>
+{/if}

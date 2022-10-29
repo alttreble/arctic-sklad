@@ -17,6 +17,7 @@ query item($itemId: Int!) {
       schedule
       severity
       title
+      type
     }
     notifications {
       description
