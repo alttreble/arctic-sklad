@@ -84,7 +84,7 @@ import { invalidate } from '$app/navigation';
 			input: {
 				id: entry.id,
 				quantity: 0,
-				expirationDate: new Date(expirationDate).toISOString()
+				...(expirationDate && { expirationDate: new Date(expirationDate).toISOString() })
 			}
 		})
 		await invalidate()

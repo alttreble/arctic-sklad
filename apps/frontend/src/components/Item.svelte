@@ -1,7 +1,13 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
 	import { Icon } from '@steeze-ui/svelte-icon';
-	import { ChevronDown, ChevronUp, ExclamationCircle, Exclamation, CheckCircle } from '@steeze-ui/heroicons';
+	import {
+		ChevronDown,
+		ChevronUp,
+		ExclamationCircle,
+		Exclamation,
+		CheckCircle
+	} from '@steeze-ui/heroicons';
 	import Divider from '$lib/components/Divider.svelte';
 	import type { ItemEdge, UomsDocument } from '../generated/graphql';
 	import { Button, Card, CardContent, Stack, Typography } from '../lib/index.js';
@@ -58,22 +64,22 @@
 				<ItemEntries itemEntries={item?.node?.entries} />
 			</div>
 		{/if}
-			<Divider class="my-4" />
-			{#if !item.node?.notifications?.find((e) => e?.type)}
+		<Divider class="my-4" />
+		{#if !item.node?.notifications?.find((e) => e?.type)}
 			<Typography class="flex">
 				<Icon class="w-[24px] h-[24px] stroke-green-500 mr-2" src={CheckCircle} />
 				Топ
 			</Typography>
-			{/if}
-			<div class="flex gap-5 flex-wrap">
-				{#if item.node?.notifications?.find((e) => e?.type === 'hasExpired')}
+		{/if}
+		<div class="flex gap-5 flex-wrap">
+			{#if item.node?.notifications?.find((e) => e?.type === 'hasExpired')}
 				<Typography class="flex">
 					<Icon class="w-[24px] h-[24px] stroke-red-500 mr-2" src={ExclamationCircle} />
 					Изтекъл срок
 				</Typography>
 			{:else if item.node?.notifications?.find((e) => e?.type === 'hasEntriesThatWillExpire')}
 				<Typography class="flex">
-					<Icon class="w-[24px] h-[24px] stroke-yellow-500 mr-2" src={Exclamation} />
+					<Icon class="w-[24px] h-[24px] stroke-yellow-500 mr-2" src={ExclamationCircle} />
 					Изтичащ срок
 				</Typography>
 			{/if}
@@ -89,6 +95,6 @@
 					Ниско количество
 				</Typography>
 			{/if}
-			</div>
+		</div>
 	</CardContent>
 </Card>
