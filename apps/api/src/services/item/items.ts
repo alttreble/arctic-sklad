@@ -39,6 +39,8 @@ export default async function items(
   }
 
   query.include = {
+    notificationListeners: true,
+		notifications: true,
     uom: includeOptions.uom,
     entries: includeOptions.entries && {
       orderBy: {

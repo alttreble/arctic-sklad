@@ -6,6 +6,7 @@
 	import type { ItemEdge, UomsDocument } from '../generated/graphql';
 	import { Button, Card, CardContent, Stack, Typography } from '../lib/index.js';
 	import ItemEntries from './ItemEntries.svelte';
+	import { find } from 'lodash-es';
 
 	export let item: ItemEdge;
 
@@ -15,6 +16,7 @@
 		e.preventDefault()
 		itemEntriesBtn = !itemEntriesBtn;
 	}
+
 </script>
 
 <Card class='bg-white' element='a' href={`item/${item.node?.id}`}>
@@ -59,12 +61,22 @@
 				<ItemEntries itemEntries={item?.node?.entries} />
 			</div>
 		{/if}
-		{#if item.node?.hasExpiredEntry}
+		<!-- {#if item.node?.hasExpiredEntry}
 			<Divider class='my-4' />
 			<Typography class='flex'>
 				<Icon class='w-6 h-6 stroke-red-500 mr-3' src={ExclamationCircle} />
 				Изтекъл срок
 			</Typography>
+		{/if}
+		{#if item.node?.notifications?.find((e) => e?.type === "lowQuantity")}
+			<Divider class='my-4' />
+			<Typography class='flex'>
+				<Icon class='w-6 h-6 stroke-red-500 mr-3' src={ExclamationCircle} />
+				Ниско количество
+			</Typography>
+		{/if} -->
+		{#if item.node?.notifications?.find(e => e?.type)}
+			<Divider class='my-4' />
 		{/if}
 	</CardContent>
 </Card>
