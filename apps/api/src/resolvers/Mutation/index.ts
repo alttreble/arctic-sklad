@@ -26,13 +26,16 @@ export default {
 		const { input } = args;
 		return defineUom(context, input);
 	},
-	createEntryOnItem: (_, args, context, __) => {
+	createEntryOnItem: async (_, args, context, __) => {
 		const { input } = args;
-		return createEntryOnItem(context, input) as unknown as ItemEntry;
+		const createdItemEntry = await createEntryOnItem(context, input) as unknown as ItemEntry;
+		console.log(createdItemEntry)
+		return createdItemEntry;
 	},
-	updateItemEntry: (_, args, context, __) => {
+	updateItemEntry: async (_, args, context, __) => {
 		const { input } = args;
-		return updateItemEntry(context, input) as unknown as ItemEntry;
+		const updatedItemEntry = await updateItemEntry(context, input) as unknown as ItemEntry;
+		return updatedItemEntry
 	},
 	unregisterNotificationListener: (_, args, context, __) => {
 		const { input } = args;

@@ -6,7 +6,7 @@ export default async function createEntryOnItem(context: Context, input: CreateE
 
 	const { itemId, expirationDate, quantity } = input;
 
-	return await prisma.itemEntry.create({
+	let createdEntryOnItem =  await prisma.itemEntry.create({
 		data: {
 			expirationDate,
 			quantity,
@@ -16,5 +16,8 @@ export default async function createEntryOnItem(context: Context, input: CreateE
 				}
 			}
 		}
-	}).then((updatedEntry) => events.emit('itemUpdated', { id: updatedEntry.itemId }));
+	}) 
+	events.emit('itemUpdated', { id: createdEntryOnItem.itemId });
+	console.log(createdEntryOnItem)
+	return createdEntryOnItem;
 }

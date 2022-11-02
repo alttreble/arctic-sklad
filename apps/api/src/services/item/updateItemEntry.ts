@@ -23,14 +23,16 @@ function deleteEntry(context: Context, input: UpdateItemEntryInput) {
 	});
 }
 
-export default function updateItemEntry(context: Context, input: UpdateItemEntryInput) {
+export default async function updateItemEntry(context: Context, input: UpdateItemEntryInput) {
 	const { events } = context;
 	const { quantity } = input;
 	if (quantity > 0) {
-		return updateEntry(context, input)
-			.then((updatedEntry) => events.emit('itemUpdated', {id: updatedEntry.itemId}));
+		const updatedEntry = await updateEntry(context, input);
+		events.emit('itemUpdated', {id: updatedEntry.itemId});
+		return updatedEntry;
 	}
 
-	return deleteEntry(context, input)
-		.then((deletedEntry) => events.emit('itemUpdated', {id: deletedEntry.itemId}));
+	const deletedEntry = deleteEntry(context, input)
+		events.emit('itemUpdated', {id: deletedEntry.itemId});
+		return deletedEntry;
 }
