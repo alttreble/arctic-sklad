@@ -10,7 +10,7 @@ export type TimeBeforeValue = {
 	value: number
 	type: 'hours' | 'days' | 'months' | 'years'
 	// Date to compare against. If date is not defined, compare against current date
-	date?: string
+	date?: string | undefined
 }
 
 function lteConditionMet(condition: NotificationCondition, item: Item) {

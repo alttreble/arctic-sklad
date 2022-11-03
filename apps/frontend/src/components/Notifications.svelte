@@ -16,6 +16,7 @@ import { Card, CardContent, Typography, Divider } from '../lib/index.js';
 
 	
 	console.log(item.notificationListeners)
+	console.log(item.notifications?.find((e) => e?.type === 'hasEntriesThatWillExpire'))
 </script>
 
 <Card class="bg-white space-y-10">

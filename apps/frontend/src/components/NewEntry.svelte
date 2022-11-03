@@ -51,7 +51,6 @@
 		await invalidate();
 		dispatch('close');
 	}
-
 </script>
 
 <Drawer {open} on:close={() => dispatch("close")}>

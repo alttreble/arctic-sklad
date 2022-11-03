@@ -79,9 +79,17 @@
 							<td>
 								<Typography
 									variant="body2"
-									class="{item.node.hasExpiredEntry ? 'text-left' : 'text-left pl-8'}"
+									class="{item.node.notifications?.find((e) => e?.type) ? 'text-left' : 'text-left pl-8'}"
 								>
-                                {item.node.hasExpiredEntry ? 'Изтекъл срок' : '-'}
+								{#if item.node.notifications?.find((e) => e?.type === "hasExpired")}
+									Изтекъл срок
+								{:else if item.node.notifications?.find((e) => e?.type === "lowQuantity")}
+									Ниско количество
+								{:else if item.node.notifications?.find((e) => e?.type === "expiredForNextExpedition")}
+									Негодно за следваща експедиция
+								{:else if item.node.notifications?.find((e) => e?.type === 'hasEntriesThatWillExpire')}	
+									Изтичащ срок
+								{/if}	
 								</Typography>
 							</td>
 						
