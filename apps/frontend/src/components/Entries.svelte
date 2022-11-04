@@ -9,6 +9,9 @@
 	let singleEntry: ItemEntry;
 	
 	let updateEntry = false;
+	let data = item.notificationListeners?.find((e) => e?.type === 'hasEntriesThatWillExpire')
+	let notificationExpirationTimeWarning = JSON.parse(data?.conditions[0].value)
+
 
 	function calculateDate(dateInMilliseconds) {
 		const d = new Date(+dateInMilliseconds);
@@ -31,6 +34,26 @@
 		return `${day}.${month}.${year}`;
 	}
 
+	function checkIfExpirationOnEntryWillExpire(expirationD) {
+		let expirationDate = new Date(+expirationD)
+		let currentDate = new Date 
+		if (expirationDate.getFullYear() === currentDate.getFullYear()) {
+			let res = expirationDate.getMonth() - currentDate.getMonth()
+			if (res <= notificationExpirationTimeWarning.value) {
+				return 'yellow'
+			}
+		}
+	}
+
+	checkIfExpirationOnEntryWillExpire(item.entries[0]?.expirationDate)
+	let b = new Date(+item.entries[0]?.expirationDate)
+	let d = new Date
+	console.log(d.getMonth())
+	console.log(b)
+	console.log(calculateDate(item.entries[0]?.expirationDate))
+	console.log(calculateDate(item.entries[1]?.expirationDate))
+	console.log(calculateDate(item.entries[0]?.expirationDate) < calculateDate(item.entries[1]?.expirationDate))
+	console.log(item.entries[0]?.expirationDate < item.entries[1]?.expirationDate)
 	function toggleUpdateEntrie() {
 		updateEntry = !updateEntry;
 	}
@@ -75,11 +98,11 @@
 						</td>
 						{#if calculateDate(entry.expirationDate) === '-'}
 							<td class="pl-8">{calculateDate(entry.expirationDate)}</td>
-						{:else if !entry.hasExpired}
+						{:else if entry.hasExpired}
 							<td>
 								<Typography
 									variant="body2"
-									class="bg-green-500 inline-block text-white rounded-md p-1"
+									class="bg-red-500 inline-block text-white rounded-md p-1"
 								>
 									{calculateDate(entry.expirationDate)}
 								</Typography>
@@ -88,7 +111,7 @@
 							<td>
 								<Typography
 									variant="body2"
-									class="bg-red-500 text-white inline-block rounded-md p-1"
+									class="bg-green-500 text-white inline-block rounded-md p-1"
 								>
 									{calculateDate(entry.expirationDate)}
 								</Typography>

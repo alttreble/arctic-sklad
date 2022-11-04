@@ -12,11 +12,10 @@ import { Card, CardContent, Typography, Divider } from '../lib/index.js';
 	let minQantity = notificationMinQuantity?.conditions[0]?.value;
 	let expirationTimeWarning = `${notificationExpirationTimeWarning.value} Месец`;
 	$: notificationChanged = notificationMinQuantity?.conditions[0]?.value != minQantity ||
-	`${notificationExpirationTimeWarning.value} Месец` != expirationTimeWarning ||
+	`${notificationExpirationTimeWarning.value} Месец` != expirationTimeWarning 
 
 	
-	console.log(item.notificationListeners)
-	console.log(item.notifications?.find((e) => e?.type === 'hasEntriesThatWillExpire'))
+	
 </script>
 
 <Card class="bg-white space-y-10">
