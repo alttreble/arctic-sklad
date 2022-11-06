@@ -24,7 +24,7 @@ export default async function(_: {}, args: Partial<QueryItemsArgs>, context: Con
     notifications: wasFieldRequested("edges.node.notifications", info),
     notificationListeners: wasFieldRequested("edges.node.notificationListeners", info)
   }
-
+// @ts-ignore
   const resultItems = await items(context, filter, paginationArgs, includeOptions)
 
   return {
