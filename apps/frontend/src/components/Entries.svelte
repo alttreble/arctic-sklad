@@ -43,20 +43,44 @@
 		
 			if (expirationDate.getFullYear() === currentDate.getFullYear()) {
 				let res = expirationDate.getMonth() - currentDate.getMonth()
-					if (res <= notificationExpirationTimeWarning.value) {
+					if (res === +notificationExpirationTimeWarning.value) {
+						if (currentDate.getDate() >= expirationDate.getDate()) {
+							return 'bg-yellow-500'
+						}
+						else if (expirationDate.getDate() > currentDate.getDate()) {
+							return 'bg-green-500'
+						}
+					}
+					else if (res < notificationExpirationTimeWarning.value) {
 						return 'bg-yellow-500'
 					}
 			}
 			else if (expirationDate.getFullYear() === currentDate.getFullYear() + 1) {
 				let res = expirationDate.getMonth() + 12
-				res = res -currentDate.getMonth()
-					if (res <= notificationExpirationTimeWarning.value) {
+				res = res - currentDate.getMonth()
+				if (res === +notificationExpirationTimeWarning.value) {
+					if (currentDate.getDate() >= expirationDate.getDate()) {
+							return 'bg-yellow-500'
+						}
+						else if (expirationDate.getDate() > currentDate.getDate()) {
+							return 'bg-green-500'
+						}
+					}
+					else if (res < notificationExpirationTimeWarning.value) {
 						return 'bg-yellow-500'
 					}
 			}
 		
 		return 'bg-green-500'
 	}
+
+	determineConditionofEntry(item.entries[1]?.expirationDate)
+
+	let b = new Date(+item.entries[1]?.expirationDate)
+	let d = new Date
+	console.log(b.getDate())
+	console.log(d.getDate())
+	console.log(d.getDate() > b.getDate())
 
 	function toggleUpdateEntrie() {
 		updateEntry = !updateEntry;
