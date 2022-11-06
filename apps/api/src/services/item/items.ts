@@ -58,7 +58,7 @@ export default async function items(
       }
     }
   }
-
+ query.take = 250
   const items = await prisma.item.findMany(query)
   console.log(items);
 
