@@ -61,7 +61,7 @@
 		</div>
 		{#if itemEntriesBtn}
 			<div transition:slide={{ duration: 200 }} class="w-full">
-				<ItemEntries itemEntries={item?.node?.entries} />
+				<ItemEntries itemEntries={item?.node?.entries} {item}/>
 			</div>
 		{/if}
 		<Divider class="my-4" />

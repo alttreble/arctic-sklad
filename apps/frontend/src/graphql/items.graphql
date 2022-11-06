@@ -19,6 +19,14 @@ query items($first: Int, $after: Cursor, $filter: ItemFiltersInput) {
           hasExpired
           quantity
         }
+        notificationListeners {
+          type
+          conditions {
+            attribute
+            operator
+            value
+          }
+        }
         notifications {
           id
           type

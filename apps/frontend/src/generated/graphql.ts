@@ -381,7 +381,7 @@ export type ItemsQueryVariables = Exact<{
 }>;
 
 
-export type ItemsQuery = { __typename?: 'Query', items: { __typename?: 'ItemConnection', edges?: Array<{ __typename?: 'ItemEdge', node?: { __typename?: 'Item', id: number, name: string, genericName?: string | null, totalQuantity: number, hasExpiredEntry: boolean, uom: { __typename?: 'UOM', name: string, namePlural: string }, entries: Array<{ __typename?: 'ItemEntry', id: number, createdAt: string, updatedAt: string, expirationDate?: string | null, hasExpired?: boolean | null, quantity: number } | null>, notifications?: Array<{ __typename?: 'Notification', id: number, type: string, title: string, description?: string | null, severity?: NotificationSeverity | null } | null> | null } | null } | null> | null } };
+export type ItemsQuery = { __typename?: 'Query', items: { __typename?: 'ItemConnection', edges?: Array<{ __typename?: 'ItemEdge', node?: { __typename?: 'Item', id: number, name: string, genericName?: string | null, totalQuantity: number, hasExpiredEntry: boolean, uom: { __typename?: 'UOM', name: string, namePlural: string }, entries: Array<{ __typename?: 'ItemEntry', id: number, createdAt: string, updatedAt: string, expirationDate?: string | null, hasExpired?: boolean | null, quantity: number } | null>, notificationListeners?: Array<{ __typename?: 'NotificationListener', type: string, conditions: Array<{ __typename?: 'NotificationCondition', attribute: string, operator: NotificationConditionOperator, value: string }> } | null> | null, notifications?: Array<{ __typename?: 'Notification', id: number, type: string, title: string, description?: string | null, severity?: NotificationSeverity | null } | null> | null } | null } | null> | null } };
 
 export type UomsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -496,6 +496,14 @@ export const ItemsDocument = gql`
           expirationDate
           hasExpired
           quantity
+        }
+        notificationListeners {
+          type
+          conditions {
+            attribute
+            operator
+            value
+          }
         }
         notifications {
           id

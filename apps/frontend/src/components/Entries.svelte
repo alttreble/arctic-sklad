@@ -38,14 +38,12 @@
 		let expirationDate = new Date(+expirationD)
 		let currentDate = new Date 
 		if (expirationD < currentDate.getTime()) {
-			console.log("red")
-			return "red"
+			return 'red'
 		}
-		if (notificationExpirationTimeWarning) {
+		
 			if (expirationDate.getFullYear() === currentDate.getFullYear()) {
 				let res = expirationDate.getMonth() - currentDate.getMonth()
 					if (res <= notificationExpirationTimeWarning.value) {
-						console.log('yellow')
 						return 'yellow'
 					}
 			}
@@ -53,12 +51,10 @@
 				let res = expirationDate.getMonth() + 12
 				res = res -currentDate.getMonth()
 					if (res <= notificationExpirationTimeWarning.value) {
-						console.log('yellow')
 						return 'yellow'
 					}
 			}
-		}
-		console.log('green')
+		
 		return 'green'
 	}
 

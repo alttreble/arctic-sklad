@@ -1,8 +1,12 @@
 <script lang="ts">
-	import type { ItemEntry } from '../generated/graphql';
+	import type { Item, ItemEntry } from '../generated/graphql';
 	import { Divider, Typography } from '../lib/index.js';
 
 	export let itemEntries: ItemEntry[];
+	export let item: Item;
+
+	let data = item.node.notificationListeners?.find((e) => e?.type === 'hasEntriesThatWillExpire')
+	let notificationExpirationTimeWarning = JSON.parse(data?.conditions[0].value)
 
 	function calculateDate(dateInMilliseconds) {
 		const d = new Date(+dateInMilliseconds);
@@ -23,6 +27,30 @@
 			return '-';
 		}
 		return `${day}.${month}.${year}`;
+	}
+
+	function determineConditionofEntry(expirationD) {
+		let expirationDate = new Date(+expirationD)
+		let currentDate = new Date 
+		if (expirationD < currentDate.getTime()) {
+			return 'red'
+		}
+		if (expirationDate.getFullYear() === currentDate.getFullYear()) {
+				let res = expirationDate.getMonth() - currentDate.getMonth()
+					if (res <= notificationExpirationTimeWarning.value) {
+						console.log('yellow')
+						return 'yellow'
+					}
+			}
+		else if (expirationDate.getFullYear() === currentDate.getFullYear() + 1) {
+				let res = expirationDate.getMonth() + 12
+				res = res -currentDate.getMonth()
+					if (res <= notificationExpirationTimeWarning.value) {
+						console.log('yellow')
+						return 'yellow'
+					}
+			}
+		return 'green'
 	}
 </script>
 
@@ -52,15 +80,9 @@
 				</td>
 				{#if calculateDate(entry.expirationDate) === '-'}
 					<td class="pl-8">{calculateDate(entry.expirationDate)}</td>
-				{:else if !entry.hasExpired}
-					<td>
-						<Typography variant="body2" class="bg-green-500 inline-block text-white rounded-md p-1">
-							{calculateDate(entry.expirationDate)}
-						</Typography>
-					</td>
 				{:else}
 					<td>
-						<Typography variant="body2" class="bg-red-500 text-white inline-block rounded-md p-1">
+						<Typography variant="body2" class="bg-{determineConditionofEntry(entry.expirationDate)}-500 inline-block text-white rounded-md p-1">
 							{calculateDate(entry.expirationDate)}
 						</Typography>
 					</td>
