@@ -34,26 +34,34 @@
 		return `${day}.${month}.${year}`;
 	}
 
-	function checkIfExpirationOnEntryWillExpire(expirationD) {
+	function determineConditionofEntry(expirationD) {
 		let expirationDate = new Date(+expirationD)
 		let currentDate = new Date 
-		if (expirationDate.getFullYear() === currentDate.getFullYear()) {
-			let res = expirationDate.getMonth() - currentDate.getMonth()
-			if (res <= notificationExpirationTimeWarning.value) {
-				return 'yellow'
+		if (expirationD < currentDate.getTime()) {
+			console.log("red")
+			return "red"
+		}
+		if (notificationExpirationTimeWarning) {
+			if (expirationDate.getFullYear() === currentDate.getFullYear()) {
+				let res = expirationDate.getMonth() - currentDate.getMonth()
+					if (res <= notificationExpirationTimeWarning.value) {
+						console.log('yellow')
+						return 'yellow'
+					}
+			}
+			else if (expirationDate.getFullYear() === currentDate.getFullYear() + 1) {
+				let res = expirationDate.getMonth() + 12
+				res = res -currentDate.getMonth()
+					if (res <= notificationExpirationTimeWarning.value) {
+						console.log('yellow')
+						return 'yellow'
+					}
 			}
 		}
+		console.log('green')
+		return 'green'
 	}
 
-	checkIfExpirationOnEntryWillExpire(item.entries[0]?.expirationDate)
-	let b = new Date(+item.entries[0]?.expirationDate)
-	let d = new Date
-	console.log(d.getMonth())
-	console.log(b)
-	console.log(calculateDate(item.entries[0]?.expirationDate))
-	console.log(calculateDate(item.entries[1]?.expirationDate))
-	console.log(calculateDate(item.entries[0]?.expirationDate) < calculateDate(item.entries[1]?.expirationDate))
-	console.log(item.entries[0]?.expirationDate < item.entries[1]?.expirationDate)
 	function toggleUpdateEntrie() {
 		updateEntry = !updateEntry;
 	}
@@ -98,20 +106,11 @@
 						</td>
 						{#if calculateDate(entry.expirationDate) === '-'}
 							<td class="pl-8">{calculateDate(entry.expirationDate)}</td>
-						{:else if entry.hasExpired}
-							<td>
-								<Typography
-									variant="body2"
-									class="bg-red-500 inline-block text-white rounded-md p-1"
-								>
-									{calculateDate(entry.expirationDate)}
-								</Typography>
-							</td>
 						{:else}
 							<td>
 								<Typography
 									variant="body2"
-									class="bg-green-500 text-white inline-block rounded-md p-1"
+									class="bg-{determineConditionofEntry(entry.expirationDate)}-500 text-white inline-block rounded-md p-1"
 								>
 									{calculateDate(entry.expirationDate)}
 								</Typography>
