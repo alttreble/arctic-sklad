@@ -13,6 +13,7 @@ export default async function updateNotificationListener(context: Context, input
 					type
 				}
 			},
+            // @ts-ignore
             data: {
              ...restInput
             }

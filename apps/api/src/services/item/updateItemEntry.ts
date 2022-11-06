@@ -32,7 +32,7 @@ export default async function updateItemEntry(context: Context, input: UpdateIte
 		return updatedEntry;
 	}
 
-	const deletedEntry = deleteEntry(context, input)
+	const deletedEntry = await deleteEntry(context, input)
 		events.emit('itemUpdated', {id: deletedEntry.itemId});
 		return deletedEntry;
 }
