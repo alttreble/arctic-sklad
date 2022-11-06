@@ -74,14 +74,6 @@
 		return 'bg-green-500'
 	}
 
-	determineConditionofEntry(item.entries[1]?.expirationDate)
-
-	let b = new Date(+item.entries[1]?.expirationDate)
-	let d = new Date
-	console.log(b.getDate())
-	console.log(d.getDate())
-	console.log(d.getDate() > b.getDate())
-
 	function toggleUpdateEntrie() {
 		updateEntry = !updateEntry;
 	}

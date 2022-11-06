@@ -336,7 +336,7 @@ export type UpdateNotificationListenerInput = {
   /** The severity of the generated notification */
   severity?: InputMaybe<NotificationSeverity>;
   title?: InputMaybe<Scalars['String']>;
-  type?: InputMaybe<Scalars['String']>;
+  type: Scalars['String'];
 };
 
 export type AddItemMutationVariables = Exact<{
@@ -401,6 +401,13 @@ export type UpdateItemMutationVariables = Exact<{
 
 
 export type UpdateItemMutation = { __typename?: 'Mutation', updateItem: { __typename?: 'Item', id: number } };
+
+export type MutationMutationVariables = Exact<{
+  input: UpdateNotificationListenerInput;
+}>;
+
+
+export type MutationMutation = { __typename?: 'Mutation', updateNotificationListener: { __typename?: 'NotificationListener', type: string, conditions: Array<{ __typename?: 'NotificationCondition', value: string }> } };
 
 
 export const AddItemDocument = gql`
@@ -547,6 +554,16 @@ export const UpdateItemDocument = gql`
   }
 }
     `;
+export const MutationDocument = gql`
+    mutation Mutation($input: UpdateNotificationListenerInput!) {
+  updateNotificationListener(input: $input) {
+    type
+    conditions {
+      value
+    }
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -561,6 +578,7 @@ const ItemsDocumentString = print(ItemsDocument);
 const UomsDocumentString = print(UomsDocument);
 const UpdateItemEntryDocumentString = print(UpdateItemEntryDocument);
 const UpdateItemDocumentString = print(UpdateItemDocument);
+const MutationDocumentString = print(MutationDocument);
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
     addItem(variables: AddItemMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: AddItemMutation; extensions?: any; headers: Dom.Headers; status: number; }> {
@@ -589,6 +607,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     updateItem(variables: UpdateItemMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: UpdateItemMutation; extensions?: any; headers: Dom.Headers; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<UpdateItemMutation>(UpdateItemDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateItem', 'mutation');
+    },
+    Mutation(variables: MutationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data: MutationMutation; extensions?: any; headers: Dom.Headers; status: number; }> {
+        return withWrapper((wrappedRequestHeaders) => client.rawRequest<MutationMutation>(MutationDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Mutation', 'mutation');
     }
   };
 }

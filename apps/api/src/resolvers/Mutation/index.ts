@@ -8,6 +8,7 @@ import updateItem from '@app/services/item/updateItem';
 import unregisterNotificationListener from '@app/services/notification/unregisterNotificationListener';
 import registerNotificationListener from '@app/services/notification/registerNotificationListener';
 import deleteItem from '@app/services/item/deleteItem';
+import updateNotificationListener from '@app/services/notification/updateNotificationListener';
 
 export default {
 	addItem: (_, args, context, __) => {
@@ -44,5 +45,9 @@ export default {
 	registerNotificationListener: (_, args, context, __) => {
 		const { input } = args;
 		return registerNotificationListener(context, input) as unknown as NotificationListener;
-	}
+	},
+	updateNotificationListener: (_, args, context, __) => {
+		const { input } = args;
+		return updateNotificationListener(context, input) as unknown as NotificationListener;
+	},
 } as MutationResolvers<Context>;

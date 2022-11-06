@@ -179,8 +179,18 @@ export enum NotificationConditionOperator {
   Lt = 'LT',
   /** Less than or equal */
   Lte = 'LTE',
-  /** Attribute is of type date and is defined number of months before the current time. */
-  TimeBefore = 'TIME_BEFORE'
+  /**
+   * Attribute is of type date and is defined number of months before the current time.
+   * If the attribute is an array, any one of the dates in the list should be before the target date
+   * to cause the condition to be true.
+   */
+  TimeBefore = 'TIME_BEFORE',
+  /**
+   * Attribute is of type date and is set number of months before the current time.
+   * If the attribute is an array, all of the dates in the list should be before the target date
+   * to cause the condition to be true.
+   */
+  TimeBeforeEvery = 'TIME_BEFORE_EVERY'
 }
 
 export type NotificationListener = {
@@ -190,7 +200,7 @@ export type NotificationListener = {
   description?: Maybe<Scalars['String']>;
   item: Item;
   /** The schedule at which the notification check will be run represented in cron notation. Defaults to once a day */
-  schedule: Scalars['String'];
+  schedule?: Maybe<Scalars['String']>;
   /** The severity of the generated notification */
   severity: NotificationSeverity;
   title: Scalars['String'];
@@ -263,7 +273,7 @@ export type RegisterNotificationListenerInput = {
   description?: InputMaybe<Scalars['String']>;
   itemId: Scalars['Int'];
   /** The schedule at which the notification check will be run represented in cron notation. Defaults to once a day */
-  schedule?: Scalars['String'];
+  schedule?: InputMaybe<Scalars['String']>;
   /** The severity of the generated notification */
   severity?: NotificationSeverity;
   title: Scalars['String'];
@@ -324,7 +334,7 @@ export type UpdateNotificationListenerInput = {
   /** The severity of the generated notification */
   severity?: InputMaybe<NotificationSeverity>;
   title?: InputMaybe<Scalars['String']>;
-  type?: InputMaybe<Scalars['String']>;
+  type: Scalars['String'];
 };
 
 
@@ -544,7 +554,7 @@ export type NotificationListenerResolvers<ContextType = any, ParentType extends 
   conditions?: Resolver<Array<ResolversTypes['NotificationCondition']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   item?: Resolver<ResolversTypes['Item'], ParentType, ContextType>;
-  schedule?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  schedule?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   severity?: Resolver<ResolversTypes['NotificationSeverity'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

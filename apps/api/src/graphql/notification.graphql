@@ -86,7 +86,7 @@ input UpdateNotificationListenerInput {
   conditions: [NotificationConditionInput]
   "The schedule at which the notification check will be run represented in cron notation. Defaults to once a day"
   schedule: String = "0 0 * * *"
-  type: String
+  type: String!
   title: String
   description: String
 }

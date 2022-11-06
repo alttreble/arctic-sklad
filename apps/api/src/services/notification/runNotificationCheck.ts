@@ -48,12 +48,17 @@ function timeBeforeConditionMet(condition: NotificationCondition, item: Item) {
 
 	if (Array.isArray(attributeValue)) {
 		return attributeValue.some(element => {
+			if( element === null) {
+				return false
+			}
 				const attributeElementDate = new Date(element);
 				return targetDate > timeBefore(attributeElementDate, timeBeforeValue);
 			}
 		);
 	}
-
+	if (attributeValue === null) {
+		return false
+	}
 	const attributeElementDate = new Date(attributeValue as unknown as string);
 	return targetDate > timeBefore(attributeElementDate, timeBeforeValue);
 }

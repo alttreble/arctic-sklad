@@ -1,0 +1,8 @@
+mutation Mutation($input: UpdateNotificationListenerInput!) {
+  updateNotificationListener(input: $input) {
+    type
+    conditions {
+      value
+    }
+  }
+}
