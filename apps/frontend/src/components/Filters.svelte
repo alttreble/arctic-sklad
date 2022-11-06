@@ -28,7 +28,7 @@
 	const handleFilters = async () => {
 		const url = new URL(location);
 		const filters = []
-		if (willExpire) filters.push("willExpire")
+		if (willExpire) filters.push("hasEntriesThatWillExpire")
 		if (expiredForNextExpedition) filters.push("expiredForNextExpedition")
 		if (hasExpired) filters.push("hasExpired")
 		if (lowQuantity) filters.push("lowQuantity")

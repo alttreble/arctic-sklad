@@ -28,7 +28,7 @@ export const load: PageLoad = async ({ url }) => {
       items,
       uoms,
         filters: {
-          willExpire: notifications && notifications?.find((e) => e === "willExpire"),
+          willExpire: notifications && notifications?.find((e) => e === "hasEntriesThatWillExpire"),
           hasExpired: notifications &&  notifications?.find((e) => e === "hasExpired"),
           lowQuantity: notifications && notifications?.find((e) => e === "lowQuantity"),
           expiredForNextExpedition: notifications && notifications?.find((e) => e === "expiredForNextExpedition")
