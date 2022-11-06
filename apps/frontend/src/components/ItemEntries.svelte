@@ -33,24 +33,22 @@
 		let expirationDate = new Date(+expirationD)
 		let currentDate = new Date 
 		if (expirationD < currentDate.getTime()) {
-			return 'red'
+			return 'bg-red-500'
 		}
 		if (expirationDate.getFullYear() === currentDate.getFullYear()) {
 				let res = expirationDate.getMonth() - currentDate.getMonth()
 					if (res <= notificationExpirationTimeWarning.value) {
-						console.log('yellow')
-						return 'yellow'
+						return 'bg-yellow-500'
 					}
 			}
 		else if (expirationDate.getFullYear() === currentDate.getFullYear() + 1) {
 				let res = expirationDate.getMonth() + 12
 				res = res -currentDate.getMonth()
 					if (res <= notificationExpirationTimeWarning.value) {
-						console.log('yellow')
-						return 'yellow'
+						return 'bg-yellow-500'
 					}
 			}
-		return 'green'
+		return 'bg-green-500'
 	}
 </script>
 
@@ -82,7 +80,7 @@
 					<td class="pl-8">{calculateDate(entry.expirationDate)}</td>
 				{:else}
 					<td>
-						<Typography variant="body2" class="bg-{determineConditionofEntry(entry.expirationDate)}-500 inline-block text-white rounded-md p-1">
+						<Typography variant="body2" class="{determineConditionofEntry(entry.expirationDate)} inline-block text-white rounded-md p-1">
 							{calculateDate(entry.expirationDate)}
 						</Typography>
 					</td>

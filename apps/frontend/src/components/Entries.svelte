@@ -38,24 +38,24 @@
 		let expirationDate = new Date(+expirationD)
 		let currentDate = new Date 
 		if (expirationD < currentDate.getTime()) {
-			return 'red'
+			return 'bg-red-500'
 		}
 		
 			if (expirationDate.getFullYear() === currentDate.getFullYear()) {
 				let res = expirationDate.getMonth() - currentDate.getMonth()
 					if (res <= notificationExpirationTimeWarning.value) {
-						return 'yellow'
+						return 'bg-yellow-500'
 					}
 			}
 			else if (expirationDate.getFullYear() === currentDate.getFullYear() + 1) {
 				let res = expirationDate.getMonth() + 12
 				res = res -currentDate.getMonth()
 					if (res <= notificationExpirationTimeWarning.value) {
-						return 'yellow'
+						return 'bg-yellow-500'
 					}
 			}
 		
-		return 'green'
+		return 'bg-green-500'
 	}
 
 	function toggleUpdateEntrie() {
@@ -106,7 +106,7 @@
 							<td>
 								<Typography
 									variant="body2"
-									class="bg-{determineConditionofEntry(entry.expirationDate)}-500 text-white inline-block rounded-md p-1"
+									class="{determineConditionofEntry(entry.expirationDate)} text-white inline-block rounded-md p-1"
 								>
 									{calculateDate(entry.expirationDate)}
 								</Typography>
