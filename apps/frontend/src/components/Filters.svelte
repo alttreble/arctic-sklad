@@ -14,16 +14,29 @@
 
 	let dispatch = createEventDispatcher();
 	let open = false;
-	let willExpire = false;
-	let hasExpired = false;
-	let lowQantity = false;
-	let noQantity = false;
+	export let willExpire = false;
+	export let hasExpired = false;
+	export let lowQuantity = false;
+	export let expiredForNextExpedition = false;
 
-	const handleInput = debounce(async (e) => {
+	const handleSearchInput = debounce(async (e) => {
 		const url = new URL(location);
 		url.searchParams.set('query', e.target.value);
 		await goto(url.href, { keepfocus: true, replaceState: true });
 	}, 300);
+	
+	const handleFilters = async () => {
+		const url = new URL(location);
+		const filters = []
+		if (willExpire) filters.push("willExpire")
+		if (expiredForNextExpedition) filters.push("expiredForNextExpedition")
+		if (hasExpired) filters.push("hasExpired")
+		if (lowQuantity) filters.push("lowQuantity")
+		
+		url.searchParams.set('notifications', filters.join(","));
+		await goto(url.href, { keepfocus: true, replaceState: true });
+	}
+	
 </script>
 
 <Card class="bg-white">
@@ -31,7 +44,8 @@
 		<input
 			type="text"
 			class="rounded-md w-full h-9 bg-gray-200 pl-4 text-[15px] mt-1 mb-2"
-			on:input={handleInput}
+			placeholder="Търси артикули..."
+			on:input={handleSearchInput}
 		/>
 		<Button
 			variant="outlined"
@@ -61,10 +75,11 @@
 				<Stack gap={3}>
 					<div class="flex gap-2">
 						<Button
-							variant={!lowQantity ? 'outlined' : 'contained'}
+							variant={!lowQuantity ? 'outlined' : 'contained'}
 							size="small"
 							on:click={() => {
-								lowQantity = !lowQantity;
+								lowQuantity = !lowQuantity;
+								handleFilters()
 							}}
 						>
 							Ниско количество
@@ -74,6 +89,7 @@
 							size="small"
 							on:click={() => {
 								willExpire = !willExpire;
+								handleFilters()
 							}}
 						>
 							Изтичащ срок
@@ -81,19 +97,21 @@
 					</div>
 					<div class="flex gap-2">
 						<Button
-							variant={!noQantity ? 'outlined' : 'contained'}
+							variant={!expiredForNextExpedition ? 'outlined' : 'contained'}
 							size="small"
 							on:click={() => {
-								noQantity = !noQantity;
+								expiredForNextExpedition = !expiredForNextExpedition;
+								handleFilters()
 							}}
 						>
-							Изчерпано количество
+							Негодно за следваща експедиция
 						</Button>
 						<Button
 							variant={!hasExpired ? 'outlined' : 'contained'}
 							size="small"
 							on:click={() => {
 								hasExpired = !hasExpired;
+								handleFilters()
 							}}
 						>
 							Изтекъл срок

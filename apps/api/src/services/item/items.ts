@@ -5,6 +5,7 @@ import {Prisma} from "@prisma/client";
 export type ItemFilters = {
   name?: string | null
   expirationDate?: string | null
+  notifications?: string[]
 }
 
 export type IncludeOptions = {
@@ -32,9 +33,18 @@ export default async function items(
         name: {
           contains: filters.name,
           mode: 'insensitive'
-        }
+        },
+        
       }),
-      ...(filters.expirationDate && {name: filters.expirationDate}),
+      ...(filters.notifications && {
+        notifications: {
+          some: {
+            type: {
+              in: filters.notifications
+            }
+          }
+        }
+      })
     }
   }
 
@@ -50,5 +60,7 @@ export default async function items(
   }
 
   const items = await prisma.item.findMany(query)
+  console.log(items);
+
   return items || []
 }

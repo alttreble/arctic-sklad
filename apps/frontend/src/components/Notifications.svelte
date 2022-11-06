@@ -13,9 +13,6 @@ import { Card, CardContent, Typography, Divider } from '../lib/index.js';
 	let expirationTimeWarning = `${notificationExpirationTimeWarning.value} Месец`;
 	$: notificationChanged = notificationMinQuantity?.conditions[0]?.value != minQantity ||
 	`${notificationExpirationTimeWarning.value} Месец` != expirationTimeWarning 
-
-	
-	
 </script>
 
 <Card class="bg-white space-y-10">

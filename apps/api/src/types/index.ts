@@ -80,6 +80,7 @@ export type ItemEntry = {
 export type ItemFiltersInput = {
   expirationDate?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  notifications?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type ItemOrderByInput = {

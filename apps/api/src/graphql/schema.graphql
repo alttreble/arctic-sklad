@@ -94,6 +94,7 @@ input UpdateItemInput {
 input ItemFiltersInput {
     name: String
     expirationDate: String
+    notifications: [String]
 }
 
 input UomFiltersInput {
