@@ -42,7 +42,7 @@
 						if (currentDate.getDate() >= expirationDate.getDate()) {
 							return 'bg-yellow-500'
 						}
-						else if (expirationDate.getDate() > currentDate.getDate()) {
+						else if (currentDate.getDate() < expirationDate.getDate()) {
 							return 'bg-green-500'
 						}
 					}
@@ -57,7 +57,7 @@
 					if (currentDate.getDate() >= expirationDate.getDate()) {
 							return 'bg-yellow-500'
 						}
-						else if (expirationDate.getDate() > currentDate.getDate()) {
+						else if (currentDate.getDate() < expirationDate.getDate()) {
 							return 'bg-green-500'
 						}
 					}
