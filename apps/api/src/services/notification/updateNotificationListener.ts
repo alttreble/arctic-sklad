@@ -1,5 +1,6 @@
 import { Context } from '@app/context';
 import { UpdateNotificationListenerInput } from '@app/types';
+import runNotificationCheck from '@app/services/notification/runNotificationCheck';
 
 export default async function updateNotificationListener(context: Context, input: UpdateNotificationListenerInput) {
 	const { prisma } = context;
@@ -18,6 +19,8 @@ export default async function updateNotificationListener(context: Context, input
              ...restInput
             }
 		});
+
+        await runNotificationCheck(context, updatedNotificationListener)
 
 		return updatedNotificationListener;
 	} catch (e) {
